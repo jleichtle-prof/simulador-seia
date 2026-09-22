@@ -285,32 +285,7 @@ h3 {
 }
 
 
-/* TABLAS */
-
-.tabla {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 18px;
-}
-
-.tabla th,
-.tabla td {
-    border: 1px solid var(--grisBorde);
-    padding: 12px;
-    vertical-align: top;
-}
-
-.tabla th {
-    background: #edf3f5;
-    color: var(--azul);
-}
-
-.tabla select {
-    min-width: 160px;
-}
-
-
-/* OPCIONES GRANDES */
+/* OPCIONES */
 
 .opcion-grande {
     display: block;
@@ -380,10 +355,6 @@ footer {
         padding: 20px;
     }
 
-    .tabla {
-        font-size: .9rem;
-    }
-
 }
 
 </style>
@@ -410,25 +381,26 @@ Sistema de Evaluación de Impacto Ambiental — Chile
 <main>
 
 
-<!-- ================================
-     PORTADA
-================================ -->
+<!-- =========================
+PORTADA
+========================= -->
 
 <section id="inicio" class="card portada">
 
 <h2>Simulador SEIA Chile</h2>
 
 <p>
-Este simulador permite analizar proyectos sometidos al Sistema de
-Evaluación de Impacto Ambiental desde una perspectiva aplicada,
-con especial énfasis en fauna silvestre.
+Analice proyectos sometidos al Sistema de Evaluación de Impacto
+Ambiental chileno, con especial énfasis en la evaluación del
+componente fauna silvestre.
 </p>
 
 <p>
-El objetivo es desarrollar competencias para identificar impactos,
-analizar antecedentes ambientales y fundamentar decisiones técnicas
-en el contexto de la evaluación ambiental.
+El objetivo es desarrollar competencias para interpretar
+antecedentes ambientales, reconocer impactos sobre fauna,
+aplicar normativa y fundamentar decisiones técnicas.
 </p>
+
 
 <div class="selector">
 
@@ -438,37 +410,65 @@ Sector del proyecto
 
 <select id="sector">
 
-<option value="energia">Energía</option>
-<option value="mineria">Minería</option>
-<option value="agropecuario">Agropecuario / agroindustrial</option>
-<option value="forestal">Forestal</option>
-<option value="vialidad">Infraestructura vial</option>
-<option value="inmobiliario">Inmobiliario</option>
-<option value="residuos">Residuos</option>
-<option value="acuicultura">Acuicultura</option>
+<option value="energia">
+Energía
+</option>
+
+<option value="mineria">
+Minería
+</option>
+
+<option value="agropecuario">
+Agropecuario / agroindustrial
+</option>
+
+<option value="forestal">
+Forestal
+</option>
+
+<option value="vialidad">
+Infraestructura vial
+</option>
+
+<option value="inmobiliario">
+Inmobiliario
+</option>
+
+<option value="residuos">
+Residuos
+</option>
+
+<option value="acuicultura">
+Acuicultura
+</option>
 
 </select>
 
 </div>
 
-<button class="boton-principal"
-        onclick="iniciarSimulador()">
+
+<button
+class="boton-principal"
+onclick="iniciarSimulador()">
 
 Comenzar evaluación
 
 </button>
 
+
 <div class="version">
-Versión 3.0 · Simulador académico
+
+Versión académica 3.1 · 2026
+
 </div>
 
 </section>
 
 
 
-<!-- ================================
-     SIMULADOR
-================================ -->
+<!-- =========================
+SIMULADOR
+========================= -->
 
 <section id="simulador" class="oculto">
 
@@ -478,13 +478,14 @@ Versión 3.0 · Simulador académico
 <div class="progreso-contenedor">
 
 <div id="barra"
-     class="progreso">
+class="progreso">
 </div>
 
 </div>
+
 
 <div id="puntaje"
-     class="puntaje">
+class="puntaje">
 
 Puntaje: 0 / 100
 
@@ -494,19 +495,26 @@ Puntaje: 0 / 100
 
 
 
-<!-- ================================
-     FICHA DEL PROYECTO
-================================ -->
+<!-- =========================
+FICHA DEL PROYECTO
+========================= -->
 
 <section class="card">
 
+
 <div class="etapa">
+
 Antecedentes del proyecto
+
 </div>
 
+
 <h2>
+
 Parque Solar Quebrada del Zorro
+
 </h2>
+
 
 <div class="descripcion-caso">
 
@@ -514,482 +522,430 @@ Una empresa proyecta construir y operar una central solar
 fotovoltaica en la Región de Coquimbo.
 
 El proyecto incluye el parque fotovoltaico, caminos interiores,
-subestación, instalaciones temporales de faena y una línea
-de transmisión eléctrica.
+una subestación eléctrica, instalaciones temporales de faena
+y una línea de transmisión.
 
 </div>
 
 
+
 <h3 class="subtitulo">
+
 Características técnicas
+
 </h3>
+
 
 <div class="ficha-grid">
 
+
 <div class="dato">
-<strong>Potencia instalada</strong><br>
+
+<strong>
+Potencia instalada
+</strong>
+
+<br>
+
 82 MW
+
 </div>
 
+
 <div class="dato">
-<strong>Superficie</strong><br>
+
+<strong>
+Superficie
+</strong>
+
+<br>
+
 145 ha
+
 </div>
 
+
 <div class="dato">
-<strong>Línea eléctrica</strong><br>
+
+<strong>
+Línea eléctrica
+</strong>
+
+<br>
+
 110 kV · 18 km
+
 </div>
 
+
 <div class="dato">
-<strong>Construcción</strong><br>
+
+<strong>
+Construcción
+</strong>
+
+<br>
+
 18 meses
+
 </div>
 
+
 <div class="dato">
-<strong>Vida útil</strong><br>
+
+<strong>
+Vida útil
+</strong>
+
+<br>
+
 30 años
+
 </div>
+
 
 <div class="dato">
-<strong>Movimiento de tierra</strong><br>
-Sectores asociados a caminos, fundaciones y plataformas
-</div>
+
+<strong>
+Movimiento de tierra
+</strong>
+
+<br>
+
+Caminos, fundaciones, plataformas y subestación
 
 </div>
+
+
+</div>
+
 
 
 <h3 class="subtitulo">
+
 Contexto ambiental
+
 </h3>
+
 
 <div class="ficha-grid">
 
+
 <div class="dato">
-<strong>Vegetación</strong><br>
+
+<strong>
+Vegetación
+</strong>
+
+<br>
+
 31 ha de vegetación nativa serán intervenidas directamente.
+
 </div>
 
-<div class="dato">
-<strong>Agua</strong><br>
-No se intervendrán humedales ni cursos permanentes.
-</div>
 
 <div class="dato">
-<strong>Población</strong><br>
+
+<strong>
+Agua
+</strong>
+
+<br>
+
+No se intervendrán humedales ni cursos de agua permanentes.
+
+</div>
+
+
+<div class="dato">
+
+<strong>
+Población humana
+</strong>
+
+<br>
+
 La vivienda permanente más cercana se encuentra a 2,4 km.
+
 </div>
 
-<div class="dato">
-<strong>Reasentamiento</strong><br>
-No se contempla desplazamiento de viviendas o comunidades.
-</div>
 
 <div class="dato">
-<strong>Patrimonio</strong><br>
-La prospección no registró sitios arqueológicos dentro de las obras.
+
+<strong>
+Reasentamiento
+</strong>
+
+<br>
+
+No se contempla desplazamiento de viviendas ni comunidades.
+
 </div>
 
+
 <div class="dato">
-<strong>Paisaje</strong><br>
-El emplazamiento no se ubica en una zona reconocida por valor
+
+<strong>
+Patrimonio
+</strong>
+
+<br>
+
+La prospección no registró sitios arqueológicos dentro del área
+de intervención.
+
+</div>
+
+
+<div class="dato">
+
+<strong>
+Paisaje
+</strong>
+
+<br>
+
+El área no corresponde a una zona reconocida por valor
 turístico o paisajístico especial.
+
 </div>
+
 
 </div>
 
 
 
 <h3 class="subtitulo">
+
 Componente fauna
+
 </h3>
+
 
 <div class="fauna-box">
 
-<p>
-La línea de base registró <strong>37 especies de vertebrados
-terrestres</strong>.
-</p>
 
 <p>
+
+La línea de base registró
+<strong>37 especies de vertebrados terrestres</strong>.
+
+</p>
+
+
+<p>
+
 Entre ellas se confirmó una población reproductiva de un
 <strong>reptil nativo clasificado oficialmente En Peligro</strong>.
+
 </p>
 
+
 <p>
+
 Los levantamientos identificaron aproximadamente
-<strong>18 ha utilizadas como área reproductiva</strong>.
+<strong>18 ha utilizadas como área reproductiva y de refugio</strong>.
+
 La totalidad de esta superficie se encuentra dentro del área
 que será intervenida por las obras.
+
 </p>
 
+
 <p>
-Durante las campañas se observaron adultos reproductivos,
+
+Durante las campañas se registraron adultos reproductivos,
 juveniles y refugios utilizados reiteradamente.
+
 </p>
 
+
 <p>
-El análisis ecológico concluye que el área constituye el
+
+El análisis ecológico determinó que el área constituye el
 <strong>principal sitio reproductivo conocido para esta población
 local</strong>.
+
 </p>
 
+
 <p>
-La eliminación de este hábitat produciría una reducción sustancial
-de los sitios de reproducción y refugio disponibles y podría
-comprometer la persistencia de la población local.
+
+La eliminación de este hábitat produciría una reducción
+sustancial de los sitios disponibles para reproducción y refugio
+y podría comprometer la persistencia de la población local.
+
 </p>
+
 
 </div>
 
 
 <div class="aviso">
 
-<strong>Instrucción:</strong>
+<strong>
+Instrucción:
+</strong>
 
-responda utilizando únicamente los antecedentes entregados.
-No suponga impactos o condiciones que no estén indicados en el caso.
+utilice únicamente los antecedentes indicados en el caso.
+No agregue supuestos que no estén descritos.
 
 </div>
+
 
 </section>
 
 
 
-<!-- ================================
-     ETAPA 1
-================================ -->
+<!-- =========================
+ETAPA 1
+========================= -->
 
 <section id="etapa1"
-         class="card">
+class="card">
+
 
 <div class="etapa">
-Etapa 1
+
+Etapa 1 · Ingreso al SEIA
+
 </div>
 
+
 <h2>
+
 ¿Debe ingresar el proyecto al SEIA?
+
 </h2>
 
+
 <p>
-Analice las características del proyecto y determine
-si debe someterse al Sistema de Evaluación de Impacto Ambiental.
+
+Analice las características del proyecto y determine si
+corresponde su ingreso al Sistema de Evaluación de Impacto
+Ambiental.
+
 </p>
 
-<button class="boton-opcion"
-        onclick="evaluarIngreso('no')">
+
+<button
+class="boton-opcion"
+onclick="evaluarIngreso('no')">
 
 No debe ingresar
 
 </button>
 
-<button class="boton-opcion"
-        onclick="evaluarIngreso('voluntario')">
+
+<button
+class="boton-opcion"
+onclick="evaluarIngreso('voluntario')">
 
 Ingreso voluntario
 
 </button>
 
-<button class="boton-opcion"
-        onclick="evaluarIngreso('obligatorio')">
+
+<button
+class="boton-opcion"
+onclick="evaluarIngreso('obligatorio')">
 
 Ingreso obligatorio
 
 </button>
 
-<div id="respuestaIngreso"></div>
+
+<div id="respuestaIngreso">
+</div>
+
 
 </section>
 
 
 
-<!-- ================================
-     ETAPA 2
-================================ -->
+<!-- =========================
+ETAPA 2
+========================= -->
 
 <section id="etapa2"
-         class="card oculto">
+class="card oculto">
+
 
 <div class="etapa">
-Etapa 2
+
+Etapa 2 · Vía de evaluación
+
 </div>
 
-<h2>
-Análisis de efectos, características o circunstancias
-</h2>
-
-<p>
-Antes de determinar si corresponde una DIA o un EIA,
-analice los antecedentes del proyecto conforme al artículo 11
-de la Ley N.º 19.300.
-</p>
-
-<table class="tabla">
-
-<tr>
-
-<th>
-Criterio
-</th>
-
-<th>
-¿Se presenta?
-</th>
-
-</tr>
-
-
-<tr>
-
-<td>
-Riesgo para la salud de la población debido a efluentes,
-emisiones o residuos.
-</td>
-
-<td>
-
-<select id="artA">
-
-<option value="">
-Seleccione
-</option>
-
-<option value="si">
-Sí
-</option>
-
-<option value="no">
-No
-</option>
-
-</select>
-
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-Efectos adversos significativos sobre recursos naturales renovables.
-</td>
-
-<td>
-
-<select id="artB">
-
-<option value="">
-Seleccione
-</option>
-
-<option value="si">
-Sí
-</option>
-
-<option value="no">
-No
-</option>
-
-</select>
-
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-Reasentamiento de comunidades humanas o alteración significativa
-de sistemas de vida y costumbres.
-</td>
-
-<td>
-
-<select id="artC">
-
-<option value="">
-Seleccione
-</option>
-
-<option value="si">
-Sí
-</option>
-
-<option value="no">
-No
-</option>
-
-</select>
-
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-Localización en o próxima a población, recursos o áreas protegidas
-susceptibles de ser afectados, u otros territorios de valor ambiental.
-</td>
-
-<td>
-
-<select id="artD">
-
-<option value="">
-Seleccione
-</option>
-
-<option value="si">
-Sí
-</option>
-
-<option value="no">
-No
-</option>
-
-</select>
-
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-Alteración significativa del valor paisajístico o turístico.
-</td>
-
-<td>
-
-<select id="artE">
-
-<option value="">
-Seleccione
-</option>
-
-<option value="si">
-Sí
-</option>
-
-<option value="no">
-No
-</option>
-
-</select>
-
-</td>
-
-</tr>
-
-
-<tr>
-
-<td>
-Alteración de monumentos, sitios arqueológicos,
-históricos o patrimonio cultural.
-</td>
-
-<td>
-
-<select id="artF">
-
-<option value="">
-Seleccione
-</option>
-
-<option value="si">
-Sí
-</option>
-
-<option value="no">
-No
-</option>
-
-</select>
-
-</td>
-
-</tr>
-
-</table>
-
-
-<button class="boton-principal"
-        onclick="evaluarArticulo11()">
-
-Evaluar análisis
-
-</button>
-
-<div id="respuestaArticulo"></div>
-
-</section>
-
-
-
-<!-- ================================
-     ETAPA 3
-================================ -->
-
-<section id="etapa3"
-         class="card oculto">
-
-<div class="etapa">
-Etapa 3
-</div>
 
 <h2>
-¿Debe ingresar mediante DIA o EIA?
+
+¿Mediante qué instrumento debe ingresar el proyecto?
+
 </h2>
 
+
 <p>
-Considere la información del proyecto y el análisis
-realizado en la etapa anterior.
+
+Considere conjuntamente las características técnicas,
+territoriales y ambientales entregadas en la ficha.
+
 </p>
 
-<button class="boton-opcion"
-        onclick="evaluarVia('dia')">
+
+<button
+class="boton-opcion"
+onclick="evaluarVia('dia')">
 
 Declaración de Impacto Ambiental — DIA
 
 </button>
 
-<button class="boton-opcion"
-        onclick="evaluarVia('eia')">
+
+<button
+class="boton-opcion"
+onclick="evaluarVia('eia')">
 
 Estudio de Impacto Ambiental — EIA
 
 </button>
 
-<div id="respuestaVia"></div>
+
+<div id="respuestaVia">
+</div>
+
 
 </section>
 
 
 
-<!-- ================================
-     ETAPA 4 FAUNA
-================================ -->
+<!-- =========================
+ETAPA 3 FAUNA
+========================= -->
 
-<section id="etapa4"
-         class="card oculto">
+<section id="etapa3"
+class="card oculto">
+
 
 <div class="etapa">
-Etapa 4 · Componente fauna
+
+Etapa 3 · Componente fauna
+
 </div>
 
+
 <h2>
+
 Interpretación ecológica del impacto
+
 </h2>
 
+
 <p>
-¿Cuál es el antecedente más relevante para determinar
-la importancia ambiental del impacto sobre fauna?
+
+¿Cuál es el antecedente más relevante para evaluar
+la significancia del impacto sobre fauna?
+
 </p>
 
 
@@ -997,9 +953,10 @@ la importancia ambiental del impacto sobre fauna?
 
 <label>
 
-<input type="radio"
-       name="faunaImportancia"
-       value="presencia">
+<input
+type="radio"
+name="faunaImportancia"
+value="presencia">
 
 La sola presencia de una especie silvestre dentro del área.
 
@@ -1012,9 +969,10 @@ La sola presencia de una especie silvestre dentro del área.
 
 <label>
 
-<input type="radio"
-       name="faunaImportancia"
-       value="categoria">
+<input
+type="radio"
+name="faunaImportancia"
+value="categoria">
 
 Que exista una especie clasificada En Peligro,
 independientemente de cómo utilice el área.
@@ -1028,13 +986,14 @@ independientemente de cómo utilice el área.
 
 <label>
 
-<input type="radio"
-       name="faunaImportancia"
-       value="habitat">
+<input
+type="radio"
+name="faunaImportancia"
+value="habitat">
 
 La intervención directa del principal hábitat reproductivo
-de una población de una especie amenazada y sus posibles
-consecuencias sobre su persistencia local.
+de una población de una especie amenazada y las consecuencias
+potenciales sobre su persistencia local.
 
 </label>
 
@@ -1045,9 +1004,10 @@ consecuencias sobre su persistencia local.
 
 <label>
 
-<input type="radio"
-       name="faunaImportancia"
-       value="numero">
+<input
+type="radio"
+name="faunaImportancia"
+value="riqueza">
 
 El número total de especies registradas en la línea de base.
 
@@ -1056,37 +1016,50 @@ El número total de especies registradas en la línea de base.
 </div>
 
 
-<button class="boton-principal"
-        onclick="evaluarFauna()">
+<button
+class="boton-principal"
+onclick="evaluarFauna()">
 
 Evaluar respuesta
 
 </button>
 
-<div id="respuestaFauna"></div>
+
+<div id="respuestaFauna">
+</div>
+
 
 </section>
 
 
 
-<!-- ================================
-     ETAPA 5
-================================ -->
+<!-- =========================
+ETAPA 4 IMPACTO
+========================= -->
 
-<section id="etapa5"
-         class="card oculto">
+<section id="etapa4"
+class="card oculto">
+
 
 <div class="etapa">
-Etapa 5 · Impactos sobre fauna
+
+Etapa 4 · Impactos sobre fauna
+
 </div>
 
+
 <h2>
-Identificación del impacto principal
+
+Identifique el impacto principal
+
 </h2>
 
+
 <p>
-¿Cuál describe mejor el impacto más relevante del proyecto
-sobre la población de reptiles identificada?
+
+¿Cuál describe mejor el impacto ambiental más relevante
+sobre la población de reptiles?
+
 </p>
 
 
@@ -1094,9 +1067,10 @@ sobre la población de reptiles identificada?
 
 <label>
 
-<input type="radio"
-       name="impacto"
-       value="ruido">
+<input
+type="radio"
+name="impacto"
+value="ruido">
 
 Aumento temporal del ruido durante la construcción.
 
@@ -1109,9 +1083,10 @@ Aumento temporal del ruido durante la construcción.
 
 <label>
 
-<input type="radio"
-       name="impacto"
-       value="perdida">
+<input
+type="radio"
+name="impacto"
+value="perdida">
 
 Pérdida directa del hábitat reproductivo y de refugio,
 con reducción de las condiciones necesarias para la
@@ -1126,11 +1101,12 @@ persistencia de la población local.
 
 <label>
 
-<input type="radio"
-       name="impacto"
-       value="presencia">
+<input
+type="radio"
+name="impacto"
+value="personas">
 
-Presencia de trabajadores dentro del proyecto.
+Presencia de trabajadores durante la construcción.
 
 </label>
 
@@ -1141,9 +1117,10 @@ Presencia de trabajadores dentro del proyecto.
 
 <label>
 
-<input type="radio"
-       name="impacto"
-       value="paisaje">
+<input
+type="radio"
+name="impacto"
+value="paisaje">
 
 Modificación visual del paisaje.
 
@@ -1152,41 +1129,53 @@ Modificación visual del paisaje.
 </div>
 
 
-<button class="boton-principal"
-        onclick="evaluarImpacto()">
+<button
+class="boton-principal"
+onclick="evaluarImpacto()">
 
 Evaluar impacto
 
 </button>
 
-<div id="respuestaImpacto"></div>
+
+<div id="respuestaImpacto">
+</div>
+
 
 </section>
 
 
 
-<!-- ================================
-     ETAPA 6
-================================ -->
+<!-- =========================
+ETAPA 5 LÍNEA BASE
+========================= -->
 
-<section id="etapa6"
-         class="card oculto">
+<section id="etapa5"
+class="card oculto">
+
 
 <div class="etapa">
-Etapa 6 · Fauna y normativa
+
+Etapa 5 · Línea de base de fauna
+
 </div>
+
 
 <h2>
-Manejo de fauna silvestre
+
+Evaluación de suficiencia
+
 </h2>
 
-<p>
-El titular propone capturar todos los reptiles detectados
-antes de iniciar las obras y trasladarlos a otro sector.
-</p>
 
 <p>
-¿Cuál es la evaluación técnica más adecuada de esta propuesta?
+
+Imagine ahora que el estudio de reptiles hubiese consistido
+únicamente en una campaña de dos días realizada durante invierno
+y no se hubiesen detectado individuos.
+
+¿Cuál sería la interpretación técnicamente más adecuada?
+
 </p>
 
 
@@ -1194,28 +1183,12 @@ antes de iniciar las obras y trasladarlos a otro sector.
 
 <label>
 
-<input type="radio"
-       name="manejo"
-       value="soluciona">
+<input
+type="radio"
+name="lineabase"
+value="ausencia">
 
-Es suficiente, porque trasladar los individuos elimina
-el impacto ambiental.
-
-</label>
-
-</div>
-
-
-<div class="opcion-grande">
-
-<label>
-
-<input type="radio"
-       name="manejo"
-       value="automatica">
-
-Debe realizarse automáticamente siempre que aparezca
-una especie amenazada.
+Puede concluirse que no existen reptiles en el área.
 
 </label>
 
@@ -1226,13 +1199,12 @@ una especie amenazada.
 
 <label>
 
-<input type="radio"
-       name="manejo"
-       value="evaluar">
+<input
+type="radio"
+name="lineabase"
+value="irrelevante">
 
-La captura y eventual relocalización requiere justificación
-técnica y las autorizaciones que correspondan, y no sustituye
-el análisis de la pérdida del hábitat que origina el impacto.
+La época del año no es relevante para evaluar reptiles.
 
 </label>
 
@@ -1243,50 +1215,82 @@ el análisis de la pérdida del hábitat que origina el impacto.
 
 <label>
 
-<input type="radio"
-       name="manejo"
-       value="innecesaria">
+<input
+type="radio"
+name="lineabase"
+value="insuficiente">
 
-No requiere evaluación sectorial porque el proyecto
-ya ingresó al SEIA.
+La ausencia de registros no demuestra necesariamente ausencia
+de reptiles; deben evaluarse la detectabilidad, época,
+metodología y esfuerzo de muestreo antes de concluir ausencia.
 
 </label>
 
 </div>
 
 
-<button class="boton-principal"
-        onclick="evaluarManejo()">
+<div class="opcion-grande">
+
+<label>
+
+<input
+type="radio"
+name="lineabase"
+value="eia">
+
+La falta de registros obliga automáticamente a presentar un EIA.
+
+</label>
+
+</div>
+
+
+<button
+class="boton-principal"
+onclick="evaluarLineaBase()">
 
 Evaluar respuesta
 
 </button>
 
-<div id="respuestaManejo"></div>
+
+<div id="respuestaLineaBase">
+</div>
+
 
 </section>
 
 
 
-<!-- ================================
-     ETAPA 7
-================================ -->
+<!-- =========================
+ETAPA 6 MANEJO
+========================= -->
 
-<section id="etapa7"
-         class="card oculto">
+<section id="etapa6"
+class="card oculto">
+
 
 <div class="etapa">
-Etapa 7 · Medidas ambientales
+
+Etapa 6 · Manejo de fauna
+
 </div>
 
+
 <h2>
-Seleccione la medida conceptualmente más adecuada
+
+Captura y relocalización
+
 </h2>
 
+
 <p>
-Considerando que el impacto principal es la pérdida
-del hábitat reproductivo, ¿cuál debería ser el primer
-enfoque de manejo?
+
+El titular propone capturar los reptiles presentes antes del
+inicio de las obras y trasladarlos a otro sector.
+
+¿Cuál es la evaluación técnica más adecuada?
+
 </p>
 
 
@@ -1294,29 +1298,12 @@ enfoque de manejo?
 
 <label>
 
-<input type="radio"
-       name="medida"
-       value="captura">
+<input
+type="radio"
+name="manejo"
+value="suficiente">
 
-Capturar todos los individuos inmediatamente antes
-del inicio de las obras.
-
-</label>
-
-</div>
-
-
-<div class="opcion-grande">
-
-<label>
-
-<input type="radio"
-       name="medida"
-       value="evitar">
-
-Evaluar primero alternativas de diseño y localización
-que permitan evitar o reducir la intervención del hábitat
-reproductivo relevante.
+Es suficiente porque trasladar los animales elimina el impacto.
 
 </label>
 
@@ -1327,9 +1314,144 @@ reproductivo relevante.
 
 <label>
 
-<input type="radio"
-       name="medida"
-       value="cartel">
+<input
+type="radio"
+name="manejo"
+value="automatica">
+
+La relocalización debe realizarse automáticamente siempre que
+exista una especie amenazada.
+
+</label>
+
+</div>
+
+
+<div class="opcion-grande">
+
+<label>
+
+<input
+type="radio"
+name="manejo"
+value="evaluar">
+
+La captura y eventual relocalización deben justificarse
+técnicamente y cumplir las autorizaciones aplicables,
+pero no sustituyen el análisis de la pérdida del hábitat.
+
+</label>
+
+</div>
+
+
+<div class="opcion-grande">
+
+<label>
+
+<input
+type="radio"
+name="manejo"
+value="sinpermiso">
+
+Al ingresar al SEIA ya no se requieren autorizaciones
+sectoriales relacionadas con fauna.
+
+</label>
+
+</div>
+
+
+<button
+class="boton-principal"
+onclick="evaluarManejo()">
+
+Evaluar respuesta
+
+</button>
+
+
+<div id="respuestaManejo">
+</div>
+
+
+</section>
+
+
+
+<!-- =========================
+ETAPA 7 MEDIDAS
+========================= -->
+
+<section id="etapa7"
+class="card oculto">
+
+
+<div class="etapa">
+
+Etapa 7 · Medidas ambientales
+
+</div>
+
+
+<h2>
+
+Selección de medidas
+
+</h2>
+
+
+<p>
+
+Considerando que el impacto principal es la pérdida del
+hábitat reproductivo, ¿cuál debería ser el primer enfoque
+de manejo?
+
+</p>
+
+
+<div class="opcion-grande">
+
+<label>
+
+<input
+type="radio"
+name="medida"
+value="captura">
+
+Capturar todos los individuos antes de comenzar las obras.
+
+</label>
+
+</div>
+
+
+<div class="opcion-grande">
+
+<label>
+
+<input
+type="radio"
+name="medida"
+value="evitar">
+
+Evaluar alternativas de diseño o localización que permitan
+evitar o reducir la intervención del hábitat reproductivo
+relevante.
+
+</label>
+
+</div>
+
+
+<div class="opcion-grande">
+
+<label>
+
+<input
+type="radio"
+name="medida"
+value="carteles">
 
 Instalar señalética educativa sobre fauna.
 
@@ -1342,68 +1464,83 @@ Instalar señalética educativa sobre fauna.
 
 <label>
 
-<input type="radio"
-       name="medida"
-       value="monitoreo">
+<input
+type="radio"
+name="medida"
+value="monitoreo">
 
-Realizar solamente monitoreo posterior a la construcción.
+Realizar únicamente monitoreo después de construir el proyecto.
 
 </label>
 
 </div>
 
 
-<button class="boton-principal"
-        onclick="evaluarMedida()">
+<button
+class="boton-principal"
+onclick="evaluarMedida()">
 
 Finalizar evaluación
 
 </button>
 
-<div id="respuestaMedida"></div>
+
+<div id="respuestaMedida">
+</div>
+
 
 </section>
 
 
 
-<!-- ================================
-     RESULTADO
-================================ -->
+<!-- =========================
+RESULTADO FINAL
+========================= -->
 
 <section id="resultadoFinal"
-         class="card resultado-final oculto">
+class="card resultado-final oculto">
+
 
 <div class="etapa">
+
 Resultado de la evaluación
+
 </div>
 
+
 <h2>
+
 Caso completado
+
 </h2>
 
+
 <div id="notaFinal"
-     class="numero-final">
+class="numero-final">
 
 0 / 100
 
 </div>
 
+
 <div id="estadoFinal"
-     class="estado-final">
+class="estado-final">
 </div>
 
 
 <div id="resumenFinal"
-     class="resumen-final">
+class="resumen-final">
 </div>
 
 
-<button class="boton-principal"
-        onclick="reiniciar()">
+<button
+class="boton-principal"
+onclick="reiniciar()">
 
 Nuevo caso
 
 </button>
+
 
 </section>
 
@@ -1430,17 +1567,17 @@ Simulador académico de evaluación ambiental con énfasis en fauna silvestre
 let puntaje = 0;
 
 let respondioIngreso = false;
-let respondioArticulo = false;
 let respondioVia = false;
 let respondioFauna = false;
 let respondioImpacto = false;
+let respondioLineaBase = false;
 let respondioManejo = false;
 let respondioMedida = false;
 
 
-/* =================================
-   INICIO
-================================= */
+/* =========================
+INICIO
+========================= */
 
 function iniciarSimulador() {
 
@@ -1451,7 +1588,7 @@ function iniciarSimulador() {
 
         alert(
             "En esta versión el caso disponible corresponde al sector Energía. " +
-            "Los otros sectores se incorporarán progresivamente."
+            "Los demás sectores se incorporarán progresivamente."
         );
 
         document.getElementById("sector").value =
@@ -1470,9 +1607,9 @@ function iniciarSimulador() {
 }
 
 
-/* =================================
-   INGRESO SEIA
-================================= */
+/* =========================
+ETAPA 1
+========================= */
 
 function evaluarIngreso(respuesta) {
 
@@ -1493,25 +1630,31 @@ function evaluarIngreso(respuesta) {
 
         div.innerHTML = `
 
-        <strong>Correcto.</strong>
+        <strong>Correcto: el ingreso al SEIA es obligatorio.</strong>
 
         <p>
-        El proyecto debe ingresar obligatoriamente al SEIA.
+        El proyecto corresponde a una central generadora de energía
+        con una potencia instalada de 82 MW.
         </p>
 
         <div class="fundamento">
 
-        <strong>Fundamento:</strong>
+        <strong>¿Por qué debe ingresar al SEIA?</strong>
 
         <p>
-        Se trata de una central generadora de energía de
-        82 MW, superando el umbral establecido para este
-        tipo de proyectos.
+        El artículo 10 letra c) de la Ley N.º 19.300 contempla
+        entre las tipologías sometidas al SEIA a las centrales
+        generadoras de energía mayores a 3 MW.
         </p>
 
         <p>
-        Esto determina su ingreso al SEIA, pero todavía
-        no determina si debe hacerlo mediante DIA o EIA.
+        Por lo tanto, este proyecto debe someterse obligatoriamente
+        al Sistema de Evaluación de Impacto Ambiental.
+        </p>
+
+        <p>
+        Esta conclusión todavía no determina si corresponde
+        presentar una DIA o un EIA.
         </p>
 
         </div>
@@ -1524,12 +1667,24 @@ function evaluarIngreso(respuesta) {
 
         div.innerHTML = `
 
-        <strong>Respuesta incorrecta.</strong>
+        <strong>Incorrecto.</strong>
 
         <p>
-        Revise las características técnicas del proyecto,
-        particularmente su potencia instalada.
+        El proyecto sí configura una tipología de ingreso
+        obligatorio al SEIA.
         </p>
+
+        <div class="fundamento">
+
+        <strong>Revise la magnitud del proyecto.</strong>
+
+        <p>
+        La central posee una potencia instalada de 82 MW.
+        La Ley N.º 19.300 contempla el ingreso al SEIA de
+        centrales generadoras de energía mayores a 3 MW.
+        </p>
+
+        </div>
 
         `;
 
@@ -1540,7 +1695,7 @@ function evaluarIngreso(respuesta) {
 
     div.innerHTML += botonContinuar(
         "mostrarEtapa2()",
-        "Analizar DIA/EIA"
+        "Determinar DIA o EIA"
     );
 }
 
@@ -1551,117 +1706,10 @@ function mostrarEtapa2() {
 }
 
 
-/* =================================
-   ARTÍCULO 11
-================================= */
-
-function evaluarArticulo11() {
-
-    if (respondioArticulo) return;
-
-    const respuestas = {
-
-        a: document.getElementById("artA").value,
-        b: document.getElementById("artB").value,
-        c: document.getElementById("artC").value,
-        d: document.getElementById("artD").value,
-        e: document.getElementById("artE").value,
-        f: document.getElementById("artF").value
-
-    };
-
-    for (const clave in respuestas) {
-
-        if (respuestas[clave] === "") {
-
-            alert(
-                "Debe responder todos los criterios antes de continuar."
-            );
-
-            return;
-        }
-    }
-
-    respondioArticulo = true;
-
-    const esperado = {
-
-        a: "no",
-        b: "si",
-        c: "no",
-        d: "no",
-        e: "no",
-        f: "no"
-
-    };
-
-    let correctas = 0;
-
-    for (const clave in esperado) {
-
-        if (respuestas[clave] === esperado[clave]) {
-            correctas++;
-        }
-    }
-
-    const puntos =
-        Math.round((correctas / 6) * 20);
-
-    puntaje += puntos;
-
-    actualizarPuntaje();
-    actualizarProgreso(32);
-
-    const div =
-        document.getElementById("respuestaArticulo");
-
-    div.className =
-        correctas === 6
-        ? "resultado correcto"
-        : "resultado advertencia";
-
-    div.innerHTML = `
-
-    <strong>
-    ${correctas} de 6 criterios correctamente analizados.
-    </strong>
-
-    <div class="fundamento">
-
-    <strong>Interpretación del caso</strong>
-
-    <p>
-    El elemento determinante corresponde a un efecto adverso
-    significativo sobre recursos naturales renovables.
-    </p>
-
-    <p>
-    La conclusión no deriva simplemente de detectar una especie
-    amenazada. El proyecto eliminaría la totalidad del principal
-    sitio reproductivo conocido de una población local y los
-    antecedentes indican consecuencias relevantes para su persistencia.
-    </p>
-
-    </div>
-
-    `;
-
-    div.innerHTML += botonContinuar(
-        "mostrarEtapa3()",
-        "Determinar DIA o EIA"
-    );
-}
-
-
-function mostrarEtapa3() {
-
-    mostrar("etapa3");
-}
-
-
-/* =================================
-   DIA / EIA
-================================= */
+/* =========================
+ETAPA 2
+DIA O EIA
+========================= */
 
 function evaluarVia(respuesta) {
 
@@ -1676,23 +1724,60 @@ function evaluarVia(respuesta) {
 
     if (respuesta === "eia") {
 
-        puntaje += 15;
+        puntaje += 20;
 
         div.classList.add("correcto");
 
         div.innerHTML = `
 
-        <strong>Correcto: corresponde un EIA.</strong>
+        <strong>
+        Correcto: corresponde un Estudio de Impacto Ambiental (EIA).
+        </strong>
 
         <p>
-        El proyecto presenta antecedentes que permiten reconocer
-        uno de los efectos contemplados en el artículo 11.
+        El proyecto no requiere un EIA simplemente por tratarse de una
+        central de 82 MW ni por existir fauna silvestre en el área.
         </p>
 
         <p>
-        Por lo tanto, la vía correspondiente es un
-        Estudio de Impacto Ambiental.
+        El elemento determinante es la magnitud y naturaleza del efecto
+        ambiental descrito sobre fauna.
         </p>
+
+        <div class="fundamento">
+
+        <strong>¿Por qué corresponde un EIA?</strong>
+
+        <p>
+        La Ley N.º 19.300 establece que un proyecto debe presentar
+        un EIA cuando genera o presenta alguno de los efectos,
+        características o circunstancias contemplados en su artículo 11.
+        </p>
+
+        <p>
+        En este caso, las obras intervendrán las 18 ha identificadas
+        como el principal hábitat reproductivo y de refugio conocido
+        para una población local de un reptil clasificado En Peligro.
+        </p>
+
+        <p>
+        Los antecedentes indican además que la pérdida de esta superficie
+        reduciría sustancialmente los sitios disponibles para reproducción
+        y refugio y podría comprometer la persistencia de la población local.
+        </p>
+
+        <p>
+        Por ello, el caso presenta antecedentes compatibles con un
+        <strong>efecto adverso significativo sobre recursos naturales
+        renovables</strong>, particularmente fauna silvestre y su hábitat.
+        </p>
+
+        <p>
+        En consecuencia, la vía de ingreso corresponde a un
+        <strong>Estudio de Impacto Ambiental (EIA)</strong>.
+        </p>
+
+        </div>
 
         `;
 
@@ -1702,42 +1787,63 @@ function evaluarVia(respuesta) {
 
         div.innerHTML = `
 
-        <strong>Incorrecto.</strong>
+        <strong>
+        Incorrecto: en este caso no corresponde una DIA.
+        </strong>
 
         <p>
-        Un proyecto puede ingresar mediante DIA cuando no genera
-        los efectos, características o circunstancias que obligan
-        a presentar un EIA.
+        Una DIA es la vía general de ingreso cuando el proyecto
+        debe evaluarse ambientalmente pero no presenta los efectos,
+        características o circunstancias que obligan a presentar un EIA.
+        </p>
+
+        <div class="fundamento">
+
+        <strong>¿Qué antecedente cambia la decisión?</strong>
+
+        <p>
+        El proyecto intervendrá completamente el principal hábitat
+        reproductivo y de refugio conocido para una población local
+        de un reptil clasificado En Peligro.
         </p>
 
         <p>
-        En este caso existe un efecto adverso significativo
-        sobre recursos naturales renovables.
+        La información del caso indica además que esta intervención
+        podría comprometer la persistencia de dicha población.
         </p>
+
+        <p>
+        Por ello existe un antecedente de efecto adverso significativo
+        sobre recursos naturales renovables que debe ser evaluado
+        mediante un <strong>EIA</strong>.
+        </p>
+
+        </div>
 
         `;
 
     }
 
     actualizarPuntaje();
-    actualizarProgreso(45);
+    actualizarProgreso(35);
 
     div.innerHTML += botonContinuar(
-        "mostrarEtapa4()",
-        "Evaluar componente fauna"
+        "mostrarEtapa3()",
+        "Continuar con el componente fauna"
     );
 }
 
 
-function mostrarEtapa4() {
+function mostrarEtapa3() {
 
-    mostrar("etapa4");
+    mostrar("etapa3");
 }
 
 
-/* =================================
-   FAUNA
-================================= */
+/* =========================
+ETAPA 3
+FAUNA
+========================= */
 
 function evaluarFauna() {
 
@@ -1771,15 +1877,15 @@ function evaluarFauna() {
         <strong>Correcto.</strong>
 
         <p>
-        La evaluación ambiental de fauna no debe reducirse
-        a elaborar un listado de especies.
+        La evaluación del componente fauna no consiste únicamente
+        en elaborar un listado de especies.
         </p>
 
         <p>
-        En este caso son especialmente relevantes la función
-        ecológica del área, su uso reproductivo, la categoría
-        de conservación, la magnitud de la intervención y
-        las consecuencias previstas para la población local.
+        En este caso deben considerarse conjuntamente la categoría
+        de conservación, el uso reproductivo del área, la importancia
+        del hábitat, la magnitud de su intervención y las consecuencias
+        previsibles para la población local.
         </p>
 
         `;
@@ -1790,14 +1896,18 @@ function evaluarFauna() {
 
         div.innerHTML = `
 
-        <strong>Respuesta incompleta.</strong>
+        <strong>Respuesta incorrecta o incompleta.</strong>
 
         <p>
-        La presencia de una especie, su categoría de conservación
-        o la riqueza total son antecedentes importantes, pero
-        deben interpretarse junto con el uso del hábitat,
-        la magnitud de la intervención y sus consecuencias
-        ecológicas.
+        La riqueza de especies, la presencia de fauna y las categorías
+        de conservación son antecedentes relevantes, pero no deben
+        analizarse aisladamente.
+        </p>
+
+        <p>
+        El aspecto central es la relación entre la especie,
+        la función ecológica del área, la magnitud de la intervención
+        y sus consecuencias para la población afectada.
         </p>
 
         `;
@@ -1805,24 +1915,25 @@ function evaluarFauna() {
     }
 
     actualizarPuntaje();
-    actualizarProgreso(62);
+    actualizarProgreso(50);
 
     div.innerHTML += botonContinuar(
-        "mostrarEtapa5()",
-        "Identificar impacto"
+        "mostrarEtapa4()",
+        "Identificar impacto sobre fauna"
     );
 }
 
 
-function mostrarEtapa5() {
+function mostrarEtapa4() {
 
-    mostrar("etapa5");
+    mostrar("etapa4");
 }
 
 
-/* =================================
-   IMPACTO
-================================= */
+/* =========================
+ETAPA 4
+IMPACTO
+========================= */
 
 function evaluarImpacto() {
 
@@ -1847,7 +1958,7 @@ function evaluarImpacto() {
 
     if (seleccion === "perdida") {
 
-        puntaje += 10;
+        puntaje += 15;
 
         div.classList.add("correcto");
 
@@ -1856,9 +1967,14 @@ function evaluarImpacto() {
         <strong>Correcto.</strong>
 
         <p>
-        El impacto central es la pérdida directa de un
-        hábitat reproductivo y de refugio ecológicamente
-        relevante para la población afectada.
+        El impacto ambiental principal corresponde a la pérdida
+        directa de hábitat reproductivo y de refugio.
+        </p>
+
+        <p>
+        Su relevancia deriva de la función que cumple ese hábitat
+        para una población local de una especie amenazada y de
+        las consecuencias previstas para su persistencia.
         </p>
 
         `;
@@ -1872,9 +1988,9 @@ function evaluarImpacto() {
         <strong>Incorrecto.</strong>
 
         <p>
-        Existen distintas perturbaciones posibles, pero debe
-        identificarse cuál tiene mayor relación con los antecedentes
-        ecológicos entregados y con la persistencia de la población.
+        Pueden existir perturbaciones adicionales, pero el impacto
+        principal descrito por los antecedentes corresponde a la
+        eliminación del hábitat utilizado para reproducción y refugio.
         </p>
 
         `;
@@ -1882,11 +1998,99 @@ function evaluarImpacto() {
     }
 
     actualizarPuntaje();
-    actualizarProgreso(73);
+    actualizarProgreso(65);
+
+    div.innerHTML += botonContinuar(
+        "mostrarEtapa5()",
+        "Evaluar línea de base"
+    );
+}
+
+
+function mostrarEtapa5() {
+
+    mostrar("etapa5");
+}
+
+
+/* =========================
+ETAPA 5
+LÍNEA BASE
+========================= */
+
+function evaluarLineaBase() {
+
+    if (respondioLineaBase) return;
+
+    const seleccion =
+        obtenerRadio("lineabase");
+
+    if (!seleccion) {
+
+        alert("Seleccione una alternativa.");
+
+        return;
+    }
+
+    respondioLineaBase = true;
+
+    const div =
+        document.getElementById("respuestaLineaBase");
+
+    div.className = "resultado";
+
+    if (seleccion === "insuficiente") {
+
+        puntaje += 10;
+
+        div.classList.add("correcto");
+
+        div.innerHTML = `
+
+        <strong>Correcto.</strong>
+
+        <p>
+        La no detección de individuos no equivale necesariamente
+        a ausencia de la especie.
+        </p>
+
+        <p>
+        La interpretación debe considerar la ecología de la especie,
+        la época del levantamiento, la detectabilidad, los métodos
+        utilizados y el esfuerzo de muestreo.
+        </p>
+
+        `;
+
+    } else {
+
+        div.classList.add("incorrecto");
+
+        div.innerHTML = `
+
+        <strong>Incorrecto.</strong>
+
+        <p>
+        Una campaña breve y realizada en un periodo de baja
+        detectabilidad no permite concluir automáticamente
+        ausencia de reptiles.
+        </p>
+
+        <p>
+        Debe evaluarse la suficiencia del diseño de muestreo antes
+        de interpretar la ausencia de registros.
+        </p>
+
+        `;
+
+    }
+
+    actualizarPuntaje();
+    actualizarProgreso(75);
 
     div.innerHTML += botonContinuar(
         "mostrarEtapa6()",
-        "Analizar manejo de fauna"
+        "Evaluar manejo de fauna"
     );
 }
 
@@ -1897,9 +2101,10 @@ function mostrarEtapa6() {
 }
 
 
-/* =================================
-   MANEJO / NORMATIVA
-================================= */
+/* =========================
+ETAPA 6
+MANEJO
+========================= */
 
 function evaluarManejo() {
 
@@ -1933,14 +2138,14 @@ function evaluarManejo() {
         <strong>Correcto.</strong>
 
         <p>
-        Una eventual captura, rescate o relocalización de fauna
-        debe estar técnicamente justificada y cumplir las
-        autorizaciones sectoriales que correspondan.
+        La captura o relocalización de fauna requiere una
+        justificación técnica y las autorizaciones que correspondan.
         </p>
 
         <p>
-        Además, mover individuos no elimina por sí mismo
-        el impacto asociado a la pérdida de su hábitat.
+        Además, trasladar individuos no elimina por sí mismo
+        el impacto provocado por la pérdida o transformación
+        del hábitat.
         </p>
 
         `;
@@ -1954,9 +2159,14 @@ function evaluarManejo() {
         <strong>Incorrecto.</strong>
 
         <p>
-        El manejo directo de fauna no debe utilizarse como
-        una respuesta automática ni confundirse con la solución
-        del impacto sobre el hábitat.
+        El rescate o relocalización de individuos no debe entenderse
+        como una solución automática frente a un impacto sobre fauna.
+        </p>
+
+        <p>
+        Debe analizarse su pertinencia técnica, sus requisitos
+        regulatorios y, principalmente, el impacto que permanece
+        sobre el hábitat.
         </p>
 
         `;
@@ -1964,7 +2174,7 @@ function evaluarManejo() {
     }
 
     actualizarPuntaje();
-    actualizarProgreso(85);
+    actualizarProgreso(87);
 
     div.innerHTML += botonContinuar(
         "mostrarEtapa7()",
@@ -1979,9 +2189,10 @@ function mostrarEtapa7() {
 }
 
 
-/* =================================
-   MEDIDAS
-================================= */
+/* =========================
+ETAPA 7
+MEDIDAS
+========================= */
 
 function evaluarMedida() {
 
@@ -2015,10 +2226,15 @@ function evaluarMedida() {
         <strong>Correcto.</strong>
 
         <p>
-        Frente a la pérdida de un hábitat reproductivo
-        ambientalmente relevante, el primer análisis debe
-        considerar alternativas que permitan evitar o reducir
-        la intervención que origina el impacto.
+        Si el impacto principal corresponde a la pérdida de un
+        hábitat reproductivo relevante, el análisis debe comenzar
+        evaluando alternativas destinadas a evitar o reducir
+        directamente esa intervención.
+        </p>
+
+        <p>
+        Las medidas posteriores deben responder al impacto residual
+        que permanezca después de aplicar ese análisis.
         </p>
 
         `;
@@ -2032,9 +2248,14 @@ function evaluarMedida() {
         <strong>Incorrecto.</strong>
 
         <p>
-        La medida debe responder directamente al impacto
-        identificado. Una acción accesoria o un monitoreo
-        posterior no evita por sí mismo la pérdida del hábitat.
+        La medida seleccionada no aborda adecuadamente el origen
+        del impacto principal identificado.
+        </p>
+
+        <p>
+        Antes de recurrir exclusivamente a acciones posteriores,
+        debe analizarse si es posible evitar o reducir la intervención
+        del hábitat reproductivo relevante.
         </p>
 
         `;
@@ -2046,14 +2267,14 @@ function evaluarMedida() {
 
     div.innerHTML += botonContinuar(
         "mostrarResultadoFinal()",
-        "Ver pronunciamiento final"
+        "Ver resultado final"
     );
 }
 
 
-/* =================================
-   RESULTADO FINAL
-================================= */
+/* =========================
+RESULTADO FINAL
+========================= */
 
 function mostrarResultadoFinal() {
 
@@ -2062,100 +2283,152 @@ function mostrarResultadoFinal() {
 
     panel.classList.remove("oculto");
 
+
     document.getElementById("notaFinal")
         .innerText =
         puntaje + " / 100";
 
-    let estado;
+
+    let estado = "";
+
 
     if (puntaje >= 90) {
 
-        estado = "Excelente desempeño";
+        estado =
+            "Excelente desempeño";
 
     } else if (puntaje >= 75) {
 
-        estado = "Muy buen desempeño";
+        estado =
+            "Muy buen desempeño";
 
     } else if (puntaje >= 60) {
 
-        estado = "Buen desempeño";
+        estado =
+            "Buen desempeño";
 
     } else if (puntaje >= 40) {
 
-        estado = "Desempeño en desarrollo";
+        estado =
+            "Desempeño en desarrollo";
 
     } else {
 
-        estado = "Debe reforzar los contenidos";
+        estado =
+            "Debe reforzar los contenidos";
 
     }
 
+
     document.getElementById("estadoFinal")
-        .innerText = estado;
+        .innerText =
+        estado;
 
 
     document.getElementById("resumenFinal")
         .innerHTML = `
 
-        <h3>Pronunciamiento técnico esperado</h3>
+        <h3>
+        Pronunciamiento técnico esperado
+        </h3>
 
         <p>
-        <strong>Ingreso al SEIA:</strong>
+        <strong>
+        Ingreso al SEIA:
+        </strong>
+
         obligatorio.
         </p>
 
+
         <p>
-        <strong>Vía de evaluación:</strong>
+        <strong>
+        Vía de evaluación:
+        </strong>
+
         Estudio de Impacto Ambiental — EIA.
         </p>
 
+
         <p>
-        <strong>Componente ambiental determinante:</strong>
+        <strong>
+        Componente ambiental determinante:
+        </strong>
+
         fauna silvestre y hábitat asociado.
         </p>
 
+
         <p>
-        <strong>Impacto principal:</strong>
+        <strong>
+        Impacto principal:
+        </strong>
+
         pérdida directa del principal hábitat reproductivo
-        conocido para una población local de una especie
-        clasificada En Peligro.
+        y de refugio conocido para una población local de
+        una especie clasificada En Peligro.
         </p>
 
-        <p>
-        <strong>Interpretación:</strong>
-        el efecto no se determina únicamente por la presencia
-        de la especie ni por su categoría de conservación.
-        Deben considerarse conjuntamente la función ecológica
-        del área, la magnitud de la intervención y las
-        consecuencias previsibles para la población.
-        </p>
 
         <p>
-        <strong>Manejo de fauna:</strong>
-        una eventual captura o relocalización debe justificarse
-        técnicamente, cumplir las autorizaciones aplicables
-        y no puede considerarse por sí sola una solución
-        frente a la pérdida de hábitat.
+        <strong>
+        Interpretación ecológica:
+        </strong>
+
+        la significancia del impacto no deriva únicamente
+        de la presencia de una especie amenazada.
+        Deben considerarse la función ecológica del área,
+        la magnitud de la intervención y las consecuencias
+        previsibles sobre la población.
         </p>
 
+
         <p>
-        <strong>Enfoque de medidas:</strong>
-        deben evaluarse prioritariamente alternativas destinadas
-        a evitar o reducir la intervención del hábitat
-        reproductivo relevante.
+        <strong>
+        Línea de base:
+        </strong>
+
+        la ausencia de registros debe interpretarse considerando
+        detectabilidad, temporalidad, metodología y esfuerzo
+        de muestreo.
+        </p>
+
+
+        <p>
+        <strong>
+        Manejo de fauna:
+        </strong>
+
+        una eventual captura o relocalización requiere
+        justificación técnica y cumplimiento de las autorizaciones
+        aplicables y no reemplaza el análisis del impacto
+        sobre el hábitat.
+        </p>
+
+
+        <p>
+        <strong>
+        Enfoque de medidas:
+        </strong>
+
+        deben analizarse prioritariamente alternativas para
+        evitar o reducir la intervención del hábitat reproductivo
+        relevante.
         </p>
 
         `;
 
+
     panel.scrollIntoView({
         behavior: "smooth"
     });
+
 }
 
 
-/* =================================
-   UTILIDADES
-================================= */
+/* =========================
+UTILIDADES
+========================= */
 
 function mostrar(id) {
 
@@ -2167,6 +2440,7 @@ function mostrar(id) {
     elemento.scrollIntoView({
         behavior: "smooth"
     });
+
 }
 
 
@@ -2182,6 +2456,7 @@ function obtenerRadio(nombre) {
     return seleccion
         ? seleccion.value
         : null;
+
 }
 
 
@@ -2189,14 +2464,16 @@ function botonContinuar(funcion, texto) {
 
     return `
 
-    <button class="boton-continuar"
-            onclick="${funcion}">
+    <button
+    class="boton-continuar"
+    onclick="${funcion}">
 
     ${texto}
 
     </button>
 
     `;
+
 }
 
 
@@ -2207,6 +2484,7 @@ function actualizarPuntaje() {
         "Puntaje: " +
         puntaje +
         " / 100";
+
 }
 
 
@@ -2215,12 +2493,14 @@ function actualizarProgreso(valor) {
     document.getElementById("barra")
         .style.width =
         valor + "%";
+
 }
 
 
 function reiniciar() {
 
     location.reload();
+
 }
 
 </script>
