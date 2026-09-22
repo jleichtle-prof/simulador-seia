@@ -1,182 +1,1307 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Simulador SEIA Chile</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f4f6f8;
-      color: #1f2937;
-    }
+<title>Simulador SEIA Chile</title>
 
-    header {
-      background: #0f4c5c;
-      color: white;
-      padding: 28px 20px;
-      text-align: center;
-    }
+<style>
 
-    header h1 {
-      margin: 0;
-      font-size: 2rem;
-    }
+:root {
+  --azul: #0f4c5c;
+  --azul-claro: #197086;
+  --verde: #2e7d32;
+  --verde-claro: #e8f5e9;
+  --rojo: #c62828;
+  --rojo-claro: #ffebee;
+  --amarillo: #f9a825;
+  --amarillo-claro: #fff8e1;
+  --gris-fondo: #f3f5f7;
+  --gris-borde: #d7dde2;
+  --gris-texto: #5b6570;
+  --blanco: #ffffff;
+  --texto: #17212b;
+}
 
-    header p {
-      margin-top: 8px;
-      margin-bottom: 0;
-      opacity: 0.9;
-    }
+* {
+  box-sizing: border-box;
+}
 
-    main {
-      max-width: 900px;
-      margin: 35px auto;
-      padding: 0 20px;
-    }
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: var(--gris-fondo);
+  color: var(--texto);
+  line-height: 1.5;
+}
 
-    .card {
-      background: white;
-      border-radius: 12px;
-      padding: 28px;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
-      margin-bottom: 25px;
-    }
+/* CABECERA */
 
-    .etapa {
-      color: #0f4c5c;
-      font-weight: bold;
-      margin-bottom: 8px;
-    }
+header {
+  background: linear-gradient(135deg, #0f4c5c, #176b7d);
+  color: white;
+  padding: 28px 20px;
+  text-align: center;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
 
-    h2 {
-      margin-top: 0;
-    }
+header h1 {
+  margin: 0;
+  font-size: 2rem;
+}
 
-    .dato {
-      margin: 8px 0;
-    }
+header p {
+  margin: 6px 0 0;
+  opacity: 0.92;
+}
 
-    button {
-      background: #0f4c5c;
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      margin: 8px 5px 0 0;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 1rem;
-    }
+/* CONTENEDOR */
 
-    button:hover {
-      background: #14677a;
-    }
+main {
+  max-width: 1050px;
+  margin: 30px auto;
+  padding: 0 20px 50px;
+}
 
-    #resultado {
-      margin-top: 20px;
-      padding: 18px;
-      border-radius: 8px;
-      display: none;
-    }
+.card {
+  background: white;
+  border-radius: 14px;
+  padding: 28px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  margin-bottom: 24px;
+}
 
-    .correcto {
-      background: #e8f5e9;
-      border-left: 5px solid #2e7d32;
-    }
+.oculto {
+  display: none;
+}
 
-    .incorrecto {
-      background: #ffebee;
-      border-left: 5px solid #c62828;
-    }
+/* PORTADA */
 
-    footer {
-      text-align: center;
-      padding: 25px;
-      color: #6b7280;
-      font-size: 0.9rem;
-    }
-  </style>
+.portada {
+  text-align: center;
+  padding: 45px 30px;
+}
+
+.portada h2 {
+  color: var(--azul);
+  font-size: 2rem;
+  margin-top: 0;
+}
+
+.portada p {
+  max-width: 750px;
+  margin: 15px auto;
+  color: var(--gris-texto);
+  font-size: 1.05rem;
+}
+
+/* SELECCIÓN */
+
+.selector-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px,1fr));
+  gap: 18px;
+  margin-top: 30px;
+}
+
+.selector-box {
+  border: 2px solid var(--gris-borde);
+  padding: 20px;
+  border-radius: 12px;
+  text-align: left;
+}
+
+.selector-box h3 {
+  margin-top: 0;
+  color: var(--azul);
+}
+
+select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--gris-borde);
+  border-radius: 7px;
+  font-size: 1rem;
+  background: white;
+}
+
+/* BOTONES */
+
+button {
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+  padding: 12px 20px;
+  transition: 0.2s;
+}
+
+.boton-principal {
+  background: var(--azul);
+  color: white;
+  margin-top: 25px;
+}
+
+.boton-principal:hover {
+  background: var(--azul-claro);
+}
+
+.boton-opcion {
+  background: #eef3f5;
+  color: var(--texto);
+  border: 1px solid #ccd6db;
+  margin: 7px 7px 7px 0;
+}
+
+.boton-opcion:hover {
+  background: #ddebef;
+}
+
+.boton-continuar {
+  background: var(--azul);
+  color: white;
+  margin-top: 18px;
+}
+
+/* PROGRESO */
+
+.panel-superior {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 20px;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.progreso-contenedor {
+  background: #dce3e7;
+  height: 10px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.progreso {
+  background: var(--azul);
+  width: 0%;
+  height: 100%;
+  transition: width 0.4s;
+}
+
+.puntaje {
+  font-weight: bold;
+  color: var(--azul);
+  font-size: 1.05rem;
+}
+
+/* ETAPAS */
+
+.etapa {
+  text-transform: uppercase;
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: var(--azul);
+  letter-spacing: 0.5px;
+}
+
+h2 {
+  margin-top: 7px;
+}
+
+/* FICHA PROYECTO */
+
+.ficha-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px,1fr));
+  gap: 12px 25px;
+  margin-top: 20px;
+}
+
+.dato {
+  border-bottom: 1px solid #edf0f2;
+  padding-bottom: 9px;
+}
+
+.dato strong {
+  color: #33414d;
+}
+
+/* RESULTADOS */
+
+.resultado {
+  margin-top: 20px;
+  padding: 18px;
+  border-radius: 9px;
+}
+
+.correcto {
+  background: var(--verde-claro);
+  border-left: 5px solid var(--verde);
+}
+
+.incorrecto {
+  background: var(--rojo-claro);
+  border-left: 5px solid var(--rojo);
+}
+
+.advertencia {
+  background: var(--amarillo-claro);
+  border-left: 5px solid var(--amarillo);
+}
+
+/* ARTICULO */
+
+.fundamento {
+  margin-top: 18px;
+  padding: 17px;
+  background: #f5f9fa;
+  border-left: 4px solid var(--azul);
+  border-radius: 5px;
+}
+
+.fundamento strong {
+  color: var(--azul);
+}
+
+/* MATRIZ ART 11 */
+
+.tabla-art11 {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.tabla-art11 th,
+.tabla-art11 td {
+  border: 1px solid var(--gris-borde);
+  padding: 12px;
+  vertical-align: top;
+}
+
+.tabla-art11 th {
+  background: #eef3f5;
+  color: var(--azul);
+}
+
+.tabla-art11 select {
+  min-width: 150px;
+}
+
+/* FINAL */
+
+.resultado-final {
+  text-align: center;
+}
+
+.numero-final {
+  font-size: 3.5rem;
+  color: var(--azul);
+  font-weight: bold;
+  margin: 15px 0;
+}
+
+.estado {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* NOTA NORMATIVA */
+
+.version-normativa {
+  font-size: 0.85rem;
+  color: var(--gris-texto);
+  margin-top: 12px;
+}
+
+/* FOOTER */
+
+footer {
+  text-align: center;
+  padding: 25px;
+  color: #6a737c;
+  font-size: 0.9rem;
+}
+
+@media(max-width:700px) {
+
+  header h1 {
+    font-size: 1.55rem;
+  }
+
+  .card {
+    padding: 20px;
+  }
+
+  .tabla-art11 {
+    font-size: 0.9rem;
+  }
+
+}
+
+</style>
 </head>
 
 <body>
 
 <header>
-  <h1>Simulador de Evaluación Ambiental</h1>
-  <p>Sistema de Evaluación de Impacto Ambiental — Chile</p>
+
+<h1>Simulador de Evaluación Ambiental</h1>
+
+<p>
+Sistema de Evaluación de Impacto Ambiental — Chile
+</p>
+
 </header>
 
 <main>
 
-  <div class="card">
+<!-- PANTALLA INICIO -->
 
-    <div class="etapa">CASO DE PRUEBA</div>
+<section id="pantallaInicio" class="card portada">
 
-    <h2>Proyecto Parque Solar Quebrada del Zorro</h2>
+<h2>Simulador SEIA Chile</h2>
 
-    <div class="dato"><strong>Región:</strong> Coquimbo</div>
-    <div class="dato"><strong>Tipo:</strong> Central solar fotovoltaica</div>
-    <div class="dato"><strong>Potencia instalada:</strong> 82 MW</div>
-    <div class="dato"><strong>Superficie:</strong> 145 ha</div>
-    <div class="dato"><strong>Línea de transmisión:</strong> 110 kV, 18 km</div>
-    <div class="dato"><strong>Vegetación:</strong> Matorral nativo</div>
-    <div class="dato"><strong>Fauna:</strong> Reptiles, aves rapaces y zorro culpeo</div>
+<p>
+Analice proyectos ficticios utilizando la lógica del Sistema de Evaluación
+de Impacto Ambiental chileno.
+</p>
 
-  </div>
+<p>
+Deberá determinar la obligación de ingreso al SEIA, la vía de evaluación
+ambiental y, progresivamente, identificar normativa, permisos ambientales
+sectoriales y otros elementos relevantes de la evaluación.
+</p>
 
-  <div class="card">
+<div class="selector-grid">
 
-    <div class="etapa">ETAPA 1</div>
+<div class="selector-box">
 
-    <h2>¿Debe ingresar este proyecto al SEIA?</h2>
+<h3>Sector del proyecto</h3>
 
-    <p>Seleccione la alternativa que considere correcta.</p>
+<select id="sector">
 
-    <button onclick="evaluar('no')">No debe ingresar</button>
-    <button onclick="evaluar('voluntario')">Ingreso voluntario</button>
-    <button onclick="evaluar('obligatorio')">Ingreso obligatorio</button>
+<option value="energia">Energía</option>
+<option value="mineria">Minería</option>
+<option value="agroindustria">Agroindustria</option>
+<option value="forestal">Forestal</option>
+<option value="inmobiliario">Inmobiliario</option>
+<option value="vialidad">Infraestructura vial</option>
+<option value="residuos">Residuos</option>
+<option value="acuicultura">Acuicultura</option>
+<option value="industria">Industria</option>
 
-    <div id="resultado"></div>
+</select>
 
-  </div>
+</div>
+
+<div class="selector-box">
+
+<h3>Dificultad</h3>
+
+<select id="dificultad">
+
+<option value="basico">Básico</option>
+<option value="intermedio">Intermedio</option>
+<option value="avanzado">Avanzado</option>
+
+</select>
+
+</div>
+
+</div>
+
+<button class="boton-principal" onclick="iniciarSimulacion()">
+Comenzar simulación
+</button>
+
+<p class="version-normativa">
+Versión académica 2.0 · Base normativa revisada: septiembre de 2026
+</p>
+
+</section>
+
+
+<!-- SIMULADOR -->
+
+<section id="simulador" class="oculto">
+
+<div class="panel-superior">
+
+<div class="progreso-contenedor">
+<div id="barraProgreso" class="progreso"></div>
+</div>
+
+<div id="puntaje" class="puntaje">
+Puntaje: 0
+</div>
+
+</div>
+
+
+<!-- CASO -->
+
+<div class="card">
+
+<div class="etapa">
+Antecedentes del proyecto
+</div>
+
+<h2 id="nombreProyecto">
+Proyecto Parque Solar Quebrada del Zorro
+</h2>
+
+<div class="ficha-grid">
+
+<div class="dato">
+<strong>Región:</strong>
+<span id="regionProyecto">Coquimbo</span>
+</div>
+
+<div class="dato">
+<strong>Sector:</strong>
+<span id="sectorProyecto">Energía</span>
+</div>
+
+<div class="dato">
+<strong>Tipología:</strong>
+Central solar fotovoltaica
+</div>
+
+<div class="dato">
+<strong>Potencia instalada:</strong>
+82 MW
+</div>
+
+<div class="dato">
+<strong>Superficie:</strong>
+145 ha
+</div>
+
+<div class="dato">
+<strong>Línea de transmisión:</strong>
+110 kV · 18 km
+</div>
+
+<div class="dato">
+<strong>Vegetación:</strong>
+Matorral nativo
+</div>
+
+<div class="dato">
+<strong>Fauna registrada:</strong>
+Reptiles, aves rapaces y zorro culpeo
+</div>
+
+<div class="dato">
+<strong>Curso de agua:</strong>
+Quebrada temporal a 350 m
+</div>
+
+<div class="dato">
+<strong>Localidad habitada:</strong>
+1,8 km
+</div>
+
+<div class="dato">
+<strong>Área protegida:</strong>
+No identificada dentro del área del proyecto
+</div>
+
+<div class="dato">
+<strong>Patrimonio:</strong>
+Antecedentes arqueológicos a 600 m
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ETAPA 1 -->
+
+<div id="etapa1" class="card">
+
+<div class="etapa">
+Etapa 1 de 3
+</div>
+
+<h2>
+¿Debe ingresar el proyecto al SEIA?
+</h2>
+
+<p>
+Determine si las características descritas configuran una causal de
+ingreso obligatorio.
+</p>
+
+<button class="boton-opcion"
+onclick="evaluarIngreso('no')">
+No debe ingresar
+</button>
+
+<button class="boton-opcion"
+onclick="evaluarIngreso('voluntario')">
+Ingreso voluntario
+</button>
+
+<button class="boton-opcion"
+onclick="evaluarIngreso('obligatorio')">
+Ingreso obligatorio
+</button>
+
+<div id="resultadoIngreso"></div>
+
+</div>
+
+
+<!-- ETAPA 2 -->
+
+<div id="etapa2" class="card oculto">
+
+<div class="etapa">
+Etapa 2 de 3
+</div>
+
+<h2>
+¿Qué vía de evaluación corresponde analizar?
+</h2>
+
+<p>
+El hecho de que un proyecto deba ingresar al SEIA no determina por sí
+solo que deba hacerlo mediante un Estudio de Impacto Ambiental.
+</p>
+
+<button class="boton-opcion"
+onclick="evaluarVia('dia')">
+DIA
+</button>
+
+<button class="boton-opcion"
+onclick="evaluarVia('eia')">
+EIA
+</button>
+
+<button class="boton-opcion"
+onclick="evaluarVia('analizar')">
+Debe analizarse primero el artículo 11
+</button>
+
+<div id="resultadoVia"></div>
+
+</div>
+
+
+<!-- ETAPA 3 -->
+
+<div id="etapa3" class="card oculto">
+
+<div class="etapa">
+Etapa 3 de 3
+</div>
+
+<h2>
+Análisis preliminar del artículo 11
+</h2>
+
+<p>
+Clasifique cada antecedente considerando exclusivamente la información
+entregada en este caso.
+</p>
+
+<p>
+No debe asumir impactos que no estén descritos.
+</p>
+
+<table class="tabla-art11">
+
+<tr>
+
+<th>
+Efecto, característica o circunstancia
+</th>
+
+<th>
+Evaluación preliminar
+</th>
+
+</tr>
+
+<tr>
+
+<td>
+Riesgo para la salud de la población
+</td>
+
+<td>
+
+<select id="art11a">
+
+<option value="">Seleccione</option>
+<option value="si">Sí</option>
+<option value="no">No</option>
+<option value="insuficiente">Información insuficiente</option>
+
+</select>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+Efectos adversos significativos sobre recursos naturales renovables
+</td>
+
+<td>
+
+<select id="art11b">
+
+<option value="">Seleccione</option>
+<option value="si">Sí</option>
+<option value="no">No</option>
+<option value="insuficiente">Información insuficiente</option>
+
+</select>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+Reasentamiento o alteración significativa de sistemas de vida
+</td>
+
+<td>
+
+<select id="art11c">
+
+<option value="">Seleccione</option>
+<option value="si">Sí</option>
+<option value="no">No</option>
+<option value="insuficiente">Información insuficiente</option>
+
+</select>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+Localización próxima a poblaciones, recursos o áreas protegidas
+</td>
+
+<td>
+
+<select id="art11d">
+
+<option value="">Seleccione</option>
+<option value="si">Sí</option>
+<option value="no">No</option>
+<option value="insuficiente">Información insuficiente</option>
+
+</select>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+Alteración significativa del valor paisajístico o turístico
+</td>
+
+<td>
+
+<select id="art11e">
+
+<option value="">Seleccione</option>
+<option value="si">Sí</option>
+<option value="no">No</option>
+<option value="insuficiente">Información insuficiente</option>
+
+</select>
+
+</td>
+
+</tr>
+
+<tr>
+
+<td>
+Alteración de monumentos, sitios con valor antropológico,
+arqueológico, histórico o patrimonio cultural
+</td>
+
+<td>
+
+<select id="art11f">
+
+<option value="">Seleccione</option>
+<option value="si">Sí</option>
+<option value="no">No</option>
+<option value="insuficiente">Información insuficiente</option>
+
+</select>
+
+</td>
+
+</tr>
+
+</table>
+
+<button
+class="boton-principal"
+onclick="evaluarArticulo11()">
+
+Evaluar respuestas
+
+</button>
+
+<div id="resultadoArticulo11"></div>
+
+</div>
+
+
+<!-- RESULTADO FINAL -->
+
+<div id="resultadoFinal" class="card resultado-final oculto">
+
+<div class="etapa">
+Resultado del ejercicio
+</div>
+
+<h2>
+Evaluación final
+</h2>
+
+<div id="numeroFinal" class="numero-final">
+0/100
+</div>
+
+<div id="mensajeFinal" class="estado"></div>
+
+<p id="comentarioFinal"></p>
+
+<button class="boton-principal" onclick="reiniciarSimulador()">
+Nuevo caso
+</button>
+
+</div>
+
+</section>
 
 </main>
 
 <footer>
-  Desarrollado por Jorge Leichtle © 2026
+
+Desarrollado por Jorge Leichtle © 2026
+
+<br>
+
+Simulador académico · Universidad Bernardo O'Higgins
+
 </footer>
+
 
 <script>
 
-function evaluar(respuesta) {
+/* ==============================
+   VARIABLES GENERALES
+================================ */
 
-  const resultado = document.getElementById("resultado");
+let puntaje = 0;
 
-  resultado.style.display = "block";
+let ingresoRespondido = false;
+let viaRespondida = false;
+
+
+/* ==============================
+   INICIO
+================================ */
+
+function iniciarSimulacion() {
+
+  const sector = document.getElementById("sector").value;
+
+  const dificultad =
+    document.getElementById("dificultad").value;
+
+  if (sector !== "energia") {
+
+    alert(
+      "En esta versión 2.0 el caso operativo corresponde al sector Energía. " +
+      "Los demás sectores se incorporarán progresivamente."
+    );
+
+    document.getElementById("sector").value = "energia";
+
+  }
+
+  document.getElementById("pantallaInicio")
+    .classList.add("oculto");
+
+  document.getElementById("simulador")
+    .classList.remove("oculto");
+
+  actualizarProgreso(10);
+
+}
+
+
+/* ==============================
+   ETAPA 1
+================================ */
+
+function evaluarIngreso(respuesta) {
+
+  if (ingresoRespondido) {
+    return;
+  }
+
+  ingresoRespondido = true;
+
+  const resultado =
+    document.getElementById("resultadoIngreso");
+
+  resultado.classList.add("resultado");
 
   if (respuesta === "obligatorio") {
 
-    resultado.className = "correcto";
+    puntaje += 25;
+
+    resultado.classList.add("correcto");
 
     resultado.innerHTML = `
-      <strong>Respuesta correcta.</strong><br><br>
-      El proyecto debe analizarse como una tipología de ingreso obligatorio
-      al Sistema de Evaluación de Impacto Ambiental.<br><br>
 
-      En la versión definitiva del simulador, aquí se mostrará la
-      fundamentación jurídica correspondiente y el artículo aplicable.
+      <strong>Respuesta correcta.</strong>
+
+      <p>
+      El proyecto corresponde a una central generadora de energía
+      con una potencia instalada de 82 MW.
+      </p>
+
+      <div class="fundamento">
+
+      <strong>Fundamento jurídico</strong>
+
+      <p>
+      La Ley N.º 19.300 contempla entre los proyectos que deben
+      someterse al SEIA a las centrales generadoras de energía
+      mayores a 3 MW.
+      </p>
+
+      <p>
+      El Reglamento del SEIA reproduce esta tipología en su
+      artículo 3 letra c).
+      </p>
+
+      <strong>
+      Conclusión:
+      </strong>
+
+      existe causal de ingreso obligatorio al SEIA.
+
+      </div>
+
     `;
 
   } else {
 
-    resultado.className = "incorrecto";
+    resultado.classList.add("incorrecto");
 
     resultado.innerHTML = `
-      <strong>Respuesta incorrecta.</strong><br><br>
-      Revise las características y magnitud del proyecto antes de continuar.
+
+      <strong>Respuesta incorrecta.</strong>
+
+      <p>
+      La potencia instalada de la central supera ampliamente
+      el umbral normativo aplicable.
+      </p>
+
+      <div class="fundamento">
+
+      Revise el artículo 10 letra c) de la Ley N.º 19.300 y
+      el artículo 3 letra c) del Reglamento del SEIA.
+
+      </div>
+
     `;
+
   }
+
+  actualizarPuntaje();
+
+  actualizarProgreso(35);
+
+  resultado.innerHTML += `
+
+    <button class="boton-continuar"
+    onclick="mostrarEtapa2()">
+
+    Continuar
+
+    </button>
+
+  `;
+
+}
+
+
+/* ==============================
+   MOSTRAR ETAPA 2
+================================ */
+
+function mostrarEtapa2() {
+
+  document.getElementById("etapa2")
+    .classList.remove("oculto");
+
+  document.getElementById("etapa2")
+    .scrollIntoView({
+      behavior: "smooth"
+    });
+
+}
+
+
+/* ==============================
+   ETAPA 2
+================================ */
+
+function evaluarVia(respuesta) {
+
+  if (viaRespondida) {
+    return;
+  }
+
+  viaRespondida = true;
+
+  const resultado =
+    document.getElementById("resultadoVia");
+
+  resultado.classList.add("resultado");
+
+  if (respuesta === "analizar") {
+
+    puntaje += 25;
+
+    resultado.classList.add("correcto");
+
+    resultado.innerHTML = `
+
+      <strong>Correcto.</strong>
+
+      <p>
+      Primero debe determinarse si el proyecto genera o presenta
+      alguno de los efectos, características o circunstancias
+      contemplados en el artículo 11 de la Ley N.º 19.300.
+      </p>
+
+      <div class="fundamento">
+
+      <strong>Regla general</strong>
+
+      <p>
+      El ingreso obligatorio al SEIA y la necesidad de presentar
+      un EIA son decisiones jurídicas distintas.
+      </p>
+
+      <p>
+      El proyecto se presenta mediante DIA, salvo que genere o
+      presente alguno de los efectos, características o
+      circunstancias del artículo 11 de la Ley y de los artículos
+      correspondientes del Reglamento.
+      </p>
+
+      </div>
+
+    `;
+
+  } else {
+
+    resultado.classList.add("incorrecto");
+
+    resultado.innerHTML = `
+
+      <strong>Respuesta incompleta.</strong>
+
+      <p>
+      Con los antecedentes disponibles todavía no corresponde
+      escoger directamente entre DIA y EIA.
+      </p>
+
+      <p>
+      Debe realizarse previamente el análisis de los efectos,
+      características o circunstancias del artículo 11.
+      </p>
+
+    `;
+
+  }
+
+  actualizarPuntaje();
+
+  actualizarProgreso(60);
+
+  resultado.innerHTML += `
+
+  <button class="boton-continuar"
+  onclick="mostrarEtapa3()">
+
+  Analizar artículo 11
+
+  </button>
+
+  `;
+
+}
+
+
+/* ==============================
+   MOSTRAR ETAPA 3
+================================ */
+
+function mostrarEtapa3() {
+
+  document.getElementById("etapa3")
+    .classList.remove("oculto");
+
+  document.getElementById("etapa3")
+    .scrollIntoView({
+      behavior: "smooth"
+    });
+
+}
+
+
+/* ==============================
+   ARTÍCULO 11
+================================ */
+
+function evaluarArticulo11() {
+
+  const respuestas = {
+
+    a: document.getElementById("art11a").value,
+    b: document.getElementById("art11b").value,
+    c: document.getElementById("art11c").value,
+    d: document.getElementById("art11d").value,
+    e: document.getElementById("art11e").value,
+    f: document.getElementById("art11f").value
+
+  };
+
+  for (let clave in respuestas) {
+
+    if (respuestas[clave] === "") {
+
+      alert(
+        "Debe responder todos los criterios antes de continuar."
+      );
+
+      return;
+
+    }
+
+  }
+
+  /*
+  Este caso está diseñado deliberadamente para que la
+  información disponible NO permita afirmar la significancia
+  de varios efectos.
+
+  La lógica docente busca evitar que el estudiante transforme
+  automáticamente la presencia de fauna, vegetación,
+  patrimonio o población en obligación de presentar EIA.
+  */
+
+  const respuestasEsperadas = {
+
+    a: "insuficiente",
+    b: "insuficiente",
+    c: "insuficiente",
+    d: "insuficiente",
+    e: "insuficiente",
+    f: "insuficiente"
+
+  };
+
+  let correctas = 0;
+
+  for (let clave in respuestasEsperadas) {
+
+    if (
+      respuestas[clave] ===
+      respuestasEsperadas[clave]
+    ) {
+
+      correctas++;
+
+    }
+
+  }
+
+  const puntosEtapa =
+    Math.round((correctas / 6) * 50);
+
+  puntaje += puntosEtapa;
+
+  actualizarPuntaje();
+
+  actualizarProgreso(100);
+
+  const resultado =
+    document.getElementById("resultadoArticulo11");
+
+  resultado.className =
+    "resultado advertencia";
+
+  resultado.innerHTML = `
+
+    <strong>
+    Resultado del análisis: ${correctas} de 6 criterios correctamente interpretados.
+    </strong>
+
+    <p>
+    La ficha del proyecto contiene antecedentes que justifican
+    una evaluación ambiental detallada, pero no entrega por sí
+    sola información suficiente para afirmar que se generan
+    efectos significativos del artículo 11.
+    </p>
+
+    <p>
+    Presencia de fauna, vegetación nativa, población cercana
+    o antecedentes arqueológicos no equivale automáticamente
+    a la generación de un efecto significativo.
+    </p>
+
+    <div class="fundamento">
+
+    <strong>Principio docente del ejercicio</strong>
+
+    <p>
+    No confunda la existencia de un componente ambiental con
+    la significancia de un impacto.
+    </p>
+
+    <p>
+    La determinación de la vía de evaluación requiere antecedentes
+    que permitan aplicar los criterios establecidos en la Ley y
+    en los artículos 5 a 10 del Reglamento del SEIA.
+    </p>
+
+    </div>
+
+    <button class="boton-continuar"
+    onclick="mostrarResultadoFinal()">
+
+    Ver resultado final
+
+    </button>
+
+  `;
+
+}
+
+
+/* ==============================
+   RESULTADO FINAL
+================================ */
+
+function mostrarResultadoFinal() {
+
+  const panel =
+    document.getElementById("resultadoFinal");
+
+  panel.classList.remove("oculto");
+
+  document.getElementById("numeroFinal")
+    .innerText =
+    puntaje + "/100";
+
+  const mensaje =
+    document.getElementById("mensajeFinal");
+
+  const comentario =
+    document.getElementById("comentarioFinal");
+
+  if (puntaje >= 85) {
+
+    mensaje.innerText =
+      "Muy buen desempeño";
+
+    comentario.innerText =
+      "Distingue correctamente entre causal de ingreso, vía de evaluación y análisis de significancia.";
+
+  }
+
+  else if (puntaje >= 65) {
+
+    mensaje.innerText =
+      "Buen desempeño";
+
+    comentario.innerText =
+      "Comprende la lógica general del SEIA, aunque algunos criterios requieren revisión.";
+
+  }
+
+  else if (puntaje >= 40) {
+
+    mensaje.innerText =
+      "Desempeño en desarrollo";
+
+    comentario.innerText =
+      "Revise especialmente la diferencia entre ingreso obligatorio y necesidad de presentar un EIA.";
+
+  }
+
+  else {
+
+    mensaje.innerText =
+      "Debe reforzar los conceptos";
+
+    comentario.innerText =
+      "Se recomienda revisar los artículos 10 y 11 de la Ley N.º 19.300 y el Reglamento del SEIA.";
+
+  }
+
+  panel.scrollIntoView({
+    behavior: "smooth"
+  });
+
+}
+
+
+/* ==============================
+   UTILIDADES
+================================ */
+
+function actualizarPuntaje() {
+
+  document.getElementById("puntaje")
+    .innerText =
+    "Puntaje: " + puntaje;
+
+}
+
+function actualizarProgreso(valor) {
+
+  document.getElementById("barraProgreso")
+    .style.width =
+    valor + "%";
+
+}
+
+function reiniciarSimulador() {
+
+  location.reload();
+
 }
 
 </script>
