@@ -8,896 +8,1421 @@
 
 <style>
 
-:root{
-  --azul:#0f4c5c;
-  --azul2:#176b7d;
-  --azul3:#eaf4f6;
-  --verde:#2e7d32;
-  --verdeClaro:#e8f5e9;
-  --rojo:#c62828;
-  --rojoClaro:#ffebee;
-  --amarillo:#f9a825;
-  --amarilloClaro:#fff8e1;
-  --gris:#f4f6f8;
-  --gris2:#d6dde2;
-  --gris3:#66727c;
-  --texto:#18232c;
-  --blanco:#ffffff;
+:root {
+    --azul: #0f4c5c;
+    --azul2: #176b7d;
+    --azulClaro: #eaf4f6;
+
+    --verde: #2e7d32;
+    --verdeClaro: #e8f5e9;
+
+    --rojo: #c62828;
+    --rojoClaro: #ffebee;
+
+    --amarillo: #f9a825;
+    --amarilloClaro: #fff8e1;
+
+    --grisFondo: #f4f6f8;
+    --grisBorde: #d6dde2;
+    --grisTexto: #64707a;
+
+    --texto: #18232c;
+    --blanco: #ffffff;
 }
 
-*{
-  box-sizing:border-box;
+* {
+    box-sizing: border-box;
 }
 
-body{
-  margin:0;
-  font-family:Arial, Helvetica, sans-serif;
-  background:var(--gris);
-  color:var(--texto);
-  line-height:1.5;
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--grisFondo);
+    color: var(--texto);
+    line-height: 1.55;
 }
 
-header{
-  background:linear-gradient(135deg,var(--azul),var(--azul2));
-  color:white;
-  padding:30px 20px;
-  text-align:center;
-  box-shadow:0 3px 12px rgba(0,0,0,.18);
+header {
+    background: linear-gradient(135deg, var(--azul), var(--azul2));
+    color: white;
+    text-align: center;
+    padding: 30px 20px;
+    box-shadow: 0 3px 12px rgba(0,0,0,.15);
 }
 
-header h1{
-  margin:0;
-  font-size:2rem;
+header h1 {
+    margin: 0;
+    font-size: 2rem;
 }
 
-header p{
-  margin:6px 0 0;
-  opacity:.95;
+header p {
+    margin: 7px 0 0;
+    opacity: .95;
 }
 
-main{
-  max-width:1080px;
-  margin:30px auto;
-  padding:0 20px 50px;
+main {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 0 20px 50px;
 }
 
-.card{
-  background:white;
-  border-radius:14px;
-  padding:28px;
-  margin-bottom:24px;
-  box-shadow:0 4px 16px rgba(0,0,0,.08);
+.card {
+    background: white;
+    border-radius: 14px;
+    padding: 28px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 16px rgba(0,0,0,.08);
 }
 
-.oculto{
-  display:none;
+.oculto {
+    display: none;
 }
 
-.portada{
-  text-align:center;
-  padding:45px 30px;
+
+/* PORTADA */
+
+.portada {
+    text-align: center;
+    padding: 45px 30px;
 }
 
-.portada h2{
-  margin-top:0;
-  color:var(--azul);
-  font-size:2rem;
+.portada h2 {
+    color: var(--azul);
+    font-size: 2rem;
+    margin-top: 0;
 }
 
-.portada p{
-  max-width:800px;
-  margin:14px auto;
-  color:var(--gris3);
+.portada p {
+    max-width: 780px;
+    margin: 14px auto;
+    color: var(--grisTexto);
 }
 
-.selector-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:18px;
-  margin-top:30px;
-  text-align:left;
+.selector {
+    max-width: 420px;
+    margin: 30px auto 0;
+    text-align: left;
 }
 
-.selector-box{
-  border:2px solid var(--gris2);
-  border-radius:12px;
-  padding:20px;
+.selector label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: var(--azul);
 }
 
-.selector-box h3{
-  margin-top:0;
-  color:var(--azul);
+select {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid var(--grisBorde);
+    border-radius: 7px;
+    font-size: 1rem;
+    background: white;
 }
 
-select{
-  width:100%;
-  padding:11px;
-  border-radius:7px;
-  border:1px solid var(--gris2);
-  font-size:1rem;
-  background:white;
+
+/* BOTONES */
+
+button {
+    border: none;
+    border-radius: 8px;
+    padding: 12px 19px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: .2s;
 }
 
-button{
-  border:none;
-  border-radius:8px;
-  padding:12px 19px;
-  cursor:pointer;
-  font-size:1rem;
-  transition:.2s;
+.boton-principal {
+    background: var(--azul);
+    color: white;
+    margin-top: 20px;
 }
 
-.boton-principal{
-  background:var(--azul);
-  color:white;
-  margin-top:20px;
+.boton-principal:hover {
+    background: var(--azul2);
 }
 
-.boton-principal:hover{
-  background:var(--azul2);
+.boton-opcion {
+    background: #eef3f5;
+    color: var(--texto);
+    border: 1px solid #cad5da;
+    margin: 6px 6px 6px 0;
 }
 
-.boton-opcion{
-  background:#eef3f5;
-  color:var(--texto);
-  border:1px solid #cad5da;
-  margin:6px 6px 6px 0;
+.boton-opcion:hover {
+    background: #dcecef;
 }
 
-.boton-opcion:hover{
-  background:#dcecef;
+.boton-continuar {
+    background: var(--azul);
+    color: white;
+    margin-top: 16px;
 }
 
-.boton-continuar{
-  background:var(--azul);
-  color:white;
-  margin-top:15px;
+
+/* PANEL SUPERIOR */
+
+.panel-superior {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 20px;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
-.panel-superior{
-  display:grid;
-  grid-template-columns:1fr auto;
-  gap:20px;
-  align-items:center;
-  margin-bottom:20px;
+.progreso-contenedor {
+    height: 10px;
+    background: #dce3e7;
+    border-radius: 10px;
+    overflow: hidden;
 }
 
-.progreso-contenedor{
-  height:10px;
-  background:#dce3e7;
-  border-radius:10px;
-  overflow:hidden;
+.progreso {
+    width: 0%;
+    height: 100%;
+    background: var(--azul);
+    transition: width .4s;
 }
 
-.progreso{
-  width:0%;
-  height:100%;
-  background:var(--azul);
-  transition:.4s;
+.puntaje {
+    font-weight: bold;
+    color: var(--azul);
 }
 
-.puntaje{
-  font-weight:bold;
-  color:var(--azul);
+
+/* TEXTOS */
+
+.etapa {
+    color: var(--azul);
+    font-size: .83rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: .5px;
 }
 
-.etapa{
-  font-size:.83rem;
-  text-transform:uppercase;
-  font-weight:bold;
-  color:var(--azul);
-  letter-spacing:.5px;
+h2 {
+    margin-top: 6px;
 }
 
-h2{
-  margin-top:6px;
+h3 {
+    color: var(--azul);
 }
 
-h3{
-  color:var(--azul);
+.subtitulo {
+    margin-top: 28px;
+    margin-bottom: 10px;
 }
 
-.descripcion-caso{
-  background:var(--azul3);
-  border-left:5px solid var(--azul);
-  padding:18px;
-  border-radius:8px;
-  margin-bottom:25px;
+
+/* CASO */
+
+.descripcion-caso {
+    background: var(--azulClaro);
+    border-left: 5px solid var(--azul);
+    padding: 18px;
+    border-radius: 8px;
+    margin-bottom: 24px;
 }
 
-.ficha-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
-  gap:13px 25px;
+.ficha-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+    gap: 14px 25px;
 }
 
-.dato{
-  padding-bottom:10px;
-  border-bottom:1px solid #edf0f2;
+.dato {
+    border-bottom: 1px solid #edf0f2;
+    padding-bottom: 11px;
 }
 
-.subtitulo{
-  color:var(--azul);
-  margin-top:28px;
-  margin-bottom:10px;
-  font-size:1.15rem;
+.fauna-box {
+    background: #f4f8f2;
+    border: 1px solid #ccd9c7;
+    border-left: 5px solid var(--verde);
+    border-radius: 9px;
+    padding: 20px;
+    margin-top: 20px;
 }
 
-.alerta-caso{
-  background:#fff8e1;
-  border-left:5px solid #f9a825;
-  padding:16px;
-  border-radius:7px;
-  margin-top:22px;
+.aviso {
+    background: var(--amarilloClaro);
+    border-left: 5px solid var(--amarillo);
+    padding: 16px;
+    border-radius: 7px;
+    margin-top: 22px;
 }
 
-.resultado{
-  margin-top:20px;
-  padding:18px;
-  border-radius:9px;
+
+/* RESPUESTAS */
+
+.resultado {
+    margin-top: 20px;
+    padding: 18px;
+    border-radius: 9px;
 }
 
-.correcto{
-  background:var(--verdeClaro);
-  border-left:5px solid var(--verde);
+.correcto {
+    background: var(--verdeClaro);
+    border-left: 5px solid var(--verde);
 }
 
-.incorrecto{
-  background:var(--rojoClaro);
-  border-left:5px solid var(--rojo);
+.incorrecto {
+    background: var(--rojoClaro);
+    border-left: 5px solid var(--rojo);
 }
 
-.advertencia{
-  background:var(--amarilloClaro);
-  border-left:5px solid var(--amarillo);
+.advertencia {
+    background: var(--amarilloClaro);
+    border-left: 5px solid var(--amarillo);
 }
 
-.fundamento{
-  margin-top:17px;
-  background:#f3f8f9;
-  border-left:4px solid var(--azul);
-  padding:16px;
-  border-radius:6px;
+.fundamento {
+    background: #f3f8f9;
+    border-left: 4px solid var(--azul);
+    border-radius: 6px;
+    padding: 16px;
+    margin-top: 17px;
 }
 
-.fundamento strong{
-  color:var(--azul);
-}
 
-.tabla{
-  width:100%;
-  border-collapse:collapse;
-  margin-top:18px;
+/* TABLAS */
+
+.tabla {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 18px;
 }
 
 .tabla th,
-.tabla td{
-  border:1px solid var(--gris2);
-  padding:12px;
-  vertical-align:top;
+.tabla td {
+    border: 1px solid var(--grisBorde);
+    padding: 12px;
+    vertical-align: top;
 }
 
-.tabla th{
-  background:#edf3f5;
-  color:var(--azul);
+.tabla th {
+    background: #edf3f5;
+    color: var(--azul);
 }
 
-.tabla select{
-  min-width:165px;
+.tabla select {
+    min-width: 160px;
 }
 
-.check-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:10px;
-  margin-top:20px;
+
+/* OPCIONES GRANDES */
+
+.opcion-grande {
+    display: block;
+    border: 1px solid var(--grisBorde);
+    border-radius: 9px;
+    background: #fafbfc;
+    padding: 14px;
+    margin: 10px 0;
 }
 
-.check-item{
-  border:1px solid var(--gris2);
-  border-radius:8px;
-  padding:13px;
-  background:#fafbfc;
+.opcion-grande label {
+    cursor: pointer;
 }
 
-.check-item label{
-  cursor:pointer;
+.opcion-grande input {
+    margin-right: 9px;
 }
 
-.check-item input{
-  margin-right:8px;
+
+/* FINAL */
+
+.resultado-final {
+    text-align: center;
 }
 
-.resultado-final{
-  text-align:center;
+.numero-final {
+    font-size: 3.4rem;
+    font-weight: bold;
+    color: var(--azul);
+    margin: 15px 0;
 }
 
-.numero-final{
-  font-size:3.5rem;
-  font-weight:bold;
-  color:var(--azul);
-  margin:15px 0;
+.estado-final {
+    font-size: 1.2rem;
+    font-weight: bold;
 }
 
-.estado{
-  font-size:1.2rem;
-  font-weight:bold;
+.resumen-final {
+    text-align: left;
+    max-width: 820px;
+    margin: 25px auto 0;
+    padding: 20px;
+    background: #f7f9fa;
+    border-radius: 10px;
 }
 
-.resumen-final{
-  text-align:left;
-  max-width:760px;
-  margin:25px auto 0;
-  background:#f7f9fa;
-  padding:20px;
-  border-radius:10px;
+.version {
+    font-size: .85rem;
+    color: var(--grisTexto);
+    margin-top: 16px;
 }
 
-.version{
-  color:var(--gris3);
-  font-size:.85rem;
-  margin-top:15px;
+footer {
+    text-align: center;
+    padding: 25px;
+    color: #68737b;
+    font-size: .9rem;
 }
 
-footer{
-  text-align:center;
-  padding:25px;
-  color:#68737b;
-  font-size:.9rem;
-}
+@media(max-width:720px) {
 
-@media(max-width:720px){
+    header h1 {
+        font-size: 1.55rem;
+    }
 
-  header h1{
-    font-size:1.55rem;
-  }
+    .card {
+        padding: 20px;
+    }
 
-  .card{
-    padding:20px;
-  }
-
-  .tabla{
-    font-size:.9rem;
-  }
+    .tabla {
+        font-size: .9rem;
+    }
 
 }
 
 </style>
 </head>
 
+
 <body>
 
 <header>
-  <h1>Simulador de Evaluación Ambiental</h1>
-  <p>Sistema de Evaluación de Impacto Ambiental — Chile</p>
+
+<h1>Simulador de Evaluación Ambiental</h1>
+
+<p>
+Sistema de Evaluación de Impacto Ambiental — Chile
+</p>
+
+<p>
+Énfasis en evaluación del componente fauna
+</p>
+
 </header>
+
 
 <main>
 
+
+<!-- ================================
+     PORTADA
+================================ -->
+
 <section id="inicio" class="card portada">
 
-  <h2>Simulador SEIA Chile</h2>
+<h2>Simulador SEIA Chile</h2>
 
-  <p>
-    Analice un proyecto ficticio y determine su forma de ingreso al
-    Sistema de Evaluación de Impacto Ambiental.
-  </p>
+<p>
+Este simulador permite analizar proyectos sometidos al Sistema de
+Evaluación de Impacto Ambiental desde una perspectiva aplicada,
+con especial énfasis en fauna silvestre.
+</p>
 
-  <p>
-    El ejercicio está diseñado para distinguir entre la causal de ingreso
-    al SEIA y los efectos, características o circunstancias que determinan
-    si corresponde una Declaración de Impacto Ambiental o un Estudio
-    de Impacto Ambiental.
-  </p>
+<p>
+El objetivo es desarrollar competencias para identificar impactos,
+analizar antecedentes ambientales y fundamentar decisiones técnicas
+en el contexto de la evaluación ambiental.
+</p>
 
-  <div class="selector-grid">
+<div class="selector">
 
-    <div class="selector-box">
-      <h3>Sector</h3>
+<label for="sector">
+Sector del proyecto
+</label>
 
-      <select id="sector">
-        <option value="energia">Energía</option>
-        <option value="mineria">Minería</option>
-        <option value="agroindustria">Agroindustria</option>
-        <option value="forestal">Forestal</option>
-        <option value="inmobiliario">Inmobiliario</option>
-        <option value="vialidad">Infraestructura vial</option>
-        <option value="residuos">Residuos</option>
-        <option value="acuicultura">Acuicultura</option>
-        <option value="industria">Industria</option>
-      </select>
-    </div>
+<select id="sector">
 
-    <div class="selector-box">
-      <h3>Dificultad</h3>
+<option value="energia">Energía</option>
+<option value="mineria">Minería</option>
+<option value="agropecuario">Agropecuario / agroindustrial</option>
+<option value="forestal">Forestal</option>
+<option value="vialidad">Infraestructura vial</option>
+<option value="inmobiliario">Inmobiliario</option>
+<option value="residuos">Residuos</option>
+<option value="acuicultura">Acuicultura</option>
 
-      <select id="dificultad">
-        <option value="basico">Básico</option>
-        <option value="intermedio" selected>Intermedio</option>
-        <option value="avanzado">Avanzado</option>
-      </select>
-    </div>
+</select>
 
-  </div>
+</div>
 
-  <button class="boton-principal" onclick="iniciar()">
-    Comenzar simulación
-  </button>
+<button class="boton-principal"
+        onclick="iniciarSimulador()">
 
-  <div class="version">
-    Versión académica 2.1 · Desarrollo progresivo
-  </div>
+Comenzar evaluación
+
+</button>
+
+<div class="version">
+Versión 3.0 · Simulador académico
+</div>
 
 </section>
 
 
+
+<!-- ================================
+     SIMULADOR
+================================ -->
+
 <section id="simulador" class="oculto">
+
 
 <div class="panel-superior">
 
-  <div class="progreso-contenedor">
-    <div id="barra" class="progreso"></div>
-  </div>
+<div class="progreso-contenedor">
 
-  <div id="puntajeTexto" class="puntaje">
-    Puntaje: 0 / 100
-  </div>
+<div id="barra"
+     class="progreso">
+</div>
+
+</div>
+
+<div id="puntaje"
+     class="puntaje">
+
+Puntaje: 0 / 100
+
+</div>
 
 </div>
 
 
-<!-- CASO -->
+
+<!-- ================================
+     FICHA DEL PROYECTO
+================================ -->
 
 <section class="card">
 
-  <div class="etapa">Caso de evaluación</div>
+<div class="etapa">
+Antecedentes del proyecto
+</div>
 
-  <h2>Parque Solar Quebrada del Zorro</h2>
+<h2>
+Parque Solar Quebrada del Zorro
+</h2>
 
-  <div class="descripcion-caso">
+<div class="descripcion-caso">
 
-    Una empresa proyecta construir y operar una central solar fotovoltaica
-    en la Región de Coquimbo. El proyecto comprende el parque fotovoltaico,
-    caminos interiores, una subestación eléctrica y una línea de transmisión.
+Una empresa proyecta construir y operar una central solar
+fotovoltaica en la Región de Coquimbo.
 
-    La evaluación preliminar del territorio ha identificado componentes
-    ambientales que podrían verse afectados por las obras.
+El proyecto incluye el parque fotovoltaico, caminos interiores,
+subestación, instalaciones temporales de faena y una línea
+de transmisión eléctrica.
 
-  </div>
-
-  <h3 class="subtitulo">1. Características técnicas</h3>
-
-  <div class="ficha-grid">
-
-    <div class="dato">
-      <strong>Tipo:</strong><br>
-      Central solar fotovoltaica
-    </div>
-
-    <div class="dato">
-      <strong>Potencia instalada:</strong><br>
-      82 MW
-    </div>
-
-    <div class="dato">
-      <strong>Superficie del proyecto:</strong><br>
-      145 ha
-    </div>
-
-    <div class="dato">
-      <strong>Línea de transmisión:</strong><br>
-      110 kV · 18 km
-    </div>
-
-    <div class="dato">
-      <strong>Construcción:</strong><br>
-      18 meses
-    </div>
-
-    <div class="dato">
-      <strong>Vida útil:</strong><br>
-      30 años
-    </div>
-
-  </div>
+</div>
 
 
-  <h3 class="subtitulo">2. Antecedentes territoriales y ambientales</h3>
+<h3 class="subtitulo">
+Características técnicas
+</h3>
 
-  <div class="ficha-grid">
+<div class="ficha-grid">
 
-    <div class="dato">
-      <strong>Vegetación:</strong><br>
-      31 ha de vegetación nativa serán removidas directamente por las obras.
-    </div>
+<div class="dato">
+<strong>Potencia instalada</strong><br>
+82 MW
+</div>
 
-    <div class="dato">
-      <strong>Fauna:</strong><br>
-      Se confirmó una población reproductiva de un reptil nativo
-      clasificado oficialmente En Peligro dentro del área de intervención.
-    </div>
+<div class="dato">
+<strong>Superficie</strong><br>
+145 ha
+</div>
 
-    <div class="dato">
-      <strong>Hábitat:</strong><br>
-      Aproximadamente 18 ha corresponden al principal hábitat reproductivo
-      local identificado para esa población.
-    </div>
+<div class="dato">
+<strong>Línea eléctrica</strong><br>
+110 kV · 18 km
+</div>
 
-    <div class="dato">
-      <strong>Área protegida:</strong><br>
-      No existen áreas protegidas dentro del polígono del proyecto.
-    </div>
+<div class="dato">
+<strong>Construcción</strong><br>
+18 meses
+</div>
 
-    <div class="dato">
-      <strong>Población humana:</strong><br>
-      La vivienda más cercana se encuentra a 2,4 km.
-    </div>
+<div class="dato">
+<strong>Vida útil</strong><br>
+30 años
+</div>
 
-    <div class="dato">
-      <strong>Reasentamiento:</strong><br>
-      No se contempla traslado de viviendas ni comunidades.
-    </div>
+<div class="dato">
+<strong>Movimiento de tierra</strong><br>
+Sectores asociados a caminos, fundaciones y plataformas
+</div>
 
-    <div class="dato">
-      <strong>Patrimonio:</strong><br>
-      La prospección arqueológica no identificó sitios dentro del área
-      de intervención.
-    </div>
-
-    <div class="dato">
-      <strong>Paisaje:</strong><br>
-      El área no se encuentra dentro de una zona oficialmente reconocida
-      por valor turístico o paisajístico especial.
-    </div>
-
-    <div class="dato">
-      <strong>Agua:</strong><br>
-      El proyecto no intervendrá cauces permanentes ni humedales.
-    </div>
-
-    <div class="dato">
-      <strong>Emisiones:</strong><br>
-      La modelación indica que las emisiones atmosféricas de construcción
-      no generarían riesgo significativo para población cercana.
-    </div>
-
-  </div>
-
-  <div class="alerta-caso">
-
-    <strong>Importante:</strong>
-
-    Utilice únicamente los antecedentes indicados en la ficha.
-    No agregue supuestos que no estén contenidos en el caso.
-
-  </div>
-
-</section>
+</div>
 
 
-<!-- ETAPA 1 -->
+<h3 class="subtitulo">
+Contexto ambiental
+</h3>
 
-<section id="etapa1" class="card">
+<div class="ficha-grid">
 
-  <div class="etapa">Etapa 1 de 5</div>
+<div class="dato">
+<strong>Vegetación</strong><br>
+31 ha de vegetación nativa serán intervenidas directamente.
+</div>
 
-  <h2>¿Debe ingresar el proyecto al SEIA?</h2>
+<div class="dato">
+<strong>Agua</strong><br>
+No se intervendrán humedales ni cursos permanentes.
+</div>
 
-  <p>
-    Determine si las características técnicas del proyecto configuran
-    una causal de ingreso obligatorio.
-  </p>
+<div class="dato">
+<strong>Población</strong><br>
+La vivienda permanente más cercana se encuentra a 2,4 km.
+</div>
 
-  <button class="boton-opcion"
-          onclick="evaluarIngreso('no')">
-    No debe ingresar
-  </button>
+<div class="dato">
+<strong>Reasentamiento</strong><br>
+No se contempla desplazamiento de viviendas o comunidades.
+</div>
 
-  <button class="boton-opcion"
-          onclick="evaluarIngreso('voluntario')">
-    Ingreso voluntario
-  </button>
+<div class="dato">
+<strong>Patrimonio</strong><br>
+La prospección no registró sitios arqueológicos dentro de las obras.
+</div>
 
-  <button class="boton-opcion"
-          onclick="evaluarIngreso('obligatorio')">
-    Ingreso obligatorio
-  </button>
+<div class="dato">
+<strong>Paisaje</strong><br>
+El emplazamiento no se ubica en una zona reconocida por valor
+turístico o paisajístico especial.
+</div>
 
-  <div id="resultadoIngreso"></div>
+</div>
+
+
+
+<h3 class="subtitulo">
+Componente fauna
+</h3>
+
+<div class="fauna-box">
+
+<p>
+La línea de base registró <strong>37 especies de vertebrados
+terrestres</strong>.
+</p>
+
+<p>
+Entre ellas se confirmó una población reproductiva de un
+<strong>reptil nativo clasificado oficialmente En Peligro</strong>.
+</p>
+
+<p>
+Los levantamientos identificaron aproximadamente
+<strong>18 ha utilizadas como área reproductiva</strong>.
+La totalidad de esta superficie se encuentra dentro del área
+que será intervenida por las obras.
+</p>
+
+<p>
+Durante las campañas se observaron adultos reproductivos,
+juveniles y refugios utilizados reiteradamente.
+</p>
+
+<p>
+El análisis ecológico concluye que el área constituye el
+<strong>principal sitio reproductivo conocido para esta población
+local</strong>.
+</p>
+
+<p>
+La eliminación de este hábitat produciría una reducción sustancial
+de los sitios de reproducción y refugio disponibles y podría
+comprometer la persistencia de la población local.
+</p>
+
+</div>
+
+
+<div class="aviso">
+
+<strong>Instrucción:</strong>
+
+responda utilizando únicamente los antecedentes entregados.
+No suponga impactos o condiciones que no estén indicados en el caso.
+
+</div>
 
 </section>
 
 
-<!-- ETAPA 2 -->
 
-<section id="etapa2" class="card oculto">
+<!-- ================================
+     ETAPA 1
+================================ -->
 
-  <div class="etapa">Etapa 2 de 5</div>
+<section id="etapa1"
+         class="card">
 
-  <h2>Identifique la causal principal de ingreso</h2>
+<div class="etapa">
+Etapa 1
+</div>
 
-  <p>
-    ¿Qué característica del proyecto determina directamente
-    su ingreso obligatorio al SEIA?
-  </p>
+<h2>
+¿Debe ingresar el proyecto al SEIA?
+</h2>
 
-  <button class="boton-opcion"
-          onclick="evaluarCausal('superficie')">
-    La superficie de 145 ha
-  </button>
+<p>
+Analice las características del proyecto y determine
+si debe someterse al Sistema de Evaluación de Impacto Ambiental.
+</p>
 
-  <button class="boton-opcion"
-          onclick="evaluarCausal('potencia')">
-    La central generadora de 82 MW
-  </button>
+<button class="boton-opcion"
+        onclick="evaluarIngreso('no')">
 
-  <button class="boton-opcion"
-          onclick="evaluarCausal('fauna')">
-    La presencia de fauna amenazada
-  </button>
+No debe ingresar
 
-  <button class="boton-opcion"
-          onclick="evaluarCausal('vegetacion')">
-    La presencia de vegetación nativa
-  </button>
+</button>
 
-  <div id="resultadoCausal"></div>
+<button class="boton-opcion"
+        onclick="evaluarIngreso('voluntario')">
 
-</section>
+Ingreso voluntario
 
+</button>
 
-<!-- ETAPA 3 -->
+<button class="boton-opcion"
+        onclick="evaluarIngreso('obligatorio')">
 
-<section id="etapa3" class="card oculto">
+Ingreso obligatorio
 
-  <div class="etapa">Etapa 3 de 5</div>
+</button>
 
-  <h2>Análisis de los efectos del artículo 11</h2>
-
-  <p>
-    Evalúe si los antecedentes entregados permiten reconocer alguno
-    de los efectos, características o circunstancias que pueden
-    determinar la necesidad de presentar un EIA.
-  </p>
-
-  <table class="tabla">
-
-    <tr>
-      <th>Criterio</th>
-      <th>Evaluación</th>
-    </tr>
-
-    <tr>
-      <td>
-        Riesgo para la salud de la población.
-      </td>
-
-      <td>
-        <select id="a">
-          <option value="">Seleccione</option>
-          <option value="si">Sí</option>
-          <option value="no">No</option>
-        </select>
-      </td>
-    </tr>
-
-    <tr>
-      <td>
-        Efectos adversos significativos sobre la cantidad y calidad
-        de los recursos naturales renovables.
-      </td>
-
-      <td>
-        <select id="b">
-          <option value="">Seleccione</option>
-          <option value="si">Sí</option>
-          <option value="no">No</option>
-        </select>
-      </td>
-    </tr>
-
-    <tr>
-      <td>
-        Reasentamiento de comunidades humanas o alteración significativa
-        de sistemas de vida y costumbres.
-      </td>
-
-      <td>
-        <select id="c">
-          <option value="">Seleccione</option>
-          <option value="si">Sí</option>
-          <option value="no">No</option>
-        </select>
-      </td>
-    </tr>
-
-    <tr>
-      <td>
-        Localización próxima a población, recursos o áreas protegidas
-        susceptibles de ser afectados.
-      </td>
-
-      <td>
-        <select id="d">
-          <option value="">Seleccione</option>
-          <option value="si">Sí</option>
-          <option value="no">No</option>
-        </select>
-      </td>
-    </tr>
-
-    <tr>
-      <td>
-        Alteración significativa del valor paisajístico o turístico.
-      </td>
-
-      <td>
-        <select id="e">
-          <option value="">Seleccione</option>
-          <option value="si">Sí</option>
-          <option value="no">No</option>
-        </select>
-      </td>
-    </tr>
-
-    <tr>
-      <td>
-        Alteración de monumentos, sitios arqueológicos u otros
-        elementos del patrimonio cultural.
-      </td>
-
-      <td>
-        <select id="f">
-          <option value="">Seleccione</option>
-          <option value="si">Sí</option>
-          <option value="no">No</option>
-        </select>
-      </td>
-    </tr>
-
-  </table>
-
-  <button class="boton-principal"
-          onclick="evaluarArticulo11()">
-    Evaluar artículo 11
-  </button>
-
-  <div id="resultadoArt11"></div>
+<div id="respuestaIngreso"></div>
 
 </section>
 
 
-<!-- ETAPA 4 -->
 
-<section id="etapa4" class="card oculto">
+<!-- ================================
+     ETAPA 2
+================================ -->
 
-  <div class="etapa">Etapa 4 de 5</div>
+<section id="etapa2"
+         class="card oculto">
 
-  <h2>¿Corresponde DIA o EIA?</h2>
+<div class="etapa">
+Etapa 2
+</div>
 
-  <p>
-    Utilice el análisis anterior para determinar la vía de evaluación
-    ambiental que corresponde al proyecto.
-  </p>
+<h2>
+Análisis de efectos, características o circunstancias
+</h2>
 
-  <button class="boton-opcion"
-          onclick="evaluarVia('DIA')">
-    Declaración de Impacto Ambiental — DIA
-  </button>
+<p>
+Antes de determinar si corresponde una DIA o un EIA,
+analice los antecedentes del proyecto conforme al artículo 11
+de la Ley N.º 19.300.
+</p>
 
-  <button class="boton-opcion"
-          onclick="evaluarVia('EIA')">
-    Estudio de Impacto Ambiental — EIA
-  </button>
+<table class="tabla">
 
-  <div id="resultadoVia"></div>
+<tr>
+
+<th>
+Criterio
+</th>
+
+<th>
+¿Se presenta?
+</th>
+
+</tr>
+
+
+<tr>
+
+<td>
+Riesgo para la salud de la población debido a efluentes,
+emisiones o residuos.
+</td>
+
+<td>
+
+<select id="artA">
+
+<option value="">
+Seleccione
+</option>
+
+<option value="si">
+Sí
+</option>
+
+<option value="no">
+No
+</option>
+
+</select>
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Efectos adversos significativos sobre recursos naturales renovables.
+</td>
+
+<td>
+
+<select id="artB">
+
+<option value="">
+Seleccione
+</option>
+
+<option value="si">
+Sí
+</option>
+
+<option value="no">
+No
+</option>
+
+</select>
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Reasentamiento de comunidades humanas o alteración significativa
+de sistemas de vida y costumbres.
+</td>
+
+<td>
+
+<select id="artC">
+
+<option value="">
+Seleccione
+</option>
+
+<option value="si">
+Sí
+</option>
+
+<option value="no">
+No
+</option>
+
+</select>
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Localización en o próxima a población, recursos o áreas protegidas
+susceptibles de ser afectados, u otros territorios de valor ambiental.
+</td>
+
+<td>
+
+<select id="artD">
+
+<option value="">
+Seleccione
+</option>
+
+<option value="si">
+Sí
+</option>
+
+<option value="no">
+No
+</option>
+
+</select>
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Alteración significativa del valor paisajístico o turístico.
+</td>
+
+<td>
+
+<select id="artE">
+
+<option value="">
+Seleccione
+</option>
+
+<option value="si">
+Sí
+</option>
+
+<option value="no">
+No
+</option>
+
+</select>
+
+</td>
+
+</tr>
+
+
+<tr>
+
+<td>
+Alteración de monumentos, sitios arqueológicos,
+históricos o patrimonio cultural.
+</td>
+
+<td>
+
+<select id="artF">
+
+<option value="">
+Seleccione
+</option>
+
+<option value="si">
+Sí
+</option>
+
+<option value="no">
+No
+</option>
+
+</select>
+
+</td>
+
+</tr>
+
+</table>
+
+
+<button class="boton-principal"
+        onclick="evaluarArticulo11()">
+
+Evaluar análisis
+
+</button>
+
+<div id="respuestaArticulo"></div>
 
 </section>
 
 
-<!-- ETAPA 5 -->
 
-<section id="etapa5" class="card oculto">
+<!-- ================================
+     ETAPA 3
+================================ -->
 
-  <div class="etapa">Etapa 5 de 5</div>
+<section id="etapa3"
+         class="card oculto">
 
-  <h2>Fundamente la decisión</h2>
+<div class="etapa">
+Etapa 3
+</div>
 
-  <p>
-    Seleccione el argumento que mejor fundamenta la vía de evaluación.
-  </p>
+<h2>
+¿Debe ingresar mediante DIA o EIA?
+</h2>
 
-  <div class="check-grid">
+<p>
+Considere la información del proyecto y el análisis
+realizado en la etapa anterior.
+</p>
 
-    <div class="check-item">
-      <label>
-        <input type="radio"
-               name="fundamento"
-               value="tamano">
+<button class="boton-opcion"
+        onclick="evaluarVia('dia')">
 
-        Todo proyecto de gran tamaño debe ingresar mediante EIA.
-      </label>
-    </div>
+Declaración de Impacto Ambiental — DIA
 
-    <div class="check-item">
-      <label>
-        <input type="radio"
-               name="fundamento"
-               value="especie">
+</button>
 
-        La sola presencia de cualquier especie silvestre obliga
-        a presentar un EIA.
-      </label>
-    </div>
+<button class="boton-opcion"
+        onclick="evaluarVia('eia')">
 
-    <div class="check-item">
-      <label>
-        <input type="radio"
-               name="fundamento"
-               value="significativo">
+Estudio de Impacto Ambiental — EIA
 
-        El proyecto presenta antecedentes que permiten reconocer
-        un efecto adverso significativo sobre recursos naturales
-        renovables, particularmente por la intervención de hábitat
-        reproductivo de una especie amenazada.
-      </label>
-    </div>
+</button>
 
-    <div class="check-item">
-      <label>
-        <input type="radio"
-               name="fundamento"
-               value="energia">
-
-        Todas las centrales generadoras de energía deben ingresar
-        mediante EIA.
-      </label>
-    </div>
-
-  </div>
-
-  <button class="boton-principal"
-          onclick="evaluarFundamento()">
-    Finalizar evaluación
-  </button>
-
-  <div id="resultadoFundamento"></div>
+<div id="respuestaVia"></div>
 
 </section>
 
 
-<!-- FINAL -->
 
-<section id="final" class="card resultado-final oculto">
+<!-- ================================
+     ETAPA 4 FAUNA
+================================ -->
 
-  <div class="etapa">Resultado</div>
+<section id="etapa4"
+         class="card oculto">
 
-  <h2>Evaluación completada</h2>
+<div class="etapa">
+Etapa 4 · Componente fauna
+</div>
 
-  <div id="notaFinal" class="numero-final">
-    0 / 100
-  </div>
+<h2>
+Interpretación ecológica del impacto
+</h2>
 
-  <div id="estadoFinal" class="estado"></div>
+<p>
+¿Cuál es el antecedente más relevante para determinar
+la importancia ambiental del impacto sobre fauna?
+</p>
 
-  <div id="resumenFinal" class="resumen-final"></div>
 
-  <button class="boton-principal"
-          onclick="reiniciar()">
-    Nuevo caso
-  </button>
+<div class="opcion-grande">
+
+<label>
+
+<input type="radio"
+       name="faunaImportancia"
+       value="presencia">
+
+La sola presencia de una especie silvestre dentro del área.
+
+</label>
+
+</div>
+
+
+<div class="opcion-grande">
+
+<label>
+
+<input type="radio"
+       name="faunaImportancia"
+       value="categoria">
+
+Que exista una especie clasificada En Peligro,
+independientemente de cómo utilice el área.
+
+</label>
+
+</div>
+
+
+<div class="opcion-grande">
+
+<label>
+
+<input type="radio"
+       name="faunaImportancia"
+       value="habitat">
+
+La intervención directa del principal hábitat reproductivo
+de una población de una especie amenazada y sus posibles
+consecuencias sobre su persistencia local.
+
+</label>
+
+</div>
+
+
+<div class="opcion-grande">
+
+<label>
+
+<input type="radio"
+       name="faunaImportancia"
+       value="numero">
+
+El número total de especies registradas en la línea de base.
+
+</label>
+
+</div>
+
+
+<button class="boton-principal"
+        onclick="evaluarFauna()">
+
+Evaluar respuesta
+
+</button>
+
+<div id="respuestaFauna"></div>
 
 </section>
+
+
+
+<!-- ================================
+     ETAPA 5
+================================ -->
+
+<section id="etapa5"
+         class="card oculto">
+
+<div class="etapa">
+Etapa 5 · Impactos sobre fauna
+</div>
+
+<h2>
+Identificación del impacto principal
+</h2>
+
+<p>
+¿Cuál describe mejor el impacto más relevante del proyecto
+sobre la población de reptiles identificada?
+</p>
+
+
+<div class="opcion-grande">
+
+<label>
+
+<input type="radio"
+       name="impacto"
+       value="ruido">
+
+Aumento temporal del ruido durante la construcción.
+
+</label>
+
+</div>
+
+
+<div class="opcion-grande">
+
+<label>
+
+<input type="radio"
+       name="impacto"
+       value="perdida">
+
+Pérdida directa del hábitat reproductivo y de refugio,
+con reducción de las condiciones necesarias para la
+persistencia de la población local.
+
+</label>
+
+</div>
+
+
+<div class="opcion-grande">
+
+<label>
+
+<input type="radio"
+       name="impacto"
+       value="presencia">
+
+Presencia de trabajadores dentro del proyecto.
+
+</label>
+
+</div>
+
+
+<div class="opcion-grande">
+
+<label>
+
+<input type="radio"
+       name="impacto"
+       value="paisaje">
+
+Modificación visual del paisaje.
+
+</label>
+
+</div>
+
+
+<button class="boton-principal"
+        onclick="evaluarImpacto()">
+
+Evaluar impacto
+
+</button>
+
+<div id="respuestaImpacto"></div>
+
+</section>
+
+
+
+<!-- ================================
+     ETAPA 6
+================================ -->
+
+<section id="etapa6"
+         class="card oculto">
+
+<div class="etapa">
+Etapa 6 · Fauna y normativa
+</div>
+
+<h2>
+Manejo de fauna silvestre
+</h2>
+
+<p>
+El titular propone capturar todos los reptiles detectados
+antes de iniciar las obras y trasladarlos a otro sector.
+</p>
+
+<p>
+¿Cuál es la evaluación técnica más adecuada de esta propuesta?
+</p>
+
+
+<div class="opcion-grande">
+
+<label>
+
+<input type="radio"
+       name="manejo"
+       value="soluciona">
+
+Es suficiente, porque trasladar los individuos elimina
+el impacto ambiental.
+
+</label>
+
+</div>
+
+
+<div class="opcion-grande">
+
+<label>
+
+<input type="radio"
+       name="manejo"
+       value="automatica">
+
+Debe realizarse automáticamente siempre que aparezca
+una especie amenazada.
+
+</label>
+
+</div>
+
+
+<div class="opcion-grande">
+
+<label>
+
+<input type="radio"
+       name="manejo"
+       value="evaluar">
+
+La captura y eventual relocalización requiere justificación
+técnica y las autorizaciones que correspondan, y no sustituye
+el análisis de la pérdida del hábitat que origina el impacto.
+
+</label>
+
+</div>
+
+
+<div class="opcion-grande">
+
+<label>
+
+<input type="radio"
+       name="manejo"
+       value="innecesaria">
+
+No requiere evaluación sectorial porque el proyecto
+ya ingresó al SEIA.
+
+</label>
+
+</div>
+
+
+<button class="boton-principal"
+        onclick="evaluarManejo()">
+
+Evaluar respuesta
+
+</button>
+
+<div id="respuestaManejo"></div>
+
+</section>
+
+
+
+<!-- ================================
+     ETAPA 7
+================================ -->
+
+<section id="etapa7"
+         class="card oculto">
+
+<div class="etapa">
+Etapa 7 · Medidas ambientales
+</div>
+
+<h2>
+Seleccione la medida conceptualmente más adecuada
+</h2>
+
+<p>
+Considerando que el impacto principal es la pérdida
+del hábitat reproductivo, ¿cuál debería ser el primer
+enfoque de manejo?
+</p>
+
+
+<div class="opcion-grande">
+
+<label>
+
+<input type="radio"
+       name="medida"
+       value="captura">
+
+Capturar todos los individuos inmediatamente antes
+del inicio de las obras.
+
+</label>
+
+</div>
+
+
+<div class="opcion-grande">
+
+<label>
+
+<input type="radio"
+       name="medida"
+       value="evitar">
+
+Evaluar primero alternativas de diseño y localización
+que permitan evitar o reducir la intervención del hábitat
+reproductivo relevante.
+
+</label>
+
+</div>
+
+
+<div class="opcion-grande">
+
+<label>
+
+<input type="radio"
+       name="medida"
+       value="cartel">
+
+Instalar señalética educativa sobre fauna.
+
+</label>
+
+</div>
+
+
+<div class="opcion-grande">
+
+<label>
+
+<input type="radio"
+       name="medida"
+       value="monitoreo">
+
+Realizar solamente monitoreo posterior a la construcción.
+
+</label>
+
+</div>
+
+
+<button class="boton-principal"
+        onclick="evaluarMedida()">
+
+Finalizar evaluación
+
+</button>
+
+<div id="respuestaMedida"></div>
+
+</section>
+
+
+
+<!-- ================================
+     RESULTADO
+================================ -->
+
+<section id="resultadoFinal"
+         class="card resultado-final oculto">
+
+<div class="etapa">
+Resultado de la evaluación
+</div>
+
+<h2>
+Caso completado
+</h2>
+
+<div id="notaFinal"
+     class="numero-final">
+
+0 / 100
+
+</div>
+
+<div id="estadoFinal"
+     class="estado-final">
+</div>
+
+
+<div id="resumenFinal"
+     class="resumen-final">
+</div>
+
+
+<button class="boton-principal"
+        onclick="reiniciar()">
+
+Nuevo caso
+
+</button>
+
+</section>
+
 
 </section>
 
 </main>
 
+
 <footer>
-  Desarrollado por Jorge Leichtle © 2026
-  <br>
-  Simulador académico de evaluación ambiental
+
+Desarrollado por Jorge Leichtle © 2026
+
+<br>
+
+Simulador académico de evaluación ambiental con énfasis en fauna silvestre
+
 </footer>
+
 
 
 <script>
@@ -905,590 +1430,797 @@ footer{
 let puntaje = 0;
 
 let respondioIngreso = false;
-let respondioCausal = false;
-let respondioArt11 = false;
+let respondioArticulo = false;
 let respondioVia = false;
-let respondioFundamento = false;
+let respondioFauna = false;
+let respondioImpacto = false;
+let respondioManejo = false;
+let respondioMedida = false;
 
 
-/* ============================
+/* =================================
    INICIO
-============================ */
+================================= */
 
-function iniciar(){
+function iniciarSimulador() {
 
-  const sector =
-    document.getElementById("sector").value;
+    const sector =
+        document.getElementById("sector").value;
 
-  if(sector !== "energia"){
+    if (sector !== "energia") {
 
-    alert(
-      "En la versión 2.1 el caso operativo corresponde al sector Energía. " +
-      "Los demás sectores se incorporarán en las siguientes versiones."
+        alert(
+            "En esta versión el caso disponible corresponde al sector Energía. " +
+            "Los otros sectores se incorporarán progresivamente."
+        );
+
+        document.getElementById("sector").value =
+            "energia";
+
+        return;
+    }
+
+    document.getElementById("inicio")
+        .classList.add("oculto");
+
+    document.getElementById("simulador")
+        .classList.remove("oculto");
+
+    actualizarProgreso(5);
+}
+
+
+/* =================================
+   INGRESO SEIA
+================================= */
+
+function evaluarIngreso(respuesta) {
+
+    if (respondioIngreso) return;
+
+    respondioIngreso = true;
+
+    const div =
+        document.getElementById("respuestaIngreso");
+
+    div.className = "resultado";
+
+    if (respuesta === "obligatorio") {
+
+        puntaje += 15;
+
+        div.classList.add("correcto");
+
+        div.innerHTML = `
+
+        <strong>Correcto.</strong>
+
+        <p>
+        El proyecto debe ingresar obligatoriamente al SEIA.
+        </p>
+
+        <div class="fundamento">
+
+        <strong>Fundamento:</strong>
+
+        <p>
+        Se trata de una central generadora de energía de
+        82 MW, superando el umbral establecido para este
+        tipo de proyectos.
+        </p>
+
+        <p>
+        Esto determina su ingreso al SEIA, pero todavía
+        no determina si debe hacerlo mediante DIA o EIA.
+        </p>
+
+        </div>
+
+        `;
+
+    } else {
+
+        div.classList.add("incorrecto");
+
+        div.innerHTML = `
+
+        <strong>Respuesta incorrecta.</strong>
+
+        <p>
+        Revise las características técnicas del proyecto,
+        particularmente su potencia instalada.
+        </p>
+
+        `;
+
+    }
+
+    actualizarPuntaje();
+    actualizarProgreso(15);
+
+    div.innerHTML += botonContinuar(
+        "mostrarEtapa2()",
+        "Analizar DIA/EIA"
     );
-
-    document.getElementById("sector").value =
-      "energia";
-  }
-
-  document.getElementById("inicio")
-    .classList.add("oculto");
-
-  document.getElementById("simulador")
-    .classList.remove("oculto");
-
-  actualizarProgreso(5);
 }
 
 
-/* ============================
-   ETAPA 1
-============================ */
+function mostrarEtapa2() {
 
-function evaluarIngreso(respuesta){
-
-  if(respondioIngreso) return;
-
-  respondioIngreso = true;
-
-  const div =
-    document.getElementById("resultadoIngreso");
-
-  div.className = "resultado";
-
-  if(respuesta === "obligatorio"){
-
-    puntaje += 20;
-
-    div.classList.add("correcto");
-
-    div.innerHTML = `
-      <strong>Correcto.</strong>
-
-      <p>
-      La central tiene una potencia instalada de 82 MW,
-      por lo que configura una tipología de ingreso obligatorio
-      al SEIA.
-      </p>
-
-      <div class="fundamento">
-
-        <strong>Fundamento jurídico</strong>
-
-        <p>
-        La Ley N.º 19.300 incluye entre los proyectos sometidos
-        obligatoriamente al SEIA a las centrales generadoras
-        de energía mayores a 3 MW.
-        </p>
-
-        <p>
-        La tipología se desarrolla también en el artículo 3
-        del Reglamento del SEIA.
-        </p>
-
-      </div>
-    `;
-
-  }else{
-
-    div.classList.add("incorrecto");
-
-    div.innerHTML = `
-      <strong>Incorrecto.</strong>
-
-      <p>
-      Revise la potencia instalada de la central y las tipologías
-      de ingreso obligatorio del artículo 10 de la Ley N.º 19.300.
-      </p>
-    `;
-  }
-
-  actualizarPuntaje();
-  actualizarProgreso(20);
-
-  div.innerHTML += `
-    <button class="boton-continuar"
-            onclick="mostrarEtapa2()">
-      Continuar
-    </button>
-  `;
+    mostrar("etapa2");
 }
 
 
-function mostrarEtapa2(){
+/* =================================
+   ARTÍCULO 11
+================================= */
 
-  document.getElementById("etapa2")
-    .classList.remove("oculto");
+function evaluarArticulo11() {
 
-  document.getElementById("etapa2")
-    .scrollIntoView({behavior:"smooth"});
-}
+    if (respondioArticulo) return;
 
+    const respuestas = {
 
-/* ============================
-   ETAPA 2
-============================ */
+        a: document.getElementById("artA").value,
+        b: document.getElementById("artB").value,
+        c: document.getElementById("artC").value,
+        d: document.getElementById("artD").value,
+        e: document.getElementById("artE").value,
+        f: document.getElementById("artF").value
 
-function evaluarCausal(respuesta){
+    };
 
-  if(respondioCausal) return;
+    for (const clave in respuestas) {
 
-  respondioCausal = true;
+        if (respuestas[clave] === "") {
 
-  const div =
-    document.getElementById("resultadoCausal");
+            alert(
+                "Debe responder todos los criterios antes de continuar."
+            );
 
-  div.className = "resultado";
-
-  if(respuesta === "potencia"){
-
-    puntaje += 15;
-
-    div.classList.add("correcto");
-
-    div.innerHTML = `
-      <strong>Correcto.</strong>
-
-      <p>
-      La causal principal de ingreso en este ejercicio es
-      la potencia de la central generadora.
-      </p>
-
-      <p>
-      La presencia de fauna o vegetación puede ser ambientalmente
-      relevante, pero no constituye por sí sola la causal de ingreso
-      utilizada aquí.
-      </p>
-    `;
-
-  }else{
-
-    div.classList.add("incorrecto");
-
-    div.innerHTML = `
-      <strong>Incorrecto.</strong>
-
-      <p>
-      Distinga entre una <strong>tipología de ingreso</strong>
-      y un <strong>componente ambiental potencialmente afectado</strong>.
-      </p>
-    `;
-  }
-
-  actualizarPuntaje();
-  actualizarProgreso(35);
-
-  div.innerHTML += `
-    <button class="boton-continuar"
-            onclick="mostrarEtapa3()">
-      Analizar efectos del artículo 11
-    </button>
-  `;
-}
-
-
-function mostrarEtapa3(){
-
-  document.getElementById("etapa3")
-    .classList.remove("oculto");
-
-  document.getElementById("etapa3")
-    .scrollIntoView({behavior:"smooth"});
-}
-
-
-/* ============================
-   ETAPA 3
-============================ */
-
-function evaluarArticulo11(){
-
-  if(respondioArt11) return;
-
-  const respuestas = {
-    a:document.getElementById("a").value,
-    b:document.getElementById("b").value,
-    c:document.getElementById("c").value,
-    d:document.getElementById("d").value,
-    e:document.getElementById("e").value,
-    f:document.getElementById("f").value
-  };
-
-  for(const clave in respuestas){
-
-    if(respuestas[clave] === ""){
-
-      alert(
-        "Debe responder todos los criterios antes de continuar."
-      );
-
-      return;
+            return;
+        }
     }
-  }
 
-  respondioArt11 = true;
+    respondioArticulo = true;
 
-  const correctasEsperadas = {
-    a:"no",
-    b:"si",
-    c:"no",
-    d:"no",
-    e:"no",
-    f:"no"
-  };
+    const esperado = {
 
-  let correctas = 0;
+        a: "no",
+        b: "si",
+        c: "no",
+        d: "no",
+        e: "no",
+        f: "no"
 
-  for(const clave in correctasEsperadas){
+    };
 
-    if(
-      respuestas[clave] ===
-      correctasEsperadas[clave]
-    ){
-      correctas++;
+    let correctas = 0;
+
+    for (const clave in esperado) {
+
+        if (respuestas[clave] === esperado[clave]) {
+            correctas++;
+        }
     }
-  }
 
-  const puntos =
-    Math.round((correctas / 6) * 30);
+    const puntos =
+        Math.round((correctas / 6) * 20);
 
-  puntaje += puntos;
+    puntaje += puntos;
 
-  actualizarPuntaje();
-  actualizarProgreso(60);
+    actualizarPuntaje();
+    actualizarProgreso(32);
 
-  const div =
-    document.getElementById("resultadoArt11");
-
-  if(correctas === 6){
+    const div =
+        document.getElementById("respuestaArticulo");
 
     div.className =
-      "resultado correcto";
+        correctas === 6
+        ? "resultado correcto"
+        : "resultado advertencia";
 
-  }else{
-
-    div.className =
-      "resultado advertencia";
-  }
-
-  div.innerHTML = `
+    div.innerHTML = `
 
     <strong>
-    Resultado: ${correctas} de 6 criterios correctamente evaluados.
+    ${correctas} de 6 criterios correctamente analizados.
     </strong>
 
     <div class="fundamento">
 
-      <strong>Análisis esperado</strong>
+    <strong>Interpretación del caso</strong>
 
-      <p>
-      En este caso, el antecedente ambiental determinante es
-      la intervención directa del principal hábitat reproductivo
-      identificado para una población de una especie clasificada
-      En Peligro.
-      </p>
+    <p>
+    El elemento determinante corresponde a un efecto adverso
+    significativo sobre recursos naturales renovables.
+    </p>
 
-      <p>
-      Por ello, el ejercicio reconoce un efecto adverso significativo
-      sobre recursos naturales renovables.
-      </p>
-
-      <p>
-      Los demás antecedentes entregados permiten descartar,
-      para efectos de este caso académico, las restantes causales
-      analizadas.
-      </p>
+    <p>
+    La conclusión no deriva simplemente de detectar una especie
+    amenazada. El proyecto eliminaría la totalidad del principal
+    sitio reproductivo conocido de una población local y los
+    antecedentes indican consecuencias relevantes para su persistencia.
+    </p>
 
     </div>
 
-    <button class="boton-continuar"
-            onclick="mostrarEtapa4()">
-      Determinar DIA o EIA
-    </button>
-  `;
+    `;
+
+    div.innerHTML += botonContinuar(
+        "mostrarEtapa3()",
+        "Determinar DIA o EIA"
+    );
 }
 
 
-function mostrarEtapa4(){
+function mostrarEtapa3() {
 
-  document.getElementById("etapa4")
-    .classList.remove("oculto");
-
-  document.getElementById("etapa4")
-    .scrollIntoView({behavior:"smooth"});
+    mostrar("etapa3");
 }
 
 
-/* ============================
-   ETAPA 4
-============================ */
+/* =================================
+   DIA / EIA
+================================= */
 
-function evaluarVia(respuesta){
+function evaluarVia(respuesta) {
 
-  if(respondioVia) return;
+    if (respondioVia) return;
 
-  respondioVia = true;
+    respondioVia = true;
 
-  const div =
-    document.getElementById("resultadoVia");
+    const div =
+        document.getElementById("respuestaVia");
 
-  div.className = "resultado";
+    div.className = "resultado";
 
-  if(respuesta === "EIA"){
+    if (respuesta === "eia") {
 
-    puntaje += 20;
+        puntaje += 15;
 
-    div.classList.add("correcto");
+        div.classList.add("correcto");
 
-    div.innerHTML = `
-      <strong>Correcto: corresponde un EIA.</strong>
+        div.innerHTML = `
 
-      <p>
-      La obligación de presentar un Estudio de Impacto Ambiental
-      no deriva simplemente del tamaño del proyecto o de su potencia.
-      </p>
-
-      <p>
-      Deriva de la presencia de al menos uno de los efectos,
-      características o circunstancias contemplados en el artículo 11.
-      </p>
-
-      <div class="fundamento">
-
-        <strong>En este caso:</strong>
+        <strong>Correcto: corresponde un EIA.</strong>
 
         <p>
-        La intervención del hábitat reproductivo principal
-        de una población de una especie amenazada permite
-        reconocer un efecto adverso significativo sobre
-        recursos naturales renovables.
+        El proyecto presenta antecedentes que permiten reconocer
+        uno de los efectos contemplados en el artículo 11.
         </p>
 
-      </div>
-    `;
+        <p>
+        Por lo tanto, la vía correspondiente es un
+        Estudio de Impacto Ambiental.
+        </p>
 
-  }else{
+        `;
 
-    div.classList.add("incorrecto");
+    } else {
 
-    div.innerHTML = `
-      <strong>Incorrecto.</strong>
+        div.classList.add("incorrecto");
 
-      <p>
-      Revise el resultado del análisis del artículo 11.
-      El caso contiene antecedentes que configuran un efecto
-      adverso significativo sobre recursos naturales renovables.
-      </p>
-    `;
-  }
+        div.innerHTML = `
 
-  actualizarPuntaje();
-  actualizarProgreso(80);
+        <strong>Incorrecto.</strong>
 
-  div.innerHTML += `
-    <button class="boton-continuar"
-            onclick="mostrarEtapa5()">
-      Fundamentar decisión
-    </button>
-  `;
-}
+        <p>
+        Un proyecto puede ingresar mediante DIA cuando no genera
+        los efectos, características o circunstancias que obligan
+        a presentar un EIA.
+        </p>
 
+        <p>
+        En este caso existe un efecto adverso significativo
+        sobre recursos naturales renovables.
+        </p>
 
-function mostrarEtapa5(){
+        `;
 
-  document.getElementById("etapa5")
-    .classList.remove("oculto");
+    }
 
-  document.getElementById("etapa5")
-    .scrollIntoView({behavior:"smooth"});
-}
+    actualizarPuntaje();
+    actualizarProgreso(45);
 
-
-/* ============================
-   ETAPA 5
-============================ */
-
-function evaluarFundamento(){
-
-  if(respondioFundamento) return;
-
-  const seleccion =
-    document.querySelector(
-      'input[name="fundamento"]:checked'
+    div.innerHTML += botonContinuar(
+        "mostrarEtapa4()",
+        "Evaluar componente fauna"
     );
-
-  if(!seleccion){
-
-    alert(
-      "Seleccione una alternativa antes de finalizar."
-    );
-
-    return;
-  }
-
-  respondioFundamento = true;
-
-  const div =
-    document.getElementById("resultadoFundamento");
-
-  div.className = "resultado";
-
-  if(seleccion.value === "significativo"){
-
-    puntaje += 15;
-
-    div.classList.add("correcto");
-
-    div.innerHTML = `
-      <strong>Fundamentación correcta.</strong>
-
-      <p>
-      El EIA se justifica por la existencia de un efecto
-      adverso significativo sobre recursos naturales renovables,
-      no simplemente por el tamaño del proyecto, por ser una
-      central energética o por la sola presencia de fauna.
-      </p>
-    `;
-
-  }else{
-
-    div.classList.add("incorrecto");
-
-    div.innerHTML = `
-      <strong>Fundamentación incorrecta.</strong>
-
-      <p>
-      La obligación de presentar un EIA debe vincularse con
-      los efectos, características o circunstancias del artículo 11.
-      </p>
-    `;
-  }
-
-  actualizarPuntaje();
-  actualizarProgreso(100);
-
-  div.innerHTML += `
-    <button class="boton-continuar"
-            onclick="mostrarFinal()">
-      Ver resultado final
-    </button>
-  `;
 }
 
 
-/* ============================
+function mostrarEtapa4() {
+
+    mostrar("etapa4");
+}
+
+
+/* =================================
+   FAUNA
+================================= */
+
+function evaluarFauna() {
+
+    if (respondioFauna) return;
+
+    const seleccion =
+        obtenerRadio("faunaImportancia");
+
+    if (!seleccion) {
+
+        alert("Seleccione una alternativa.");
+
+        return;
+    }
+
+    respondioFauna = true;
+
+    const div =
+        document.getElementById("respuestaFauna");
+
+    div.className = "resultado";
+
+    if (seleccion === "habitat") {
+
+        puntaje += 20;
+
+        div.classList.add("correcto");
+
+        div.innerHTML = `
+
+        <strong>Correcto.</strong>
+
+        <p>
+        La evaluación ambiental de fauna no debe reducirse
+        a elaborar un listado de especies.
+        </p>
+
+        <p>
+        En este caso son especialmente relevantes la función
+        ecológica del área, su uso reproductivo, la categoría
+        de conservación, la magnitud de la intervención y
+        las consecuencias previstas para la población local.
+        </p>
+
+        `;
+
+    } else {
+
+        div.classList.add("incorrecto");
+
+        div.innerHTML = `
+
+        <strong>Respuesta incompleta.</strong>
+
+        <p>
+        La presencia de una especie, su categoría de conservación
+        o la riqueza total son antecedentes importantes, pero
+        deben interpretarse junto con el uso del hábitat,
+        la magnitud de la intervención y sus consecuencias
+        ecológicas.
+        </p>
+
+        `;
+
+    }
+
+    actualizarPuntaje();
+    actualizarProgreso(62);
+
+    div.innerHTML += botonContinuar(
+        "mostrarEtapa5()",
+        "Identificar impacto"
+    );
+}
+
+
+function mostrarEtapa5() {
+
+    mostrar("etapa5");
+}
+
+
+/* =================================
+   IMPACTO
+================================= */
+
+function evaluarImpacto() {
+
+    if (respondioImpacto) return;
+
+    const seleccion =
+        obtenerRadio("impacto");
+
+    if (!seleccion) {
+
+        alert("Seleccione una alternativa.");
+
+        return;
+    }
+
+    respondioImpacto = true;
+
+    const div =
+        document.getElementById("respuestaImpacto");
+
+    div.className = "resultado";
+
+    if (seleccion === "perdida") {
+
+        puntaje += 10;
+
+        div.classList.add("correcto");
+
+        div.innerHTML = `
+
+        <strong>Correcto.</strong>
+
+        <p>
+        El impacto central es la pérdida directa de un
+        hábitat reproductivo y de refugio ecológicamente
+        relevante para la población afectada.
+        </p>
+
+        `;
+
+    } else {
+
+        div.classList.add("incorrecto");
+
+        div.innerHTML = `
+
+        <strong>Incorrecto.</strong>
+
+        <p>
+        Existen distintas perturbaciones posibles, pero debe
+        identificarse cuál tiene mayor relación con los antecedentes
+        ecológicos entregados y con la persistencia de la población.
+        </p>
+
+        `;
+
+    }
+
+    actualizarPuntaje();
+    actualizarProgreso(73);
+
+    div.innerHTML += botonContinuar(
+        "mostrarEtapa6()",
+        "Analizar manejo de fauna"
+    );
+}
+
+
+function mostrarEtapa6() {
+
+    mostrar("etapa6");
+}
+
+
+/* =================================
+   MANEJO / NORMATIVA
+================================= */
+
+function evaluarManejo() {
+
+    if (respondioManejo) return;
+
+    const seleccion =
+        obtenerRadio("manejo");
+
+    if (!seleccion) {
+
+        alert("Seleccione una alternativa.");
+
+        return;
+    }
+
+    respondioManejo = true;
+
+    const div =
+        document.getElementById("respuestaManejo");
+
+    div.className = "resultado";
+
+    if (seleccion === "evaluar") {
+
+        puntaje += 10;
+
+        div.classList.add("correcto");
+
+        div.innerHTML = `
+
+        <strong>Correcto.</strong>
+
+        <p>
+        Una eventual captura, rescate o relocalización de fauna
+        debe estar técnicamente justificada y cumplir las
+        autorizaciones sectoriales que correspondan.
+        </p>
+
+        <p>
+        Además, mover individuos no elimina por sí mismo
+        el impacto asociado a la pérdida de su hábitat.
+        </p>
+
+        `;
+
+    } else {
+
+        div.classList.add("incorrecto");
+
+        div.innerHTML = `
+
+        <strong>Incorrecto.</strong>
+
+        <p>
+        El manejo directo de fauna no debe utilizarse como
+        una respuesta automática ni confundirse con la solución
+        del impacto sobre el hábitat.
+        </p>
+
+        `;
+
+    }
+
+    actualizarPuntaje();
+    actualizarProgreso(85);
+
+    div.innerHTML += botonContinuar(
+        "mostrarEtapa7()",
+        "Evaluar medidas ambientales"
+    );
+}
+
+
+function mostrarEtapa7() {
+
+    mostrar("etapa7");
+}
+
+
+/* =================================
+   MEDIDAS
+================================= */
+
+function evaluarMedida() {
+
+    if (respondioMedida) return;
+
+    const seleccion =
+        obtenerRadio("medida");
+
+    if (!seleccion) {
+
+        alert("Seleccione una alternativa.");
+
+        return;
+    }
+
+    respondioMedida = true;
+
+    const div =
+        document.getElementById("respuestaMedida");
+
+    div.className = "resultado";
+
+    if (seleccion === "evitar") {
+
+        puntaje += 10;
+
+        div.classList.add("correcto");
+
+        div.innerHTML = `
+
+        <strong>Correcto.</strong>
+
+        <p>
+        Frente a la pérdida de un hábitat reproductivo
+        ambientalmente relevante, el primer análisis debe
+        considerar alternativas que permitan evitar o reducir
+        la intervención que origina el impacto.
+        </p>
+
+        `;
+
+    } else {
+
+        div.classList.add("incorrecto");
+
+        div.innerHTML = `
+
+        <strong>Incorrecto.</strong>
+
+        <p>
+        La medida debe responder directamente al impacto
+        identificado. Una acción accesoria o un monitoreo
+        posterior no evita por sí mismo la pérdida del hábitat.
+        </p>
+
+        `;
+
+    }
+
+    actualizarPuntaje();
+    actualizarProgreso(100);
+
+    div.innerHTML += botonContinuar(
+        "mostrarResultadoFinal()",
+        "Ver pronunciamiento final"
+    );
+}
+
+
+/* =================================
    RESULTADO FINAL
-============================ */
+================================= */
 
-function mostrarFinal(){
+function mostrarResultadoFinal() {
 
-  const panel =
-    document.getElementById("final");
+    const panel =
+        document.getElementById("resultadoFinal");
 
-  panel.classList.remove("oculto");
+    panel.classList.remove("oculto");
 
-  document.getElementById("notaFinal")
-    .innerText =
-    puntaje + " / 100";
+    document.getElementById("notaFinal")
+        .innerText =
+        puntaje + " / 100";
 
-  let estado = "";
+    let estado;
 
-  if(puntaje >= 90){
-    estado = "Excelente desempeño";
-  }
+    if (puntaje >= 90) {
 
-  else if(puntaje >= 75){
-    estado = "Muy buen desempeño";
-  }
+        estado = "Excelente desempeño";
 
-  else if(puntaje >= 60){
-    estado = "Buen desempeño";
-  }
+    } else if (puntaje >= 75) {
 
-  else if(puntaje >= 40){
-    estado = "Desempeño en desarrollo";
-  }
+        estado = "Muy buen desempeño";
 
-  else{
-    estado = "Debe reforzar los conceptos";
-  }
+    } else if (puntaje >= 60) {
 
-  document.getElementById("estadoFinal")
-    .innerText = estado;
+        estado = "Buen desempeño";
 
-  document.getElementById("resumenFinal")
-    .innerHTML = `
+    } else if (puntaje >= 40) {
 
-      <h3>Solución del caso</h3>
+        estado = "Desempeño en desarrollo";
 
-      <p>
+    } else {
+
+        estado = "Debe reforzar los contenidos";
+
+    }
+
+    document.getElementById("estadoFinal")
+        .innerText = estado;
+
+
+    document.getElementById("resumenFinal")
+        .innerHTML = `
+
+        <h3>Pronunciamiento técnico esperado</h3>
+
+        <p>
         <strong>Ingreso al SEIA:</strong>
         obligatorio.
-      </p>
+        </p>
 
-      <p>
-        <strong>Causal principal:</strong>
-        central generadora de energía de 82 MW.
-      </p>
-
-      <p>
-        <strong>Artículo 11:</strong>
-        el caso presenta un efecto adverso significativo
-        sobre recursos naturales renovables.
-      </p>
-
-      <p>
-        <strong>Vía de ingreso:</strong>
+        <p>
+        <strong>Vía de evaluación:</strong>
         Estudio de Impacto Ambiental — EIA.
-      </p>
+        </p>
 
-      <p>
-        <strong>Fundamento ambiental determinante:</strong>
-        intervención directa de una superficie relevante
-        correspondiente al principal hábitat reproductivo local
-        identificado para una población de una especie clasificada
-        En Peligro.
-      </p>
+        <p>
+        <strong>Componente ambiental determinante:</strong>
+        fauna silvestre y hábitat asociado.
+        </p>
 
-      <p>
-        <strong>Idea clave:</strong>
-        una causal de ingreso al SEIA no es lo mismo que una causal
-        de presentación de un EIA.
-      </p>
+        <p>
+        <strong>Impacto principal:</strong>
+        pérdida directa del principal hábitat reproductivo
+        conocido para una población local de una especie
+        clasificada En Peligro.
+        </p>
+
+        <p>
+        <strong>Interpretación:</strong>
+        el efecto no se determina únicamente por la presencia
+        de la especie ni por su categoría de conservación.
+        Deben considerarse conjuntamente la función ecológica
+        del área, la magnitud de la intervención y las
+        consecuencias previsibles para la población.
+        </p>
+
+        <p>
+        <strong>Manejo de fauna:</strong>
+        una eventual captura o relocalización debe justificarse
+        técnicamente, cumplir las autorizaciones aplicables
+        y no puede considerarse por sí sola una solución
+        frente a la pérdida de hábitat.
+        </p>
+
+        <p>
+        <strong>Enfoque de medidas:</strong>
+        deben evaluarse prioritariamente alternativas destinadas
+        a evitar o reducir la intervención del hábitat
+        reproductivo relevante.
+        </p>
+
+        `;
+
+    panel.scrollIntoView({
+        behavior: "smooth"
+    });
+}
+
+
+/* =================================
+   UTILIDADES
+================================= */
+
+function mostrar(id) {
+
+    const elemento =
+        document.getElementById(id);
+
+    elemento.classList.remove("oculto");
+
+    elemento.scrollIntoView({
+        behavior: "smooth"
+    });
+}
+
+
+function obtenerRadio(nombre) {
+
+    const seleccion =
+        document.querySelector(
+            'input[name="' +
+            nombre +
+            '"]:checked'
+        );
+
+    return seleccion
+        ? seleccion.value
+        : null;
+}
+
+
+function botonContinuar(funcion, texto) {
+
+    return `
+
+    <button class="boton-continuar"
+            onclick="${funcion}">
+
+    ${texto}
+
+    </button>
 
     `;
-
-  panel.scrollIntoView({
-    behavior:"smooth"
-  });
 }
 
 
-/* ============================
-   UTILIDADES
-============================ */
+function actualizarPuntaje() {
 
-function actualizarPuntaje(){
-
-  document.getElementById("puntajeTexto")
-    .innerText =
-    "Puntaje: " +
-    puntaje +
-    " / 100";
+    document.getElementById("puntaje")
+        .innerText =
+        "Puntaje: " +
+        puntaje +
+        " / 100";
 }
 
 
-function actualizarProgreso(valor){
+function actualizarProgreso(valor) {
 
-  document.getElementById("barra")
-    .style.width =
-    valor + "%";
+    document.getElementById("barra")
+        .style.width =
+        valor + "%";
 }
 
 
-function reiniciar(){
+function reiniciar() {
 
-  location.reload();
+    location.reload();
 }
 
 </script>
