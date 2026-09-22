@@ -1,683 +1,502 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Simulador de Evaluación & Fiscalización Ambiental | SEIA & SMA Chile</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluador SEIA - Revelación Progresiva</title>
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --panel-bg: #1e293b;
+            --accent-color: #3b82f6;
+            --accent-hover: #2563eb;
+            --text-color: #f8fafc;
+            --text-muted: #94a3b8;
+            --success-color: #10b981;
+            --border-color: #334155;
+        }
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
 
-<style>
-:root {
-    --brand-navy: #0f2d39;
-    --brand-teal: #1e707e;
-    --brand-teal-light: #e8f4f5;
-    
-    --seia-blue: #2563eb;
-    --seia-bg: #eff6ff;
-    
-    --rca-green: #16a34a;
-    --rca-bg: #f0fdf4;
-    
-    --sma-orange: #ea580c;
-    --sma-bg: #fff7ed;
-    
-    --text-main: #1e293b;
-    --text-muted: #64748b;
-    --border-color: #e2e8f0;
-    --surface-bg: #f8fafc;
-    
-    --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
-    --shadow-md: 0 4px 12px -2px rgba(15, 45, 57, 0.08);
-    --shadow-lg: 0 12px 28px -4px rgba(15, 45, 57, 0.12);
-}
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+        /* BARRA LATERAL (COLUMNA IZQUIERDA) */
+        .sidebar {
+            width: 320px;
+            background-color: var(--panel-bg);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
 
-body {
-    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
-    color: var(--text-main);
-    background-color: var(--surface-bg);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
+        .sidebar-header {
+            margin-bottom: 20px;
+        }
 
-/* ================= HEADER ================= */
-header {
-    background: #ffffff;
-    border-bottom: 1px solid var(--border-color);
-    position: sticky;
-    top: 0;
-    z-index: 50;
-}
+        .sidebar-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
 
-.header-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 1rem 1.5rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 1rem;
-}
+        .progress-container {
+            background-color: var(--bg-color);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
 
-.brand {
-    display: flex;
-    align-items: center;
-    gap: 0.85rem;
-}
+        .progress-bar {
+            height: 100%;
+            background-color: var(--success-color);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
 
-.brand-icon {
-    width: 44px;
-    height: 44px;
-    background: linear-gradient(135deg, var(--brand-navy), var(--brand-teal));
-    color: white;
-    border-radius: 12px;
-    display: grid;
-    place-items: center;
-    font-size: 1.3rem;
-    box-shadow: 0 4px 10px rgba(30, 112, 126, 0.25);
-}
+        .steps-list {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            overflow-y: auto;
+            flex-grow: 1;
+        }
 
-.brand-info h1 {
-    font-size: 1.25rem;
-    font-weight: 800;
-    color: var(--brand-navy);
-    line-height: 1.2;
-}
+        /* Botón de etapa en menú lateral */
+        .step-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px;
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-muted);
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s ease;
+            /* Animación al revelarse */
+            animation: revealStep 0.35s ease-out forwards;
+        }
 
-.brand-info p {
-    font-size: 0.825rem;
-    color: var(--text-muted);
-}
+        .step-item:hover {
+            border-color: var(--accent-color);
+            color: var(--text-color);
+        }
 
-.badges-group {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-}
+        .step-item.active {
+            background-color: rgba(59, 130, 246, 0.15);
+            border-color: var(--accent-color);
+            color: var(--text-color);
+        }
 
-.badge {
-    padding: 0.35rem 0.75rem;
-    border-radius: 9999px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    background: var(--surface-bg);
-    border: 1px solid var(--border-color);
-    color: var(--text-muted);
-}
+        .step-item.completed {
+            border-color: var(--success-color);
+        }
 
-.badge-seia { background: var(--seia-bg); color: var(--seia-blue); border-color: #bfdbfe; }
-.badge-sma { background: var(--sma-bg); color: var(--sma-orange); border-color: #ffedd5; }
+        .step-number {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background-color: var(--bg-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
 
-/* ================= LAYOUT ================= */
-.main-layout {
-    max-width: 1400px;
-    width: 100%;
-    margin: 0 auto;
-    padding: 1.5rem;
-    flex: 1;
-    display: grid;
-    grid-template-columns: 360px 1fr;
-    gap: 1.5rem;
-    align-items: start;
-}
+        .step-item.completed .step-number {
+            background-color: var(--success-color);
+            color: white;
+        }
 
-/* ================= BARRA DE PROGRESO ================= */
-.progress-card {
-    background: white;
-    border-radius: 16px;
-    padding: 1.25rem;
-    border: 1px solid var(--border-color);
-    box-shadow: var(--shadow-sm);
-    margin-bottom: 1.25rem;
-}
+        .step-info {
+            display: flex;
+            flex-direction: column;
+        }
 
-.progress-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0.75rem;
-    font-size: 0.875rem;
-    font-weight: 700;
-}
+        .step-phase {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--accent-color);
+        }
 
-.progress-track {
-    height: 10px;
-    background: var(--surface-bg);
-    border-radius: 999px;
-    overflow: hidden;
-    border: 1px solid var(--border-color);
-}
+        .step-title {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
 
-.progress-bar {
-    height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, var(--brand-teal), var(--rca-green));
-    transition: width 0.4s ease;
-}
+        /* ÁREA PRINCIPAL DE CONTENIDO */
+        .main-content {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            background-color: var(--bg-color);
+        }
 
-.score-badge {
-    background: var(--brand-teal-light);
-    color: var(--brand-teal);
-    padding: 0.25rem 0.6rem;
-    border-radius: 8px;
-    font-size: 0.8rem;
-    font-weight: 800;
-}
+        .top-bar {
+            padding: 15px 30px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: var(--panel-bg);
+        }
 
-/* ================= STEPS SIDEBAR ================= */
-.sidebar-steps {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    max-height: calc(100vh - 210px);
-    overflow-y: auto;
-    padding-right: 0.25rem;
-}
+        .score-badge {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+        }
 
-.step-item {
-    display: flex;
-    align-items: center;
-    gap: 0.85rem;
-    padding: 0.85rem 1rem;
-    background: white;
-    border: 1.5px solid var(--border-color);
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-align: left;
-    width: 100%;
-}
+        .content-body {
+            padding: 40px;
+            overflow-y: auto;
+            flex-grow: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+        }
 
-.step-item:hover {
-    border-color: var(--brand-teal);
-    transform: translateX(2px);
-}
+        .stage-card {
+            background-color: var(--panel-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px;
+        }
 
-.step-item.active {
-    border-color: var(--brand-teal);
-    background: var(--brand-teal-light);
-    box-shadow: var(--shadow-sm);
-}
+        .stage-title {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-.step-item.completed {
-    border-color: #cbd5e1;
-    background: #f8fafc;
-    opacity: 0.85;
-}
+        .stage-desc {
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
 
-.step-item.completed .step-number {
-    background: var(--rca-green);
-    color: white;
-}
+        .options-grid {
+            display: grid;
+            gap: 15px;
+            margin-top: 20px;
+        }
 
-.step-number {
-    width: 28px;
-    height: 28px;
-    border-radius: 8px;
-    background: var(--surface-bg);
-    border: 1px solid var(--border-color);
-    color: var(--text-muted);
-    font-size: 0.8rem;
-    font-weight: 800;
-    display: grid;
-    place-items: center;
-    flex-shrink: 0;
-}
+        .btn {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
 
-.step-info {
-    flex: 1;
-    min-width: 0;
-}
+        .btn:hover {
+            background-color: var(--accent-hover);
+        }
 
-.step-title {
-    font-size: 0.875rem;
-    font-weight: 700;
-    color: var(--text-main);
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: block;
-}
+        .option-card {
+            background-color: var(--bg-color);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
 
-.step-phase {
-    font-size: 0.7rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    color: var(--text-muted);
-}
+        .option-card:hover {
+            border-color: var(--accent-color);
+            transform: translateY(-2px);
+        }
 
-/* ================= WORKSPACE (PANEL DERECHO) ================= */
-.workspace-panel {
-    background: white;
-    border: 1px solid var(--border-color);
-    border-radius: 20px;
-    padding: 2rem;
-    box-shadow: var(--shadow-md);
-    min-height: 600px;
-    position: sticky;
-    top: 90px;
-}
+        .feedback-box {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 8px;
+            display: none;
+        }
 
-.workspace-header {
-    border-bottom: 1px solid var(--border-color);
-    padding-bottom: 1.25rem;
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
+        .feedback-box.success {
+            background-color: rgba(16, 185, 129, 0.1);
+            border: 1px solid var(--success-color);
+            color: var(--success-color);
+        }
 
-.workspace-icon {
-    width: 52px;
-    height: 52px;
-    border-radius: 14px;
-    background: var(--brand-teal-light);
-    display: grid;
-    place-items: center;
-    font-size: 1.6rem;
-    flex-shrink: 0;
-}
+        .feedback-box.error {
+            background-color: rgba(239, 68, 68, 0.1);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+        }
 
-.workspace-title h2 {
-    font-size: 1.4rem;
-    font-weight: 800;
-    color: var(--brand-navy);
-}
-
-.workspace-title p {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-}
-
-/* ================= COMPONENTES DE CONTENIDO ================= */
-.data-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1rem;
-    margin: 1.25rem 0;
-}
-
-.data-card {
-    background: var(--surface-bg);
-    border: 1px solid var(--border-color);
-    padding: 1rem;
-    border-radius: 12px;
-}
-
-.data-card strong {
-    display: block;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    color: var(--text-muted);
-    letter-spacing: 0.05em;
-    margin-bottom: 0.25rem;
-}
-
-.data-card span {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--brand-navy);
-}
-
-.highlight-box {
-    background: #f0fdf4;
-    border-left: 4px solid var(--rca-green);
-    border-radius: 0 12px 12px 0;
-    padding: 1.25rem;
-    margin: 1.25rem 0;
-}
-
-.highlight-box h4 {
-    color: var(--rca-green);
-    margin-bottom: 0.5rem;
-    font-size: 0.95rem;
-}
-
-.decision-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-    margin-top: 1.5rem;
-}
-
-.btn-decision {
-    background: white;
-    border: 2px solid var(--border-color);
-    border-radius: 14px;
-    padding: 1.25rem;
-    text-align: left;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.btn-decision:hover {
-    border-color: var(--brand-teal);
-    background: var(--brand-teal-light);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-sm);
-}
-
-.btn-decision strong {
-    display: block;
-    font-size: 1rem;
-    color: var(--brand-navy);
-    margin-bottom: 0.25rem;
-}
-
-.btn-decision small {
-    color: var(--text-muted);
-    font-size: 0.825rem;
-}
-
-.feedback-box {
-    padding: 1.25rem;
-    border-radius: 12px;
-    margin-top: 1.5rem;
-    font-size: 0.925rem;
-    line-height: 1.5;
-}
-
-.feedback-box.correct {
-    background: #f0fdf4;
-    border: 1px solid #bbf7d0;
-    color: #166534;
-}
-
-.feedback-box.wrong {
-    background: #fef2f2;
-    border: 1px solid #fecaca;
-    color: #991b1b;
-}
-
-.btn-primary {
-    background: var(--brand-navy);
-    color: white;
-    border: none;
-    padding: 0.85rem 1.75rem;
-    border-radius: 10px;
-    font-size: 0.925rem;
-    font-weight: 700;
-    cursor: pointer;
-    margin-top: 1.5rem;
-    transition: background 0.2s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-}
-
-.btn-primary:hover {
-    background: var(--brand-teal);
-}
-
-/* RESPONSIVE */
-@media (max-width: 992px) {
-    .main-layout {
-        grid-template-columns: 1fr;
-    }
-    .workspace-panel {
-        position: static;
-        min-height: auto;
-    }
-    .sidebar-steps {
-        max-height: 250px;
-    }
-}
-</style>
+        /* ANIMACIÓN DE FADE-IN */
+        @keyframes revealStep {
+            from {
+                opacity: 0;
+                transform: translateY(-8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
-
 <body>
 
-<header>
-    <div class="header-container">
-        <div class="brand">
-            <div class="brand-icon">🌿</div>
-            <div class="brand-info">
-                <h1>Evaluación & Fiscalización Ambiental</h1>
-                <p>Simulador Interactivo de Tramitación SEIA y Control SMA</p>
+    <!-- COLUMNA IZQUIERDA (BARRA LATERAL) -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <h2 class="sidebar-title">Evaluación SEIA</h2>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
             </div>
-        </div>
-        <div class="badges-group">
-            <span class="badge badge-seia">SEIA · Ley 19.300</span>
-            <span class="badge badge-sma">Fiscalización SMA</span>
-            <span class="badge">Fauna Silvestre</span>
-        </div>
-    </div>
-</header>
-
-<main class="main-layout">
-    <!-- PANEL IZQUIERDO: PROGRESO Y ETAPAS -->
-    <aside>
-        <div class="progress-card">
-            <div class="progress-header">
-                <span id="stepCounter">Etapa 1 de 13</span>
-                <span id="scoreBadge" class="score-badge">0 / 100 pts</span>
-            </div>
-            <div class="progress-track">
-                <div id="progressBar" class="progress-bar"></div>
-            </div>
-        </div>
-
-        <div id="sidebarSteps" class="sidebar-steps">
-            <!-- Renderizado dinámicamente -->
-        </div>
-    </aside>
-
-    <!-- PANEL DERECHO: ESPACIO DE TRABAJO -->
-    <section class="workspace-panel">
-        <div id="workspaceHeader" class="workspace-header">
-            <!-- Renderizado dinámicamente -->
+            <small id="stepCounter" style="color: var(--text-muted);">Etapa 1 de 13</small>
         </div>
         
-        <div id="workspaceContent">
-            <!-- Contenido interactivo dinámico -->
-        </div>
-    </section>
-</main>
+        <!-- Aquí se cargan dinámicamente solo las etapas liberadas -->
+        <div class="steps-list" id="sidebarSteps"></div>
+    </aside>
 
-<script>
-// ESTADO DE LA APLICACIÓN
-const state = {
-    currentStage: 1,
-    score: 0,
-    completedStages: new Set(),
-    awardedScores: new Set()
-};
+    <!-- ÁREA DE CONTENIDO -->
+    <main class="main-content">
+        <header class="top-bar">
+            <span id="currentPhaseLabel" style="font-weight: 600; color: var(--text-muted);">FASE SEIA</span>
+            <div class="score-badge" id="scoreBadge">0 / 100 pts</div>
+        </header>
 
-// CONFIGURACIÓN DE ETAPAS
-const stages = [
-    { id: 1, title: "Antecedentes del Proyecto", phase: "SEIA", icon: "📄" },
-    { id: 2, title: "¿Debe ingresar al SEIA?", phase: "SEIA", icon: "🔎" },
-    { id: 3, title: "¿DIA o EIA?", phase: "SEIA", icon: "📑" },
-    { id: 4, title: "Componente Fauna", phase: "SEIA", icon: "🦊" },
-    { id: 5, title: "Impactos Ambiental", phase: "SEIA", icon: "📈" },
-    { id: 6, title: "Línea de Base", phase: "SEIA", icon: "🔭" },
-    { id: 7, title: "Normativa y PAS", phase: "SEIA", icon: "⚖️" },
-    { id: 8, title: "Medidas Ambientales", phase: "SEIA", icon: "🌱" },
-    { id: 9, title: "Pronunciamiento Técnico", phase: "SEIA", icon: "📋" },
-    { id: 10, title: "Resolución RCA", phase: "RCA", icon: "✅" },
-    { id: 11, title: "Construcción y Operación", phase: "SMA", icon: "🏗️" },
-    { id: 12, title: "Fiscalización SMA", phase: "SMA", icon: "🔍" },
-    { id: 13, title: "Cumplimiento y Hallazgos", phase: "SMA", icon: "⚠️" }
-];
+        <section class="content-body" id="stageContent">
+            <!-- El contenido dinámico de la etapa actual se renderiza aquí -->
+        </section>
+    </main>
 
-// INICIALIZACIÓN
-document.addEventListener("DOMContentLoaded", () => {
-    renderSidebar();
-    loadStage(1);
-});
+    <script>
+        // ESTADO GLOBAL
+        const state = {
+            currentStage: 1,
+            maxUnlockedStage: 1, // Controla el avance en la barra lateral
+            score: 0,
+            completedStages: new Set(),
+            awardedScores: new Set()
+        };
 
-function renderSidebar() {
-    const container = document.getElementById("sidebarSteps");
-    container.innerHTML = stages.map(s => `
-        <button class="step-item ${s.id === state.currentStage ? 'active' : ''} ${state.completedStages.has(s.id) ? 'completed' : ''}" 
-                onclick="goToStage(${s.id})">
-            <div class="step-number">${state.completedStages.has(s.id) ? '✓' : s.id}</div>
-            <div class="step-info">
-                <span class="step-phase">${s.phase}</span>
-                <span class="step-title">${s.title}</span>
-            </div>
-        </button>
-    `).join('');
+        // ESTRUCTURA DE ETAPAS
+        const stages = [
+            { id: 1, title: "Antecedentes del Proyecto", phase: "SEIA", icon: "📄" },
+            { id: 2, title: "¿Debe ingresar al SEIA?", phase: "SEIA", icon: "🔎" },
+            { id: 3, title: "¿DIA o EIA?", phase: "SEIA", icon: "📑" },
+            { id: 4, title: "Componente Fauna", phase: "SEIA", icon: "🦊" },
+            { id: 5, title: "Impacto Ambiental", phase: "SEIA", icon: "📈" },
+            { id: 6, title: "Línea de Base", phase: "SEIA", icon: "🔭" },
+            { id: 7, title: "Normativa y PAS", phase: "SEIA", icon: "⚖️" },
+            { id: 8, title: "Medidas Ambientales", phase: "SEIA", icon: "🌱" },
+            { id: 9, title: "Pronunciamiento Técnico", phase: "SEIA", icon: "📋" },
+            { id: 10, title: "Resolución RCA", phase: "RCA", icon: "✅" },
+            { id: 11, title: "Construcción y Operación", phase: "SMA", icon: "🏗️" },
+            { id: 12, title: "Fiscalización SMA", phase: "SMA", icon: "🔍" },
+            { id: 13, title: "Cumplimiento y Hallazgos", phase: "SMA", icon: "⚠️" }
+        ];
 
-    // Actualizar barra de progreso
-    const progress = Math.round((state.completedStages.size / stages.length) * 100);
-    document.getElementById("progressBar").style.width = `${progress}%`;
-    document.getElementById("stepCounter").innerText = `Etapa ${state.currentStage} de ${stages.length}`;
-    document.getElementById("scoreBadge").innerText = `${state.score} / 100 pts`;
-}
+        // INICIALIZACIÓN
+        document.addEventListener("DOMContentLoaded", () => {
+            renderSidebar();
+            loadStage(1);
+        });
 
-function goToStage(stageId) {
-    state.currentStage = stageId;
-    renderSidebar();
-    loadStage(stageId);
-}
+        // DIBUJA LA COLUMNA IZQUIERDA OCULTANDO PASOS FUTUROS
+        function renderSidebar() {
+            const container = document.getElementById("sidebarSteps");
+            
+            // FILTRADO CLAVE: Solo genera los elementos hasta maxUnlockedStage
+            const visibleStages = stages.filter(s => s.id <= state.maxUnlockedStage);
 
-function addScore(points, key) {
-    if (!state.awardedScores.has(key)) {
-        state.score += points;
-        state.awardedScores.add(key);
-        renderSidebar();
-    }
-}
+            container.innerHTML = visibleStages.map(s => {
+                const isCompleted = state.completedStages.has(s.id);
+                const isActive = s.id === state.currentStage;
 
-// CREADOR DE PLANTILLAS DE ETAPA
-function loadStage(id) {
-    const header = document.getElementById("workspaceHeader");
-    const content = document.getElementById("workspaceContent");
-    const stage = stages.find(s => s.id === id);
-
-    header.innerHTML = `
-        <div class="workspace-icon">${stage.icon}</div>
-        <div class="workspace-title">
-            <h2>${stage.id}. ${stage.title}</h2>
-            <p>Fase de proceso: ${stage.phase}</p>
-        </div>
-    `;
-
-    switch(id) {
-        case 1:
-            content.innerHTML = `
-                <p>Una empresa proyecta construir y operar el <strong>Parque Solar Quebrada del Zorro</strong> en la Región de Coquimbo.</p>
-                
-                <div class="data-grid">
-                    <div class="data-card"><strong>Potencia Instalada</strong><span>82 MW</span></div>
-                    <div class="data-card"><strong>Superficie</strong><span>145 ha</span></div>
-                    <div class="data-card"><strong>Línea Eléctrica</strong><span>110 kV (18 km)</span></div>
-                    <div class="data-card"><strong>Vegetación Nativa</strong><span>31 ha a intervenir</span></div>
-                </div>
-
-                <div class="highlight-box">
-                    <h4>🦎 Antecedentes Relevantes de Fauna</h4>
-                    <p>La línea de base registró 37 especies de vertebrados terrestres. Se confirmó la presencia y población reproductiva de un reptil nativo clasificado <strong>En Peligro (EP)</strong> en 18 hectáreas del área directa del proyecto.</p>
-                </div>
-
-                <button class="btn-primary" onclick="completeAndNext(1)">Comprendo los antecedentes →</button>
-            `;
-            break;
-
-        case 2:
-            content.innerHTML = `
-                <p>De acuerdo a la Ley 19.300 y el Reglamento del SEIA, determine si las características técnicas descritas obligan al proyecto a ingresar al sistema.</p>
-                
-                <div class="decision-grid">
-                    <button class="btn-decision" onclick="answerStage2('no')">
-                        <strong>✕ No ingresa al SEIA</strong>
-                        <small>El proyecto no cumple las tipologías del Art. 10.</small>
+                return `
+                    <button class="step-item ${isActive ? 'active' : ''} ${isCompleted ? 'completed' : ''}" 
+                            onclick="goToStage(${s.id})">
+                        <div class="step-number">${isCompleted ? '✓' : s.id}</div>
+                        <div class="step-info">
+                            <span class="step-phase">${s.phase}</span>
+                            <span class="step-title">${s.title}</span>
+                        </div>
                     </button>
-                    <button class="btn-decision" onclick="answerStage2('yes')">
-                        <strong>✓ Sí ingresa al SEIA</strong>
-                        <small>Supera el umbral de potencia de centrales generadoras (>3MW).</small>
-                    </button>
-                </div>
-                <div id="stage2Feedback"></div>
-            `;
-            break;
+                `;
+            }).join('');
 
-        case 3:
-            content.innerHTML = `
-                <p>El proyecto debe ingresar al SEIA. Ahora evalúe el instrumento adecuado: ¿Declaración de Impacto Ambiental (DIA) o Estudio de Impacto Ambiental (EIA)?</p>
-                
-                <div class="decision-grid">
-                    <button class="btn-decision" onclick="answerStage3('dia')">
-                        <strong>Declaración (DIA)</strong>
-                        <small>Si no genera efectos adversos significativos del Art. 11.</small>
-                    </button>
-                    <button class="btn-decision" onclick="answerStage3('eia')">
-                        <strong>Estudio (EIA)</strong>
-                        <small>Si genera riesgo a especies amenazadas o hábitats relevantes.</small>
-                    </button>
-                </div>
-                <div id="stage3Feedback"></div>
-            `;
-            break;
+            // Actualizar interfaz general
+            const progress = Math.round((state.completedStages.size / stages.length) * 100);
+            document.getElementById("progressBar").style.width = `${progress}%`;
+            document.getElementById("stepCounter").innerText = `Etapa ${state.currentStage} de ${stages.length}`;
+            document.getElementById("scoreBadge").innerText = `${state.score} / 100 pts`;
+        }
 
-        default:
-            content.innerHTML = `<p>Etapa ${id} en construcción técnica...</p>
-            <button class="btn-primary" onclick="completeAndNext(${id})">Avanzar etapa →</button>`;
-    }
-}
+        function goToStage(stageId) {
+            if (stageId <= state.maxUnlockedStage) {
+                state.currentStage = stageId;
+                renderSidebar();
+                loadStage(stageId);
+            }
+        }
 
-// LOGICA DE DECISIONES
-function answerStage2(option) {
-    const feedback = document.getElementById("stage2Feedback");
-    if (option === 'yes') {
-        addScore(10, 'stage2');
-        feedback.innerHTML = `
-            <div class="feedback-box correct">
-                <strong>✓ Correcto (+10 pts)</strong>
-                <p>Las centrales generadoras de energía eléctrica con potencia mayor a 3 MW (Art. 3 letra c del RSEIA) deben ingresar obligatoriamente al SEIA.</p>
-            </div>
-            <button class="btn-primary" onclick="completeAndNext(2)">Siguiente Etapa →</button>
-        `;
-    } else {
-        feedback.innerHTML = `
-            <div class="feedback-box wrong">
-                <strong>✕ Incorrecto</strong>
-                <p>Revise la potencia del proyecto (82 MW). El umbral legal de ingreso es de 3 MW.</p>
-            </div>
-        `;
-    }
-}
+        // DESBLOQUEA LA SIGUIENTE ETAPA Y AVANZA
+        function completeAndNext(stageId) {
+            state.completedStages.add(stageId);
 
-function answerStage3(option) {
-    const feedback = document.getElementById("stage3Feedback");
-    if (option === 'eia') {
-        addScore(15, 'stage3');
-        feedback.innerHTML = `
-            <div class="feedback-box correct">
-                <strong>✓ Correcto (+15 pts)</strong>
-                <p>Corresponde ingresar mediante un EIA debido a la afectación directa del hábitat de una especie en categoría En Peligro (Art. 11 letra b de la Ley 19.300).</p>
-            </div>
-            <button class="btn-primary" onclick="completeAndNext(3)">Siguiente Etapa →</button>
-        `;
-    } else {
-        feedback.innerHTML = `
-            <div class="feedback-box wrong">
-                <strong>✕ Incorrecto</strong>
-                <p>Una DIA no es suficiente cuando se afecta significativamente el hábitat de especies clasificadas en estado de conservación amenazado.</p>
-            </div>
-        `;
-    }
-}
+            // Se habilita la siguiente casilla en el menú lateral
+            if (stageId + 1 > state.maxUnlockedStage && stageId < stages.length) {
+                state.maxUnlockedStage = stageId + 1;
+            }
 
-function completeAndNext(stageId) {
-    state.completedStages.add(stageId);
-    if (stageId < stages.length) {
-        goToStage(stageId + 1);
-    } else {
-        renderSidebar();
-    }
-}
-</script>
+            if (stageId < stages.length) {
+                goToStage(stageId + 1);
+            } else {
+                renderSidebar();
+            }
+        }
 
+        function addScore(points, key) {
+            if (!state.awardedScores.has(key)) {
+                state.score += points;
+                state.awardedScores.add(key);
+            }
+        }
+
+        // RENDERIZADOR DE CONTENIDO POR ETAPA
+        function loadStage(stageId) {
+            const container = document.getElementById("stageContent");
+            const currentStageObj = stages.find(s => s.id === stageId);
+            document.getElementById("currentPhaseLabel").innerText = `FASE ${currentStageObj.phase}`;
+
+            switch (stageId) {
+                case 1:
+                    container.innerHTML = `
+                        <div class="stage-card">
+                            <h2 class="stage-title">📄 Antecedentes del Proyecto</h2>
+                            <p class="stage-desc">
+                                Se proyecta la construcción de un Parque Fotovoltaico con una potencia instalada de 12 MW y una línea de transmisión eléctrica de 3 km en la Región del Maule.
+                            </p>
+                            <button class="btn" onclick="addScore(10, 's1'); completeAndNext(1);">
+                                Entendido, comenzar evaluación →
+                            </button>
+                        </div>
+                    `;
+                    break;
+
+                case 2:
+                    container.innerHTML = `
+                        <div class="stage-card">
+                            <h2 class="stage-title">🔎 ¿Debe ingresar al SEIA?</h2>
+                            <p class="stage-desc">
+                                Revisa el Artículo 10 de la Ley 19.300. Dado que el proyecto genera 12 MW (>3 MW) según el tipógrafo c), ¿corresponde su ingreso obligatorio al sistema?
+                            </p>
+                            <div class="options-grid">
+                                <div class="option-card" onclick="evaluarIngreso(true)">
+                                    <strong>Sí, debe ingresar obligatoriamente</strong>
+                                    <p style="font-size:0.85rem; color:var(--text-muted); margin-top:5px;">Supera la tipología del Art. 10 letra c) al ser > 3MW.</p>
+                                </div>
+                                <div class="option-card" onclick="evaluarIngreso(false)">
+                                    <strong>No, es de ingreso voluntario</strong>
+                                    <p style="font-size:0.85rem; color:var(--text-muted); margin-top:5px;">Las energías renovables no requieren evaluación.</p>
+                                </div>
+                            </div>
+                            <div id="feedback2" class="feedback-box"></div>
+                        </div>
+                    `;
+                    break;
+
+                case 3:
+                    container.innerHTML = `
+                        <div class="stage-card">
+                            <h2 class="stage-title">📑 ¿DIA o EIA?</h2>
+                            <p class="stage-desc">
+                                El proyecto genera un riesgo para la salud de la población ni reasentamiento de comunidades, pero afectará el hábitat de una especie protegida (Art. 11 Ley 19.300).
+                            </p>
+                            <div class="options-grid">
+                                <div class="option-card" onclick="evaluarVia('DIA')">
+                                    <strong>Declaración de Impacto Ambiental (DIA)</strong>
+                                </div>
+                                <div class="option-card" onclick="evaluarVia('EIA')">
+                                    <strong>Estudio de Impacto Ambiental (EIA)</strong>
+                                </div>
+                            </div>
+                            <div id="feedback3" class="feedback-box"></div>
+                        </div>
+                    `;
+                    break;
+
+                default:
+                    container.innerHTML = `
+                        <div class="stage-card">
+                            <h2 class="stage-title">${currentStageObj.icon} ${currentStageObj.title}</h2>
+                            <p class="stage-desc">Contenido en desarrollo para la etapa ${stageId}.</p>
+                            <button class="btn" onclick="completeAndNext(${stageId})">Siguiente Etapa →</button>
+                        </div>
+                    `;
+                    break;
+            }
+        }
+
+        // LÓGICA DE LAS PREGUNTAS
+        function evaluarIngreso(esCorrecto) {
+            const feedback = document.getElementById("feedback2");
+            feedback.style.display = "block";
+
+            if (esCorrecto) {
+                feedback.className = "feedback-box success";
+                feedback.innerHTML = `
+                    <strong>¡Correcto! (+15 pts)</strong><br>
+                    Al superar los 3 MW de potencia, ingresa obligatoriamente según el Art. 10 letra c).<br><br>
+                    <button class="btn" onclick="completeAndNext(2)">Avanzar a la decisión DIA/EIA →</button>
+                `;
+                addScore(15, 's2');
+            } else {
+                feedback.className = "feedback-box error";
+                feedback.innerHTML = "<strong>Incorrecto.</strong> Toda central generadora mayor a 3 MW debe ingresar obligatoriamente al SEIA.";
+            }
+        }
+
+        function evaluarVia(opcion) {
+            const feedback = document.getElementById("feedback3");
+            feedback.style.display = "block";
+
+            if (opcion === 'EIA') {
+                feedback.className = "feedback-box success";
+                feedback.innerHTML = `
+                    <strong>¡Correcto! (+20 pts)</strong><br>
+                    Al generar efectos significativos sobre la fauna protegida (Art. 11 letra b), el proyecto debe ingresar mediante un <strong>EIA</strong>.<br><br>
+                    <button class="btn" onclick="completeAndNext(3)">Avanzar al Análisis de Fauna →</button>
+                `;
+                addScore(20, 's3');
+            } else {
+                feedback.className = "feedback-box error";
+                feedback.innerHTML = "<strong>Incorrecto.</strong> Al haber un impacto significativo sobre flora o fauna protegida (Art. 11), una DIA no es suficiente.";
+            }
+        }
+    </script>
 </body>
 </html>
