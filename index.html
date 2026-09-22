@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulador SEIA Chile</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f6f8;
+      color: #1f2937;
+    }
+
+    header {
+      background: #0f4c5c;
+      color: white;
+      padding: 28px 20px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    header p {
+      margin-top: 8px;
+      margin-bottom: 0;
+      opacity: 0.9;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 35px auto;
+      padding: 0 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 28px;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+      margin-bottom: 25px;
+    }
+
+    .etapa {
+      color: #0f4c5c;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    h2 {
+      margin-top: 0;
+    }
+
+    .dato {
+      margin: 8px 0;
+    }
+
+    button {
+      background: #0f4c5c;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      margin: 8px 5px 0 0;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+    }
+
+    button:hover {
+      background: #14677a;
+    }
+
+    #resultado {
+      margin-top: 20px;
+      padding: 18px;
+      border-radius: 8px;
+      display: none;
+    }
+
+    .correcto {
+      background: #e8f5e9;
+      border-left: 5px solid #2e7d32;
+    }
+
+    .incorrecto {
+      background: #ffebee;
+      border-left: 5px solid #c62828;
+    }
+
+    footer {
+      text-align: center;
+      padding: 25px;
+      color: #6b7280;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>Simulador de Evaluación Ambiental</h1>
+  <p>Sistema de Evaluación de Impacto Ambiental — Chile</p>
+</header>
+
+<main>
+
+  <div class="card">
+
+    <div class="etapa">CASO DE PRUEBA</div>
+
+    <h2>Proyecto Parque Solar Quebrada del Zorro</h2>
+
+    <div class="dato"><strong>Región:</strong> Coquimbo</div>
+    <div class="dato"><strong>Tipo:</strong> Central solar fotovoltaica</div>
+    <div class="dato"><strong>Potencia instalada:</strong> 82 MW</div>
+    <div class="dato"><strong>Superficie:</strong> 145 ha</div>
+    <div class="dato"><strong>Línea de transmisión:</strong> 110 kV, 18 km</div>
+    <div class="dato"><strong>Vegetación:</strong> Matorral nativo</div>
+    <div class="dato"><strong>Fauna:</strong> Reptiles, aves rapaces y zorro culpeo</div>
+
+  </div>
+
+  <div class="card">
+
+    <div class="etapa">ETAPA 1</div>
+
+    <h2>¿Debe ingresar este proyecto al SEIA?</h2>
+
+    <p>Seleccione la alternativa que considere correcta.</p>
+
+    <button onclick="evaluar('no')">No debe ingresar</button>
+    <button onclick="evaluar('voluntario')">Ingreso voluntario</button>
+    <button onclick="evaluar('obligatorio')">Ingreso obligatorio</button>
+
+    <div id="resultado"></div>
+
+  </div>
+
+</main>
+
+<footer>
+  Desarrollado por Jorge Leichtle © 2026
+</footer>
+
+<script>
+
+function evaluar(respuesta) {
+
+  const resultado = document.getElementById("resultado");
+
+  resultado.style.display = "block";
+
+  if (respuesta === "obligatorio") {
+
+    resultado.className = "correcto";
+
+    resultado.innerHTML = `
+      <strong>Respuesta correcta.</strong><br><br>
+      El proyecto debe analizarse como una tipología de ingreso obligatorio
+      al Sistema de Evaluación de Impacto Ambiental.<br><br>
+
+      En la versión definitiva del simulador, aquí se mostrará la
+      fundamentación jurídica correspondiente y el artículo aplicable.
+    `;
+
+  } else {
+
+    resultado.className = "incorrecto";
+
+    resultado.innerHTML = `
+      <strong>Respuesta incorrecta.</strong><br><br>
+      Revise las características y magnitud del proyecto antes de continuar.
+    `;
+  }
+}
+
+</script>
+
+</body>
+</html>
