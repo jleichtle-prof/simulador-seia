@@ -4,36 +4,45 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Simulador de Evaluación Ambiental - SEIA Chile</title>
+<title>Simulador de Evaluación Ambiental | SEIA Chile</title>
 
 <style>
 
 :root{
-    --azul:#155e75;
-    --azul2:#0f4c5c;
-    --azulClaro:#eaf5f8;
+    --navy:#123f4c;
+    --navy2:#0d5667;
 
-    --verde:#2f7d50;
-    --verdeClaro:#edf8f1;
+    --green:#2f7d58;
+    --green2:#3d996e;
+    --green-soft:#eef8f2;
 
-    --rojo:#c64040;
-    --rojoClaro:#fff0f0;
+    --blue:#3578c7;
+    --blue-soft:#eef5ff;
 
-    --naranjo:#e59b29;
-    --naranjoClaro:#fff7e9;
+    --teal:#2c8a96;
+    --teal-soft:#edf9fa;
 
-    --morado:#6c5bb8;
-    --moradoClaro:#f3f0ff;
+    --amber:#d9932a;
+    --amber-soft:#fff8ea;
 
-    --celeste:#3788aa;
-    --celesteClaro:#eef8fb;
+    --orange:#d86e37;
+    --orange-soft:#fff3ec;
 
-    --gris:#f4f6f8;
-    --gris2:#dce3e7;
-    --gris3:#6a7680;
+    --purple:#7763b7;
+    --purple-soft:#f4f1ff;
 
-    --texto:#18313d;
-    --blanco:#ffffff;
+    --red:#c84b4b;
+    --red-soft:#fff1f1;
+
+    --ink:#173641;
+    --muted:#647a83;
+    --line:#dce6e9;
+
+    --white:#ffffff;
+    --surface:#f8fafb;
+
+    --shadow:0 12px 34px rgba(23,54,65,.09);
+    --shadow-hover:0 18px 42px rgba(23,54,65,.15);
 }
 
 *{
@@ -46,594 +55,1085 @@ html{
 
 body{
     margin:0;
-    font-family:Arial, Helvetica, sans-serif;
-    background:#f5f7f8;
-    color:var(--texto);
-    line-height:1.5;
+
+    font-family:
+        "Segoe UI",
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    color:var(--ink);
+
+    background:
+        radial-gradient(
+            circle at 8% 9%,
+            rgba(47,125,88,.08),
+            transparent 24%
+        ),
+        radial-gradient(
+            circle at 92% 14%,
+            rgba(53,120,199,.07),
+            transparent 25%
+        ),
+        linear-gradient(
+            180deg,
+            #f9fbfb 0%,
+            #f3f7f7 55%,
+            #f8faf9 100%
+        );
+
+    min-height:100vh;
 }
 
 
-/* ============================
-CABECERA
-============================ */
+/* =========================================================
+HEADER
+========================================================= */
 
 header{
-    background:white;
-    border-bottom:1px solid #dde5e8;
-    padding:18px 30px;
+    background:
+        linear-gradient(
+            120deg,
+            #ffffff,
+            #f4faf8
+        );
+
+    border-bottom:1px solid #e1e9eb;
 }
 
-.header-contenido{
+.header-inner{
     max-width:1250px;
     margin:auto;
+
+    padding:18px 26px;
+
     display:flex;
     justify-content:space-between;
     align-items:center;
-    gap:20px;
+
+    gap:25px;
 }
 
-.marca h1{
-    margin:0;
-    color:var(--azul2);
-    font-size:1.65rem;
-}
-
-.marca p{
-    margin:3px 0 0;
-    color:#5e7480;
-    font-size:.92rem;
-}
-
-.etiqueta-header{
-    color:var(--verde);
-    font-weight:bold;
-    font-size:.88rem;
-}
-
-
-/* ============================
-CONTENEDOR
-============================ */
-
-main{
-    max-width:1280px;
-    margin:30px auto;
-    padding:0 20px 60px;
-}
-
-.intro{
-    text-align:center;
-    margin-bottom:28px;
-}
-
-.intro h2{
-    margin-bottom:8px;
-    color:var(--azul2);
-}
-
-.intro p{
-    max-width:800px;
-    margin:0 auto;
-    color:var(--gris3);
-}
-
-
-/* ============================
-PANEL PROGRESO
-============================ */
-
-.panel-progreso{
-    background:white;
-    border-radius:14px;
-    padding:15px 20px;
-    box-shadow:0 3px 14px rgba(0,0,0,.06);
-    margin-bottom:28px;
-
-    display:grid;
-    grid-template-columns:1fr auto;
-    gap:20px;
-    align-items:center;
-}
-
-.barra-fondo{
-    height:10px;
-    background:#dfe6e9;
-    border-radius:20px;
-    overflow:hidden;
-}
-
-.barra{
-    height:100%;
-    width:0%;
-    background:linear-gradient(90deg,var(--verde),var(--azul));
-    transition:.4s;
-}
-
-.puntaje{
-    font-weight:bold;
-    color:var(--azul2);
-}
-
-
-/* ============================
-DIAGRAMA
-============================ */
-
-.flujo{
-    position:relative;
-    max-width:1160px;
-    margin:auto;
-}
-
-.fila{
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:28px;
-    flex-wrap:wrap;
-    margin:0 auto;
-}
-
-.fila-inferior{
-    display:grid;
-    grid-template-columns:repeat(6,1fr);
-    gap:15px;
-    margin-top:20px;
-}
-
-.conector-vertical{
-    width:3px;
-    height:30px;
-    background:#2b6d88;
-    margin:auto;
-    position:relative;
-}
-
-.conector-vertical:after{
-    content:"";
-    position:absolute;
-    bottom:-2px;
-    left:-5px;
-    border-left:6px solid transparent;
-    border-right:6px solid transparent;
-    border-top:8px solid #2b6d88;
-}
-
-.rama{
-    height:35px;
-    width:300px;
-    margin:auto;
-    position:relative;
-    border-top:3px solid #2b6d88;
-}
-
-.rama:before,
-.rama:after{
-    content:"";
-    position:absolute;
-    top:-3px;
-    width:3px;
-    height:35px;
-    background:#2b6d88;
-}
-
-.rama:before{
-    left:0;
-}
-
-.rama:after{
-    right:0;
-}
-
-
-/* ============================
-CAJAS
-============================ */
-
-.caja{
-    background:white;
-    border:2px solid #3f7dd0;
-    border-radius:15px;
-    padding:15px 18px;
-    min-height:95px;
-    cursor:pointer;
-    transition:.2s;
-    box-shadow:0 4px 12px rgba(0,0,0,.07);
-
+.brand{
     display:flex;
     align-items:center;
     gap:14px;
+}
+
+.logo{
+    width:50px;
+    height:50px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:15px;
+
+    color:white;
+
+    background:
+        linear-gradient(
+            145deg,
+            var(--green),
+            var(--green2)
+        );
+
+    box-shadow:
+        0 8px 20px
+        rgba(47,125,88,.23);
+
+    font-size:1.7rem;
+}
+
+.brand h1{
+    margin:0;
+
+    color:var(--navy);
+
+    font-size:1.55rem;
+}
+
+.brand p{
+    margin:3px 0 0;
+
+    color:var(--muted);
+
+    font-size:.88rem;
+}
+
+.header-tags{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:flex-end;
+    gap:7px;
+}
+
+.tag{
+    padding:7px 10px;
+
+    background:white;
+
+    border:1px solid #dbe5e7;
+
+    border-radius:999px;
+
+    color:#56717a;
+
+    font-size:.75rem;
+    font-weight:700;
+}
+
+
+/* =========================================================
+MAIN
+========================================================= */
+
+main{
+    max-width:1180px;
+    margin:auto;
+
+    padding:
+        34px 22px
+        70px;
+}
+
+
+/* =========================================================
+INTRO
+========================================================= */
+
+.intro{
+    text-align:center;
+
+    margin-bottom:24px;
+}
+
+.intro .eyebrow{
+    display:inline-block;
+
+    margin-bottom:8px;
+
+    color:var(--green);
+
+    font-size:.75rem;
+    font-weight:800;
+    letter-spacing:.09em;
+    text-transform:uppercase;
+}
+
+.intro h2{
+    margin:0;
+
+    color:var(--navy);
+
+    font-size:
+        clamp(
+            1.8rem,
+            3vw,
+            2.45rem
+        );
+}
+
+.intro p{
+    max-width:760px;
+
+    margin:
+        12px auto
+        0;
+
+    color:var(--muted);
+}
+
+
+/* =========================================================
+PROGRESO
+========================================================= */
+
+.progress-panel{
+    position:sticky;
+    top:10px;
+    z-index:20;
+
+    display:grid;
+
+    grid-template-columns:
+        auto
+        1fr
+        auto;
+
+    gap:16px;
+
+    align-items:center;
+
+    margin-bottom:27px;
+
+    padding:13px 17px;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .93
+        );
+
+    backdrop-filter:blur(10px);
+
+    border:1px solid #dce6e8;
+
+    border-radius:16px;
+
+    box-shadow:
+        0 7px 22px
+        rgba(
+            30,
+            57,
+            68,
+            .07
+        );
+}
+
+.progress-step{
+    color:var(--navy);
+
+    font-size:.84rem;
+    font-weight:800;
+
+    white-space:nowrap;
+}
+
+.progress-track{
+    height:8px;
+
+    border-radius:999px;
+
+    background:#e5ebed;
+
+    overflow:hidden;
+}
+
+.progress-bar{
+    width:0%;
+
+    height:100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            var(--green),
+            #49a779,
+            var(--teal)
+        );
+
+    transition:width .45s ease;
+}
+
+.score{
+    padding:6px 11px;
+
+    border-radius:999px;
+
+    background:#eef5f5;
+
+    color:var(--navy);
+
+    font-size:.82rem;
+    font-weight:800;
+
+    white-space:nowrap;
+}
+
+
+/* =========================================================
+ESCENARIO
+========================================================= */
+
+.simulator{
+    padding:
+        35px 24px
+        40px;
+
+    background:
+        rgba(
+            255,
+            255,
+            255,
+            .80
+        );
+
+    border:1px solid #dfe8ea;
+
+    border-radius:27px;
+
+    box-shadow:var(--shadow);
+}
+
+
+/* =========================================================
+FLUJO PROGRESIVO
+========================================================= */
+
+.flow{
+    max-width:720px;
+
+    margin:auto;
+}
+
+.flow-stage{
+    display:none;
+}
+
+.flow-stage.visible{
+    display:block;
+
+    animation:
+        revealStage
+        .42s ease
+        both;
+}
+
+@keyframes revealStage{
+
+    from{
+        opacity:0;
+        transform:translateY(18px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+
+/* =========================================================
+CONECTORES
+========================================================= */
+
+.connector{
+    width:3px;
+    height:34px;
+
+    margin:auto;
+
+    background:
+        linear-gradient(
+            var(--teal),
+            #4f9faa
+        );
 
     position:relative;
 }
 
-.caja:hover{
-    transform:translateY(-3px);
-    box-shadow:0 8px 18px rgba(0,0,0,.11);
+.connector::after{
+    content:"";
+
+    position:absolute;
+
+    bottom:-2px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    border-left:6px solid transparent;
+    border-right:6px solid transparent;
+    border-top:8px solid #4f9faa;
 }
 
-.caja.activa{
-    box-shadow:0 0 0 4px rgba(21,94,117,.12);
-}
 
-.caja.bloqueada{
-    opacity:.43;
-    cursor:not-allowed;
-    filter:grayscale(.6);
-}
+/* =========================================================
+CAJAS
+========================================================= */
 
-.caja.bloqueada:hover{
-    transform:none;
-}
-
-.caja-principal{
-    width:405px;
-}
-
-.caja-decision{
-    width:410px;
-    border-color:var(--verde);
-    background:var(--verdeClaro);
-}
-
-.caja-opcion{
-    width:240px;
-    min-height:85px;
-}
-
-.caja-no{
-    border-color:var(--rojo);
-    background:var(--rojoClaro);
-}
-
-.caja-si{
-    border-color:var(--verde);
-    background:var(--verdeClaro);
-}
-
-.caja-dia{
-    border-color:var(--naranjo);
-    background:var(--naranjoClaro);
-}
-
-.caja-eia{
-    border-color:#df6d32;
-    background:#fff2ea;
-}
-
-.caja-fauna{
-    border-color:var(--verde);
-    background:var(--verdeClaro);
-}
-
-.caja-impacto{
-    background:#eef5ff;
-    border-color:#4a7ed1;
-}
-
-.caja-linea{
-    background:var(--moradoClaro);
-    border-color:var(--morado);
-}
-
-.caja-normativa{
-    background:var(--celesteClaro);
-    border-color:var(--celeste);
-}
-
-.caja-medidas{
-    background:#f0f8ed;
-    border-color:#5a9a58;
-}
-
-.caja-final{
-    background:#edf6fb;
-    border-color:#3685a5;
-}
-
-.numero{
-    width:38px;
-    height:38px;
-    border-radius:50%;
-    flex:0 0 38px;
+.stage-card{
+    width:100%;
 
     display:flex;
     align-items:center;
-    justify-content:center;
 
-    background:var(--azul);
-    color:white;
-    font-weight:bold;
-    font-size:1.05rem;
-}
+    gap:15px;
 
-.icono{
-    font-size:1.9rem;
-    width:42px;
-    text-align:center;
-}
+    min-height:100px;
 
-.caja-texto{
-    min-width:0;
-}
+    padding:
+        17px 20px;
 
-.caja-texto strong{
-    display:block;
-    font-size:1rem;
-    margin-bottom:3px;
-    color:#153b4c;
-}
+    border:1.5px solid #d2e0e4;
 
-.caja-texto span{
-    display:block;
-    font-size:.82rem;
-    color:#5a6c75;
-}
+    border-radius:18px;
 
-.flecha-caja{
-    margin-left:auto;
-    font-size:1.3rem;
-    color:#2b6d88;
-}
-
-
-/* ============================
-RESULTADO
-============================ */
-
-.caja-resultado{
-    max-width:500px;
-    margin:35px auto 0;
-    background:linear-gradient(135deg,#0f4c5c,#12677b);
-    color:white;
-    border:none;
-}
-
-.caja-resultado .numero{
     background:white;
-    color:var(--azul2);
+
+    box-shadow:
+        0 7px 20px
+        rgba(
+            30,
+            58,
+            68,
+            .07
+        );
+
+    cursor:pointer;
+
+    transition:
+        transform .2s ease,
+        box-shadow .2s ease,
+        border-color .2s ease,
+        min-height .3s ease,
+        padding .3s ease;
 }
 
-.caja-resultado strong,
-.caja-resultado span{
-    color:white;
+.stage-card:hover{
+    transform:translateY(-3px);
+
+    box-shadow:var(--shadow-hover);
 }
 
+.stage-card.current{
+    border-color:var(--teal);
 
-/* ============================
-PANEL EXPLICACIÓN
-============================ */
+    box-shadow:
+        0 0 0 4px
+        rgba(44,138,150,.10),
+        var(--shadow-hover);
+}
 
-.panel-explicacion{
-    margin-top:35px;
-    background:white;
-    border-radius:16px;
-    padding:28px;
-    box-shadow:0 5px 18px rgba(0,0,0,.09);
-    border-top:5px solid var(--azul);
+.stage-card.completed{
+    min-height:65px;
+
+    padding:
+        12px 18px;
+
+    border-color:
+        rgba(
+            47,
+            125,
+            88,
+            .55
+        );
+
+    background:
+        linear-gradient(
+            145deg,
+            #ffffff,
+            #f3fbf6
+        );
+}
+
+.stage-card.completed
+.stage-description{
     display:none;
 }
 
-.panel-explicacion.visible{
+.stage-card.completed
+.stage-icon{
+    width:37px;
+    height:37px;
+
+    flex-basis:37px;
+}
+
+.stage-card.completed
+.stage-index{
+    width:30px;
+    height:30px;
+
+    flex-basis:30px;
+
+    border-radius:10px;
+
+    background:var(--green);
+}
+
+.stage-card.completed
+.stage-index::before{
+    content:"✓";
+}
+
+.stage-card.completed
+.stage-index span{
+    display:none;
+}
+
+
+/* =========================================================
+ICONOS
+========================================================= */
+
+.stage-index{
+    width:38px;
+    height:38px;
+
+    flex:0 0 38px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:12px;
+
+    background:var(--navy);
+
+    color:white;
+
+    font-weight:900;
+}
+
+.stage-icon{
+    width:45px;
+    height:45px;
+
+    flex:
+        0 0
+        45px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:13px;
+
+    background:#edf5f6;
+
+    font-size:1.45rem;
+}
+
+.stage-content{
+    min-width:0;
+    flex:1;
+}
+
+.stage-title{
     display:block;
+
+    color:#173d4c;
+
+    font-size:1.02rem;
+    font-weight:800;
 }
 
-.panel-titulo{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    margin-bottom:20px;
+.stage-description{
+    display:block;
+
+    margin-top:3px;
+
+    color:#6b7d84;
+
+    font-size:.8rem;
 }
 
-.panel-titulo .icono-panel{
-    font-size:2rem;
-}
+.stage-arrow{
+    color:#78939d;
 
-.panel-titulo h2{
-    margin:0;
-    color:var(--azul2);
-}
-
-.panel-explicacion h3{
-    color:var(--azul2);
-}
-
-.info{
-    background:#eff7f8;
-    border-left:5px solid var(--azul);
-    padding:16px;
-    border-radius:8px;
-    margin:18px 0;
-}
-
-.correcto{
-    background:#edf8f1;
-    border-left:5px solid var(--verde);
-    padding:17px;
-    border-radius:8px;
-    margin-top:20px;
-}
-
-.incorrecto{
-    background:#fff0f0;
-    border-left:5px solid var(--rojo);
-    padding:17px;
-    border-radius:8px;
-    margin-top:20px;
-}
-
-.advertencia{
-    background:#fff7e7;
-    border-left:5px solid var(--naranjo);
-    padding:17px;
-    border-radius:8px;
-    margin-top:18px;
+    font-size:1.4rem;
 }
 
 
-/* ============================
-BOTONES
-============================ */
+/* =========================================================
+COLORES
+========================================================= */
 
-.botones-respuesta{
-    display:flex;
-    gap:12px;
-    flex-wrap:wrap;
-    margin-top:20px;
+.card-project{
+    border-color:#5b8dc7;
 }
 
-button{
+.card-entry{
+    border-color:var(--green);
+}
+
+.card-instrument{
+    border-color:var(--amber);
+}
+
+.card-fauna{
+    border-color:var(--green);
+}
+
+.card-impact{
+    border-color:var(--blue);
+
+    background:
+        linear-gradient(
+            145deg,
+            #fff,
+            #f6f9ff
+        );
+}
+
+.card-baseline{
+    border-color:var(--purple);
+
+    background:
+        linear-gradient(
+            145deg,
+            #fff,
+            #faf8ff
+        );
+}
+
+.card-law{
+    border-color:var(--teal);
+
+    background:
+        linear-gradient(
+            145deg,
+            #fff,
+            #f4fbfc
+        );
+}
+
+.card-measures{
+    border-color:#68a55a;
+
+    background:
+        linear-gradient(
+            145deg,
+            #fff,
+            #f6fbf3
+        );
+}
+
+.card-opinion{
+    border-color:#3d7f9c;
+}
+
+.card-result{
     border:none;
-    border-radius:9px;
-    padding:12px 20px;
-    font-size:1rem;
+
+    color:white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #123f4c,
+            #146879
+        );
+}
+
+.card-result .stage-title,
+.card-result .stage-description,
+.card-result .stage-arrow{
+    color:white;
+}
+
+.card-result .stage-icon{
+    color:var(--navy);
+
+    background:white;
+}
+
+
+/* =========================================================
+DECISIONES
+========================================================= */
+
+.decision-row{
+    display:grid;
+
+    grid-template-columns:
+        repeat(
+            2,
+            minmax(0,1fr)
+        );
+
+    gap:15px;
+
+    margin-top:15px;
+}
+
+.decision{
+    padding:16px;
+
+    border-radius:15px;
+
+    border:1.5px solid #d7e1e4;
+
+    background:#fff;
+
     cursor:pointer;
+
+    text-align:center;
+
     transition:.2s;
 }
 
-.btn{
-    background:#155e75;
-    color:white;
+.decision:hover{
+    transform:translateY(-2px);
+
+    box-shadow:
+        0 7px 18px
+        rgba(
+            30,
+            58,
+            68,
+            .10
+        );
 }
 
-.btn:hover{
-    background:#0d4b60;
+.decision strong{
+    display:block;
+
+    margin-bottom:3px;
 }
 
-.btn-secundario{
-    background:#edf2f4;
-    color:#23424f;
-    border:1px solid #ccd8dd;
+.decision small{
+    color:var(--muted);
 }
 
-.btn-si{
-    background:#2f7d50;
-    color:white;
+.decision-no{
+    border-color:#df8c8c;
+
+    background:#fff8f8;
 }
 
-.btn-no{
-    background:#c64040;
-    color:white;
+.decision-yes{
+    border-color:#82b99b;
+
+    background:#f4fbf6;
 }
 
-.opciones{
+.decision-dia{
+    border-color:#e1b15c;
+
+    background:#fffaf0;
+}
+
+.decision-eia{
+    border-color:#df926c;
+
+    background:#fff6f0;
+}
+
+
+/* =========================================================
+PANEL EXPLICATIVO
+========================================================= */
+
+.detail-panel{
+    display:none;
+
+    margin-top:28px;
+
+    padding:26px;
+
+    border-radius:20px;
+
+    background:white;
+
+    border:1px solid #dce6e9;
+
+    border-top:
+        5px solid
+        var(--teal);
+
+    box-shadow:
+        0 9px 25px
+        rgba(
+            31,
+            59,
+            70,
+            .08
+        );
+}
+
+.detail-panel.visible{
+    display:block;
+
+    animation:
+        panelReveal
+        .28s ease;
+}
+
+@keyframes panelReveal{
+
+    from{
+        opacity:0;
+        transform:translateY(10px);
+    }
+
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+.detail-header{
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+    margin-bottom:16px;
+}
+
+.detail-header-icon{
+    width:44px;
+    height:44px;
+
+    display:grid;
+    place-items:center;
+
+    border-radius:13px;
+
+    background:#eef6f7;
+
+    font-size:1.45rem;
+}
+
+.detail-header h3{
+    margin:0;
+
+    color:var(--navy);
+
+    font-size:1.3rem;
+}
+
+.detail-panel p{
+    color:#526870;
+}
+
+
+/* =========================================================
+DATOS DEL PROYECTO
+========================================================= */
+
+.data-grid{
+    display:grid;
+
+    grid-template-columns:
+        repeat(
+            auto-fit,
+            minmax(
+                200px,
+                1fr
+            )
+        );
+
+    gap:
+        10px
+        25px;
+
+    margin-top:17px;
+}
+
+.data{
+    padding:
+        10px 0;
+
+    border-bottom:
+        1px solid
+        #e8edef;
+}
+
+.fauna-highlight{
+    margin-top:22px;
+
+    padding:18px;
+
+    border-left:
+        5px solid
+        var(--green);
+
+    border-radius:10px;
+
+    background:var(--green-soft);
+}
+
+
+/* =========================================================
+RESPUESTAS
+========================================================= */
+
+.feedback{
+    margin-top:18px;
+
+    padding:17px;
+
+    border-radius:10px;
+}
+
+.feedback.correct{
+    background:var(--green-soft);
+
+    border-left:
+        5px solid
+        var(--green);
+}
+
+.feedback.wrong{
+    background:var(--red-soft);
+
+    border-left:
+        5px solid
+        var(--red);
+}
+
+.feedback.info{
+    background:var(--blue-soft);
+
+    border-left:
+        5px solid
+        var(--blue);
+}
+
+.feedback.warning{
+    background:var(--amber-soft);
+
+    border-left:
+        5px solid
+        var(--amber);
+}
+
+
+/* =========================================================
+OPCIONES
+========================================================= */
+
+.options{
     display:grid;
     gap:10px;
+
     margin-top:18px;
 }
 
-.opcion{
-    display:block;
-    border:1px solid #d5dee2;
+.option{
+    padding:13px 14px;
+
+    border:
+        1px solid
+        #d9e2e5;
+
     border-radius:10px;
-    padding:13px 15px;
-    background:#fafcfc;
+
+    background:#fbfcfc;
+
+    cursor:pointer;
 }
 
-.opcion:hover{
-    background:#f2f7f8;
+.option:hover{
+    background:#f4f8f9;
 }
 
-.opcion input{
+.option input{
     margin-right:8px;
 }
 
 
-/* ============================
-FICHA PROYECTO
-============================ */
+/* =========================================================
+BOTONES
+========================================================= */
 
-.grid-datos{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-    gap:12px 24px;
-}
+button{
+    border:none;
 
-.dato{
-    padding:10px 0;
-    border-bottom:1px solid #e7ecee;
-}
+    cursor:pointer;
 
-.fauna-destacada{
-    margin-top:22px;
-    background:#f0f8f1;
-    border:1px solid #c9ddcc;
-    border-left:5px solid var(--verde);
-    padding:18px;
+    font-size:.95rem;
+
     border-radius:9px;
+
+    padding:
+        11px 18px;
+
+    transition:.2s;
+}
+
+.btn-primary{
+    margin-top:18px;
+
+    color:white;
+
+    background:var(--navy);
+}
+
+.btn-primary:hover{
+    background:var(--navy2);
+}
+
+.btn-next{
+    margin-top:16px;
+
+    color:white;
+
+    background:var(--green);
+}
+
+.btn-next:hover{
+    background:var(--green2);
 }
 
 
-/* ============================
+/* =========================================================
 FINAL
-============================ */
+========================================================= */
 
-.nota{
+.final-score{
+    text-align:center;
+
+    margin:10px 0;
+
+    color:var(--navy);
+
     font-size:3rem;
-    font-weight:bold;
-    color:var(--azul2);
-    text-align:center;
+    font-weight:900;
 }
 
-.centrado{
+.final-level{
     text-align:center;
+
+    margin-bottom:20px;
+
+    font-weight:800;
+
+    color:var(--green);
 }
 
 
-/* ============================
+/* =========================================================
 FOOTER
-============================ */
+========================================================= */
 
 footer{
+    padding:25px;
+
     background:white;
-    border-top:1px solid #dfe5e8;
-    color:#65747c;
+
+    border-top:1px solid #dfe7e9;
+
     text-align:center;
-    padding:22px;
-    font-size:.88rem;
+
+    color:#697a82;
+
+    font-size:.85rem;
 }
 
 
-/* ============================
+/* =========================================================
 RESPONSIVE
-============================ */
+========================================================= */
 
-@media(max-width:1000px){
+@media(max-width:700px){
 
-    .fila-inferior{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-}
-
-@media(max-width:650px){
-
-    .header-contenido{
+    .header-inner{
         flex-direction:column;
         align-items:flex-start;
     }
 
-    .caja-principal,
-    .caja-decision,
-    .caja-opcion{
-        width:100%;
+    .header-tags{
+        justify-content:flex-start;
     }
 
-    .fila{
-        flex-direction:column;
-        gap:12px;
-    }
-
-    .rama{
-        display:none;
-    }
-
-    .fila-inferior{
+    .progress-panel{
         grid-template-columns:1fr;
     }
 
-    .panel-progreso{
+    .decision-row{
         grid-template-columns:1fr;
+    }
+
+    .simulator{
+        padding:
+            26px 15px
+            32px;
     }
 
 }
@@ -647,22 +1147,43 @@ RESPONSIVE
 
 <header>
 
-<div class="header-contenido">
+<div class="header-inner">
 
-<div class="marca">
+<div class="brand">
+
+<div class="logo">
+🌿
+</div>
+
+<div>
 
 <h1>
-🌿 Simulador de Evaluación Ambiental
+Simulador de Evaluación Ambiental
 </h1>
 
 <p>
-Aprende a evaluar proyectos. Protege la fauna silvestre.
+Aprende a evaluar proyectos y proteger la fauna silvestre.
 </p>
 
 </div>
 
-<div class="etiqueta-header">
-SEIA Chile · Fauna silvestre · Medicina Veterinaria
+</div>
+
+
+<div class="header-tags">
+
+<span class="tag">
+SEIA Chile
+</span>
+
+<span class="tag">
+Fauna silvestre
+</span>
+
+<span class="tag">
+Medicina Veterinaria
+</span>
+
 </div>
 
 </div>
@@ -676,67 +1197,94 @@ SEIA Chile · Fauna silvestre · Medicina Veterinaria
 
 <section class="intro">
 
+<span class="eyebrow">
+Ruta de evaluación
+</span>
+
 <h2>
-Ruta de evaluación del proyecto
+Construya paso a paso su evaluación ambiental
 </h2>
 
 <p>
-Seleccione cada etapa del diagrama para analizar el proyecto.
-Las nuevas etapas se desbloquearán a medida que avance en la evaluación.
+Cada etapa aparecerá solo cuando haya resuelto correctamente
+la anterior. Revise los antecedentes, tome una decisión y
+fundamente técnicamente su respuesta.
 </p>
 
 </section>
 
 
 
-<div class="panel-progreso">
+<div class="progress-panel">
 
-<div class="barra-fondo">
-<div id="barra" class="barra"></div>
-</div>
+<div id="progressStep"
+     class="progress-step">
 
-<div id="puntaje" class="puntaje">
-Puntaje: 0 / 100
-</div>
+Etapa inicial
 
 </div>
 
 
+<div class="progress-track">
 
-<!-- ====================================
-FLUJO
-===================================== -->
+<div id="progressBar"
+     class="progress-bar">
 
-<section class="flujo">
+</div>
+
+</div>
 
 
-<!-- PROYECTO -->
+<div id="score"
+     class="score">
 
-<div class="fila">
+0 / 100 puntos
 
-<div id="cajaProyecto"
-     class="caja caja-principal"
-     onclick="abrirProyecto()">
+</div>
 
-<div class="numero">1</div>
+</div>
 
-<div class="icono">
+
+
+<section class="simulator">
+
+
+<div id="flow"
+     class="flow">
+
+
+<!-- =====================================================
+ETAPA 1
+===================================================== -->
+
+<div id="stage1"
+     class="flow-stage visible">
+
+<div id="card1"
+     class="stage-card card-project current"
+     onclick="openProject()">
+
+<div class="stage-index">
+<span>1</span>
+</div>
+
+<div class="stage-icon">
 📄
 </div>
 
-<div class="caja-texto">
+<div class="stage-content">
 
-<strong>
+<span class="stage-title">
 Proyecto
-</strong>
+</span>
 
-<span>
-Antecedentes técnicos, territoriales y ambientales
+<span class="stage-description">
+Revise los antecedentes técnicos, territoriales y ambientales.
 </span>
 
 </div>
 
-<div class="flecha-caja">
+<div class="stage-arrow">
 ›
 </div>
 
@@ -745,95 +1293,77 @@ Antecedentes técnicos, territoriales y ambientales
 </div>
 
 
-<div class="conector-vertical"></div>
 
+<!-- =====================================================
+ETAPA 2
+===================================================== -->
 
+<div id="stage2"
+     class="flow-stage">
 
-<!-- INGRESO -->
-
-<div class="fila">
-
-<div id="cajaIngreso"
-     class="caja caja-decision bloqueada"
-     onclick="abrirIngreso()">
-
-<div class="numero">
-2
+<div class="connector">
 </div>
 
-<div class="icono">
+
+<div id="card2"
+     class="stage-card card-entry"
+     onclick="openEntry()">
+
+<div class="stage-index">
+<span>2</span>
+</div>
+
+<div class="stage-icon">
 🔎
 </div>
 
-<div class="caja-texto">
+<div class="stage-content">
 
-<strong>
+<span class="stage-title">
 ¿Debe ingresar al SEIA?
-</strong>
+</span>
 
-<span>
-Analice las características del proyecto
+<span class="stage-description">
+Determine si el proyecto debe someterse al sistema.
 </span>
 
 </div>
 
-<div class="flecha-caja">
+<div class="stage-arrow">
 ›
 </div>
 
 </div>
 
-</div>
 
+<div id="entryChoices"
+     class="decision-row"
+     style="display:none;">
 
-<div class="conector-vertical"></div>
-
-
-
-<!-- NO / SI -->
-
-<div class="fila">
-
-<div id="cajaNo"
-     class="caja caja-opcion caja-no bloqueada"
-     onclick="seleccionarIngreso('no')">
-
-<div class="icono">
-✕
-</div>
-
-<div class="caja-texto">
+<div class="decision decision-no"
+     onclick="answerEntry('no')">
 
 <strong>
-No ingresa
+✕ No ingresa
 </strong>
 
-<span>
-Revise las consecuencias de esta decisión
-</span>
+<small>
+El proyecto queda fuera del SEIA.
+</small>
 
 </div>
 
-</div>
 
-
-<div id="cajaSi"
-     class="caja caja-opcion caja-si bloqueada"
-     onclick="seleccionarIngreso('si')">
-
-<div class="icono">
-✓
-</div>
-
-<div class="caja-texto">
+<div class="decision decision-yes"
+     onclick="answerEntry('yes')">
 
 <strong>
-Sí ingresa
+✓ Sí ingresa
 </strong>
 
-<span>
-Determine ahora DIA o EIA
-</span>
+<small>
+El proyecto debe evaluarse en el SEIA.
+</small>
 
 </div>
 
@@ -842,301 +1372,412 @@ Determine ahora DIA o EIA
 </div>
 
 
-<div class="conector-vertical"></div>
 
+<!-- =====================================================
+ETAPA 3
+===================================================== -->
 
+<div id="stage3"
+     class="flow-stage">
 
-<!-- DIA / EIA DECISION -->
-
-<div class="fila">
-
-<div id="cajaInstrumento"
-     class="caja caja-principal bloqueada"
-     onclick="abrirInstrumento()">
-
-<div class="numero">
-3
+<div class="connector">
 </div>
 
-<div class="icono">
+
+<div id="card3"
+     class="stage-card card-instrument"
+     onclick="openInstrument()">
+
+<div class="stage-index">
+<span>3</span>
+</div>
+
+<div class="stage-icon">
 📑
 </div>
 
-<div class="caja-texto">
+<div class="stage-content">
 
-<strong>
+<span class="stage-title">
 ¿DIA o EIA?
-</strong>
+</span>
 
-<span>
-Determine el instrumento de evaluación
+<span class="stage-description">
+Determine el instrumento de evaluación ambiental.
 </span>
 
 </div>
 
-<div class="flecha-caja">
+<div class="stage-arrow">
 ›
 </div>
 
 </div>
 
-</div>
 
+<div id="instrumentChoices"
+     class="decision-row"
+     style="display:none;">
 
-<div class="conector-vertical"></div>
-
-
-
-<!-- DIA EIA -->
-
-<div class="fila">
-
-<div id="cajaDia"
-     class="caja caja-opcion caja-dia bloqueada"
-     onclick="seleccionarInstrumento('dia')">
-
-<div class="icono">
-📃
-</div>
-
-<div class="caja-texto">
+<div class="decision decision-dia"
+     onclick="answerInstrument('dia')">
 
 <strong>
 DIA
 </strong>
 
-<span>
-Declaración de Impacto Ambiental
-</span>
+<small>
+Declaración de Impacto Ambiental.
+</small>
 
 </div>
 
-</div>
 
-
-<div id="cajaEia"
-     class="caja caja-opcion caja-eia bloqueada"
-     onclick="seleccionarInstrumento('eia')">
-
-<div class="icono">
-📙
-</div>
-
-<div class="caja-texto">
+<div class="decision decision-eia"
+     onclick="answerInstrument('eia')">
 
 <strong>
 EIA
 </strong>
 
-<span>
-Estudio de Impacto Ambiental
+<small>
+Estudio de Impacto Ambiental.
+</small>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+ETAPA 4
+===================================================== -->
+
+<div id="stage4"
+     class="flow-stage">
+
+<div class="connector">
+</div>
+
+
+<div id="card4"
+     class="stage-card card-fauna"
+     onclick="openFauna()">
+
+<div class="stage-index">
+<span>4</span>
+</div>
+
+<div class="stage-icon">
+🦊
+</div>
+
+<div class="stage-content">
+
+<span class="stage-title">
+Componente fauna
+</span>
+
+<span class="stage-description">
+Interprete especies, hábitat y relevancia ecológica.
 </span>
 
 </div>
 
-</div>
-
-</div>
-
-
-<div class="conector-vertical"></div>
-
-
-
-<!-- ETAPAS ESPECIALIZADAS -->
-
-<div class="fila-inferior">
-
-
-<div id="cajaFauna"
-     class="caja caja-fauna bloqueada"
-     onclick="abrirFauna()">
-
-<div class="numero">
-4
-</div>
-
-<div class="caja-texto">
-
-<strong>
-🦊 Componente fauna
-</strong>
-
-<span>
-Especies, hábitat y relevancia ecológica
-</span>
-
-</div>
-
-</div>
-
-
-
-<div id="cajaImpactos"
-     class="caja caja-impacto bloqueada"
-     onclick="abrirImpactos()">
-
-<div class="numero">
-5
-</div>
-
-<div class="caja-texto">
-
-<strong>
-📈 Impactos
-</strong>
-
-<span>
-Identificación y significancia
-</span>
-
-</div>
-
-</div>
-
-
-
-<div id="cajaLinea"
-     class="caja caja-linea bloqueada"
-     onclick="abrirLineaBase()">
-
-<div class="numero">
-6
-</div>
-
-<div class="caja-texto">
-
-<strong>
-🔭 Línea de base
-</strong>
-
-<span>
-Calidad y suficiencia del levantamiento
-</span>
-
-</div>
-
-</div>
-
-
-
-<div id="cajaNormativa"
-     class="caja caja-normativa bloqueada"
-     onclick="abrirNormativa()">
-
-<div class="numero">
-7
-</div>
-
-<div class="caja-texto">
-
-<strong>
-⚖ Normativa y PAS
-</strong>
-
-<span>
-Obligaciones y permisos aplicables
-</span>
-
-</div>
-
-</div>
-
-
-
-<div id="cajaMedidas"
-     class="caja caja-medidas bloqueada"
-     onclick="abrirMedidas()">
-
-<div class="numero">
-8
-</div>
-
-<div class="caja-texto">
-
-<strong>
-🌱 Medidas ambientales
-</strong>
-
-<span>
-Prevención, mitigación y seguimiento
-</span>
-
-</div>
-
-</div>
-
-
-
-<div id="cajaFinal"
-     class="caja caja-final bloqueada"
-     onclick="abrirPronunciamiento()">
-
-<div class="numero">
-9
-</div>
-
-<div class="caja-texto">
-
-<strong>
-📋 Pronunciamiento
-</strong>
-
-<span>
-Conclusión técnica integrada
-</span>
-
-</div>
-
-</div>
-
-
-</div>
-
-
-
-<!-- RESULTADO -->
-
-<div id="cajaResultado"
-     class="caja caja-resultado bloqueada"
-     onclick="mostrarResultado()">
-
-<div class="numero">
-✓
-</div>
-
-<div class="caja-texto">
-
-<strong>
-Resultado de la evaluación
-</strong>
-
-<span>
-Retroalimentación y puntaje final
-</span>
-
-</div>
-
-<div class="flecha-caja">
+<div class="stage-arrow">
 ›
 </div>
 
 </div>
 
+</div>
+
+
+
+<!-- =====================================================
+ETAPA 5
+===================================================== -->
+
+<div id="stage5"
+     class="flow-stage">
+
+<div class="connector">
+</div>
+
+
+<div id="card5"
+     class="stage-card card-impact"
+     onclick="openImpact()">
+
+<div class="stage-index">
+<span>5</span>
+</div>
+
+<div class="stage-icon">
+📈
+</div>
+
+<div class="stage-content">
+
+<span class="stage-title">
+Impactos sobre fauna
+</span>
+
+<span class="stage-description">
+Identifique el impacto ambiental más relevante.
+</span>
+
+</div>
+
+<div class="stage-arrow">
+›
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+ETAPA 6
+===================================================== -->
+
+<div id="stage6"
+     class="flow-stage">
+
+<div class="connector">
+</div>
+
+
+<div id="card6"
+     class="stage-card card-baseline"
+     onclick="openBaseline()">
+
+<div class="stage-index">
+<span>6</span>
+</div>
+
+<div class="stage-icon">
+🔭
+</div>
+
+<div class="stage-content">
+
+<span class="stage-title">
+Línea de base de fauna
+</span>
+
+<span class="stage-description">
+Evalúe la calidad y suficiencia del levantamiento.
+</span>
+
+</div>
+
+<div class="stage-arrow">
+›
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+ETAPA 7
+===================================================== -->
+
+<div id="stage7"
+     class="flow-stage">
+
+<div class="connector">
+</div>
+
+
+<div id="card7"
+     class="stage-card card-law"
+     onclick="openLaw()">
+
+<div class="stage-index">
+<span>7</span>
+</div>
+
+<div class="stage-icon">
+⚖️
+</div>
+
+<div class="stage-content">
+
+<span class="stage-title">
+Normativa y PAS
+</span>
+
+<span class="stage-description">
+Analice obligaciones y autorizaciones aplicables.
+</span>
+
+</div>
+
+<div class="stage-arrow">
+›
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+ETAPA 8
+===================================================== -->
+
+<div id="stage8"
+     class="flow-stage">
+
+<div class="connector">
+</div>
+
+
+<div id="card8"
+     class="stage-card card-measures"
+     onclick="openMeasures()">
+
+<div class="stage-index">
+<span>8</span>
+</div>
+
+<div class="stage-icon">
+🌱
+</div>
+
+<div class="stage-content">
+
+<span class="stage-title">
+Medidas ambientales
+</span>
+
+<span class="stage-description">
+Evalúe cómo evitar, reducir o manejar los impactos.
+</span>
+
+</div>
+
+<div class="stage-arrow">
+›
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+ETAPA 9
+===================================================== -->
+
+<div id="stage9"
+     class="flow-stage">
+
+<div class="connector">
+</div>
+
+
+<div id="card9"
+     class="stage-card card-opinion"
+     onclick="openOpinion()">
+
+<div class="stage-index">
+<span>9</span>
+</div>
+
+<div class="stage-icon">
+📋
+</div>
+
+<div class="stage-content">
+
+<span class="stage-title">
+Pronunciamiento técnico
+</span>
+
+<span class="stage-description">
+Integre todos los antecedentes y emita su conclusión.
+</span>
+
+</div>
+
+<div class="stage-arrow">
+›
+</div>
+
+</div>
+
+</div>
+
+
+
+<!-- =====================================================
+RESULTADO
+===================================================== -->
+
+<div id="stage10"
+     class="flow-stage">
+
+<div class="connector">
+</div>
+
+
+<div id="card10"
+     class="stage-card card-result"
+     onclick="openResult()">
+
+<div class="stage-icon">
+🏁
+</div>
+
+<div class="stage-content">
+
+<span class="stage-title">
+Resultado de la evaluación
+</span>
+
+<span class="stage-description">
+Revise su puntaje y retroalimentación final.
+</span>
+
+</div>
+
+<div class="stage-arrow">
+›
+</div>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+
+<!-- =====================================================
+PANEL DE EXPLICACIONES
+===================================================== -->
+
+<section id="detailPanel"
+         class="detail-panel">
+
+<div id="detailContent">
+</div>
 
 </section>
 
-
-
-<!-- ====================================
-PANEL DINÁMICO
-===================================== -->
-
-<section id="panel"
-         class="panel-explicacion">
-
-<div id="contenidoPanel">
-</div>
 
 </section>
 
@@ -1159,264 +1800,434 @@ Simulador académico de evaluación ambiental con énfasis en fauna silvestre
 
 <script>
 
-/* ======================================
-ESTADO GENERAL
-====================================== */
+/* =====================================================
+ESTADO
+===================================================== */
 
-let puntaje = 0;
+let score = 0;
 
-let proyectoRevisado = false;
-let ingresoCorrecto = false;
-let instrumentoCorrecto = false;
-let faunaCompleta = false;
-let impactosCompleto = false;
-let lineaCompleta = false;
-let normativaCompleta = false;
-let medidasCompleta = false;
-let pronunciamientoCompleto = false;
-
-let puntosOtorgados = {
-    ingreso:false,
-    instrumento:false,
+let state = {
+    project:false,
+    entry:false,
+    instrument:false,
     fauna:false,
-    impactos:false,
-    linea:false,
-    normativa:false,
-    medidas:false,
-    final:false
+    impact:false,
+    baseline:false,
+    law:false,
+    measures:false,
+    opinion:false
+};
+
+let awarded = {
+    entry:false,
+    instrument:false,
+    fauna:false,
+    impact:false,
+    baseline:false,
+    law:false,
+    measures:false,
+    opinion:false
 };
 
 
-/* ======================================
+/* =====================================================
 UTILIDADES
-====================================== */
+===================================================== */
 
-function panel(html){
+function showPanel(html){
 
-    const p =
-        document.getElementById("panel");
+    const panel =
+        document.getElementById("detailPanel");
 
-    document.getElementById("contenidoPanel")
+    document.getElementById("detailContent")
         .innerHTML = html;
 
-    p.classList.add("visible");
+    panel.classList.add("visible");
 
-    p.scrollIntoView({
-        behavior:"smooth",
-        block:"start"
-    });
+    setTimeout(() => {
+
+        panel.scrollIntoView({
+            behavior:"smooth",
+            block:"nearest"
+        });
+
+    },100);
 }
 
 
-function desbloquear(id){
+function showStage(number){
+
+    const stage =
+        document.getElementById(
+            "stage" + number
+        );
+
+    stage.classList.add("visible");
+
+    setTimeout(() => {
+
+        stage.scrollIntoView({
+            behavior:"smooth",
+            block:"center"
+        });
+
+    },150);
+
+    updateProgress(number);
+}
+
+
+function completeCard(number){
+
+    const card =
+        document.getElementById(
+            "card" + number
+        );
+
+    card.classList.remove("current");
+
+    card.classList.add("completed");
+}
+
+
+function setCurrent(number){
 
     document
-        .getElementById(id)
-        .classList
-        .remove("bloqueada");
+        .querySelectorAll(".stage-card")
+        .forEach(card => {
+
+            card.classList.remove("current");
+
+        });
+
+    const card =
+        document.getElementById(
+            "card" + number
+        );
+
+    if(card){
+        card.classList.add("current");
+    }
 }
 
 
-function bloqueada(id){
+function updateScore(){
 
-    return document
-        .getElementById(id)
-        .classList
-        .contains("bloqueada");
-}
-
-
-function actualizar(){
-
-    document.getElementById("puntaje")
+    document.getElementById("score")
         .innerText =
-        "Puntaje: " +
-        puntaje +
-        " / 100";
-
-    let progreso = 0;
-
-    if(proyectoRevisado) progreso = 10;
-    if(ingresoCorrecto) progreso = 25;
-    if(instrumentoCorrecto) progreso = 40;
-    if(faunaCompleta) progreso = 55;
-    if(impactosCompleto) progreso = 65;
-    if(lineaCompleta) progreso = 75;
-    if(normativaCompleta) progreso = 85;
-    if(medidasCompleta) progreso = 93;
-    if(pronunciamientoCompleto) progreso = 100;
-
-    document.getElementById("barra")
-        .style.width =
-        progreso + "%";
+        score +
+        " / 100 puntos";
 }
 
 
-function obtenerRadio(nombre){
+function updateProgress(stage){
 
-    const x =
+    const maxStages = 9;
+
+    const percent =
+        Math.min(
+            100,
+            Math.round(
+                ((stage - 1) /
+                maxStages) *
+                100
+            )
+        );
+
+    document.getElementById("progressBar")
+        .style.width =
+        percent + "%";
+
+    if(stage <= 9){
+
+        document.getElementById("progressStep")
+            .innerText =
+            "Etapa " +
+            stage +
+            " de 9";
+
+    }else{
+
+        document.getElementById("progressStep")
+            .innerText =
+            "Evaluación completada";
+    }
+}
+
+
+function getRadio(name){
+
+    const selected =
         document.querySelector(
             'input[name="' +
-            nombre +
+            name +
             '"]:checked'
         );
 
-    return x ? x.value : null;
+    return selected
+        ? selected.value
+        : null;
 }
 
 
-/* ======================================
+function nextButton(fn, text){
+
+    return `
+
+    <button
+        class="btn-next"
+        onclick="${fn}">
+
+        ${text}
+
+    </button>
+
+    `;
+}
+
+
+/* =====================================================
 1. PROYECTO
-====================================== */
+===================================================== */
 
-function abrirProyecto(){
+function openProject(){
 
-    proyectoRevisado = true;
+    setCurrent(1);
 
-    desbloquear("cajaIngreso");
+    showPanel(`
 
-    actualizar();
+    <div class="detail-header">
 
-    panel(`
+        <div class="detail-header-icon">
+        📄
+        </div>
 
-    <div class="panel-titulo">
-
-        <div class="icono-panel">📄</div>
-
-        <h2>
+        <h3>
         1. Antecedentes del proyecto
-        </h2>
+        </h3>
 
     </div>
 
 
     <p>
     Una empresa proyecta construir y operar el
-    <strong>Parque Solar Quebrada del Zorro</strong>
-    en la Región de Coquimbo.
+    <strong>Parque Solar Quebrada del Zorro</strong>,
+    localizado en la Región de Coquimbo.
     </p>
 
 
-    <div class="grid-datos">
+    <div class="data-grid">
 
-        <div class="dato">
-        <strong>Potencia:</strong><br>
+        <div class="data">
+
+        <strong>
+        Potencia instalada
+        </strong>
+
+        <br>
+
         82 MW
+
         </div>
 
-        <div class="dato">
-        <strong>Superficie:</strong><br>
+
+        <div class="data">
+
+        <strong>
+        Superficie
+        </strong>
+
+        <br>
+
         145 ha
+
         </div>
 
-        <div class="dato">
-        <strong>Línea eléctrica:</strong><br>
+
+        <div class="data">
+
+        <strong>
+        Línea eléctrica
+        </strong>
+
+        <br>
+
         110 kV · 18 km
+
         </div>
 
-        <div class="dato">
-        <strong>Construcción:</strong><br>
+
+        <div class="data">
+
+        <strong>
+        Construcción
+        </strong>
+
+        <br>
+
         18 meses
+
         </div>
 
-        <div class="dato">
-        <strong>Vegetación:</strong><br>
-        31 ha de vegetación nativa intervenidas
+
+        <div class="data">
+
+        <strong>
+        Vegetación
+        </strong>
+
+        <br>
+
+        31 ha de vegetación nativa serán intervenidas.
+
         </div>
 
-        <div class="dato">
-        <strong>Población:</strong><br>
-        vivienda permanente más cercana a 2,4 km
+
+        <div class="data">
+
+        <strong>
+        Población humana
+        </strong>
+
+        <br>
+
+        La vivienda permanente más cercana se ubica a 2,4 km.
+
+        </div>
+
+
+        <div class="data">
+
+        <strong>
+        Agua
+        </strong>
+
+        <br>
+
+        No se intervendrán humedales ni cursos permanentes.
+
+        </div>
+
+
+        <div class="data">
+
+        <strong>
+        Patrimonio
+        </strong>
+
+        <br>
+
+        No se identificaron sitios arqueológicos dentro de las obras.
+
         </div>
 
     </div>
 
 
-    <div class="fauna-destacada">
+    <div class="fauna-highlight">
 
-        <h3>
-        🦎 Antecedentes de fauna
-        </h3>
+        <strong>
+        🦎 Antecedentes relevantes de fauna
+        </strong>
 
         <p>
-        La línea de base registró 37 especies de vertebrados
-        terrestres.
+        La línea de base registró 37 especies de vertebrados terrestres.
         </p>
 
         <p>
-        Se confirmó una población reproductiva de un reptil
-        nativo clasificado oficialmente En Peligro.
+        Se confirmó una población reproductiva de un reptil nativo
+        clasificado oficialmente En Peligro.
         </p>
 
         <p>
-        Aproximadamente 18 ha corresponden al principal
-        hábitat reproductivo y de refugio conocido para esta
-        población local.
+        Aproximadamente 18 ha constituyen el principal hábitat
+        reproductivo y de refugio conocido para esta población local.
         </p>
 
         <p>
-        La totalidad de esa superficie sería intervenida
-        por las obras.
-        </p>
-
-        <p>
-        Los antecedentes indican que su eliminación podría
+        La totalidad de esta superficie sería intervenida por las obras.
+        Los antecedentes disponibles indican que esta pérdida podría
         comprometer la persistencia de la población local.
         </p>
 
     </div>
 
 
-    <div class="info">
+    <div class="feedback info">
 
-    <strong>Objetivo:</strong>
+        <strong>
+        Instrucción
+        </strong>
 
-    utilice estos antecedentes durante todo el proceso.
-    No agregue supuestos que no estén descritos.
+        <p>
+        Utilice únicamente la información entregada.
+        No agregue antecedentes que no formen parte del caso.
+        </p>
 
     </div>
+
+
+    ${nextButton(
+        "finishProject()",
+        "He revisado los antecedentes"
+    )}
 
     `);
 }
 
 
-/* ======================================
-2. INGRESO AL SEIA
-====================================== */
+function finishProject(){
 
-function abrirIngreso(){
+    state.project = true;
 
-    if(bloqueada("cajaIngreso")) return;
+    completeCard(1);
 
-    desbloquear("cajaNo");
-    desbloquear("cajaSi");
+    showStage(2);
 
-    panel(`
+    setCurrent(2);
 
-    <div class="panel-titulo">
+    document
+        .getElementById("detailPanel")
+        .classList.remove("visible");
+}
 
-        <div class="icono-panel">🔎</div>
 
-        <h2>
+/* =====================================================
+2. INGRESO SEIA
+===================================================== */
+
+function openEntry(){
+
+    setCurrent(2);
+
+    document.getElementById("entryChoices")
+        .style.display =
+        "grid";
+
+    showPanel(`
+
+    <div class="detail-header">
+
+        <div class="detail-header-icon">
+        🔎
+        </div>
+
+        <h3>
         2. ¿Debe ingresar al SEIA?
-        </h2>
+        </h3>
 
     </div>
 
-    <p>
-    Analice las características del proyecto.
-    </p>
 
     <p>
-    Luego seleccione directamente una de las dos cajas
-    del diagrama:
+    Analice las características técnicas del proyecto y determine
+    si corresponde su ingreso al Sistema de Evaluación de Impacto Ambiental.
     </p>
 
-    <div class="info">
+    <div class="feedback info">
 
-    <strong>NO INGRESA</strong>
-    o
-    <strong>SÍ INGRESA</strong>.
+        Seleccione una de las dos alternativas que acaba de aparecer
+        bajo la caja de esta etapa.
 
     </div>
 
@@ -1424,1239 +2235,1537 @@ function abrirIngreso(){
 }
 
 
-function seleccionarIngreso(respuesta){
+function answerEntry(answer){
 
-    if(bloqueada("cajaSi")) return;
+    if(answer === "yes"){
 
+        state.entry = true;
 
-    if(respuesta === "si"){
+        if(!awarded.entry){
 
-        ingresoCorrecto = true;
+            score += 15;
 
-        desbloquear("cajaInstrumento");
-        desbloquear("cajaDia");
-        desbloquear("cajaEia");
+            awarded.entry = true;
 
-        if(!puntosOtorgados.ingreso){
-
-            puntaje += 15;
-            puntosOtorgados.ingreso = true;
+            updateScore();
         }
 
-        panel(`
+        completeCard(2);
 
-        <div class="correcto">
+        showPanel(`
 
-        <strong>
-        ✓ Correcto. El proyecto debe ingresar al SEIA.
-        </strong>
+        <div class="feedback correct">
 
-        <p>
-        La central posee una potencia instalada de 82 MW.
-        Las centrales generadoras de energía que superan
-        el umbral establecido por la normativa configuran
-        una tipología de ingreso obligatorio al SEIA.
-        </p>
+            <strong>
+            ✓ Correcto. El proyecto debe ingresar al SEIA.
+            </strong>
 
-        <p>
-        Sin embargo, determinar que el proyecto debe ingresar
-        al sistema todavía no responde si corresponde una
-        DIA o un EIA.
-        </p>
+            <p>
+            La central tiene una potencia instalada de 82 MW,
+            por lo que configura una tipología de ingreso obligatorio.
+            </p>
 
-        <p>
-        Esa es la siguiente decisión.
-        </p>
+            <p>
+            Determinar que debe ingresar al sistema todavía no permite
+            concluir si corresponde una DIA o un EIA.
+            </p>
 
         </div>
+
+
+        ${nextButton(
+            "continueToInstrument()",
+            "Continuar"
+        )}
 
         `);
 
     }else{
 
-        panel(`
+        showPanel(`
 
-        <div class="incorrecto">
+        <div class="feedback wrong">
 
-        <strong>
-        ✕ Esta decisión no es correcta para este proyecto.
-        </strong>
+            <strong>
+            ✕ La respuesta no es correcta.
+            </strong>
 
-        <p>
-        La central tiene una potencia instalada de 82 MW,
-        por lo que sus características configuran una
-        tipología de ingreso obligatorio al SEIA.
-        </p>
+            <p>
+            Revise nuevamente las características técnicas del proyecto,
+            especialmente su potencia instalada.
+            </p>
 
-        <p>
-        Revise nuevamente los antecedentes técnicos y
-        seleccione la caja
-        <strong>Sí ingresa</strong>.
-        </p>
+            <p>
+            Este proyecto sí configura una tipología de ingreso obligatorio.
+            </p>
 
         </div>
 
-        <div class="advertencia">
 
-        <strong>Importante:</strong>
+        <div class="feedback warning">
 
-        incluso cuando un proyecto no debe ingresar al SEIA,
-        ello no significa que quede exento de normativa o
-        autorizaciones sectoriales.
+            <strong>
+            Importante:
+            </strong>
+
+            <p>
+            En otros casos, que un proyecto no ingrese al SEIA
+            no significa que quede exento de normativa ambiental
+            o autorizaciones sectoriales.
+            </p>
 
         </div>
 
         `);
     }
-
-    actualizar();
 }
 
 
-/* ======================================
+function continueToInstrument(){
+
+    document.getElementById("entryChoices")
+        .style.display =
+        "none";
+
+    showStage(3);
+
+    setCurrent(3);
+
+    document
+        .getElementById("detailPanel")
+        .classList.remove("visible");
+}
+
+
+/* =====================================================
 3. DIA / EIA
-====================================== */
+===================================================== */
 
-function abrirInstrumento(){
+function openInstrument(){
 
-    if(bloqueada("cajaInstrumento")) return;
+    setCurrent(3);
 
-    panel(`
+    document
+        .getElementById("instrumentChoices")
+        .style.display =
+        "grid";
 
-    <div class="panel-titulo">
+    showPanel(`
 
-        <div class="icono-panel">📑</div>
+    <div class="detail-header">
 
-        <h2>
+        <div class="detail-header-icon">
+        📑
+        </div>
+
+        <h3>
         3. ¿DIA o EIA?
-        </h2>
+        </h3>
 
     </div>
 
-    <p>
-    El proyecto ya ha sido identificado como un proyecto
-    que debe ingresar obligatoriamente al SEIA.
-    </p>
 
     <p>
-    Ahora debe determinar
-    <strong>mediante qué instrumento</strong>
-    corresponde realizar su evaluación.
+    El proyecto debe ingresar al SEIA.
+    Ahora determine mediante qué instrumento debe ser evaluado.
     </p>
 
-    <div class="info">
 
-    Revise especialmente los antecedentes sobre fauna,
-    hábitat y las consecuencias previstas sobre la
-    población local.
+    <div class="feedback info">
+
+        <strong>
+        Analice el caso como un conjunto.
+        </strong>
+
+        <p>
+        Considere especialmente la magnitud y naturaleza de los
+        efectos descritos sobre fauna silvestre y su hábitat.
+        </p>
 
     </div>
-
-    <p>
-    Seleccione la caja
-    <strong>DIA</strong>
-    o
-    <strong>EIA</strong>
-    en el diagrama.
-    </p>
 
     `);
 }
 
 
-function seleccionarInstrumento(respuesta){
+function answerInstrument(answer){
 
-    if(bloqueada("cajaEia")) return;
+    if(answer === "eia"){
 
+        state.instrument = true;
 
-    if(respuesta === "eia"){
+        if(!awarded.instrument){
 
-        instrumentoCorrecto = true;
+            score += 20;
 
-        desbloquear("cajaFauna");
+            awarded.instrument = true;
 
-        if(!puntosOtorgados.instrumento){
-
-            puntaje += 20;
-            puntosOtorgados.instrumento = true;
+            updateScore();
         }
 
-        panel(`
+        completeCard(3);
 
-        <div class="correcto">
+        showPanel(`
 
-        <strong>
-        ✓ Correcto. Corresponde un Estudio de Impacto Ambiental.
-        </strong>
+        <div class="feedback correct">
 
-        <p>
-        El proyecto no requiere un EIA simplemente porque
-        sea grande ni por registrar fauna silvestre.
-        </p>
+            <strong>
+            ✓ Correcto. Corresponde un Estudio de Impacto Ambiental.
+            </strong>
 
-        <p>
-        El antecedente determinante es la intervención de
-        la totalidad del principal hábitat reproductivo
-        y de refugio conocido para una población local
-        de una especie clasificada En Peligro.
-        </p>
+            <p>
+            La decisión no se explica simplemente por el tamaño del
+            proyecto ni por la mera presencia de fauna.
+            </p>
 
-        <p>
-        Los antecedentes señalan además que esta pérdida
-        podría comprometer la persistencia de dicha
-        población.
-        </p>
+            <p>
+            El proyecto intervendrá la totalidad del principal hábitat
+            reproductivo y de refugio conocido para una población local
+            de una especie clasificada En Peligro.
+            </p>
 
-        <div class="info">
+            <p>
+            Además, los antecedentes indican que esta pérdida podría
+            comprometer la persistencia de esa población.
+            </p>
 
-        <strong>Interpretación:</strong>
-
-        los antecedentes permiten reconocer un efecto
-        adverso significativo sobre recursos naturales
-        renovables, particularmente fauna silvestre
-        y su hábitat.
+            <p>
+            Por lo tanto, el caso presenta antecedentes compatibles con
+            un efecto adverso significativo sobre recursos naturales
+            renovables, particularmente fauna silvestre y su hábitat.
+            </p>
 
         </div>
 
-        <p>
-        Por ello corresponde la evaluación mediante
-        <strong>EIA</strong>.
-        </p>
 
-        </div>
+        ${nextButton(
+            "continueToFauna()",
+            "Continuar con fauna"
+        )}
 
         `);
 
     }else{
 
-        panel(`
+        showPanel(`
 
-        <div class="incorrecto">
+        <div class="feedback wrong">
 
-        <strong>
-        ✕ Para este caso no corresponde una DIA.
-        </strong>
+            <strong>
+            ✕ Para este caso no corresponde una DIA.
+            </strong>
 
-        <p>
-        Una DIA procede cuando el proyecto ingresa al SEIA
-        pero no presenta los efectos, características o
-        circunstancias que obligan a realizar un EIA.
-        </p>
+            <p>
+            El proyecto presenta antecedentes que superan la mera
+            existencia de fauna en el área.
+            </p>
 
-        <p>
-        En este caso existe un antecedente de especial
-        relevancia: la pérdida completa del principal
-        hábitat reproductivo conocido de una población
-        local amenazada.
-        </p>
+            <p>
+            La intervención afecta directamente un hábitat reproductivo
+            fundamental para una población amenazada, con consecuencias
+            potenciales para su persistencia local.
+            </p>
 
-        <p>
-        La vía correcta es un
-        <strong>Estudio de Impacto Ambiental.</strong>
-        </p>
+            <p>
+            Por ello corresponde un EIA.
+            </p>
 
         </div>
 
         `);
     }
-
-    actualizar();
 }
 
 
-/* ======================================
-4. COMPONENTE FAUNA
-====================================== */
+function continueToFauna(){
 
-function abrirFauna(){
+    document
+        .getElementById("instrumentChoices")
+        .style.display =
+        "none";
 
-    if(bloqueada("cajaFauna")) return;
+    showStage(4);
 
-    panel(`
+    setCurrent(4);
 
-    <div class="panel-titulo">
+    document
+        .getElementById("detailPanel")
+        .classList.remove("visible");
+}
 
-    <div class="icono-panel">
-    🦊
+
+/* =====================================================
+4. FAUNA
+===================================================== */
+
+function openFauna(){
+
+    setCurrent(4);
+
+    showPanel(`
+
+    <div class="detail-header">
+
+        <div class="detail-header-icon">
+        🦊
+        </div>
+
+        <h3>
+        4. Componente fauna
+        </h3>
+
     </div>
 
-    <h2>
-    4. Componente fauna
-    </h2>
-
-    </div>
 
     <p>
-    ¿Cuál es el antecedente más importante para interpretar
-    la relevancia ambiental del impacto sobre fauna?
+    ¿Cuál de los siguientes antecedentes posee mayor relevancia
+    para interpretar la significancia del impacto sobre fauna?
     </p>
 
 
-    <div class="opciones">
+    <div class="options">
 
-    <label class="opcion">
-    <input type="radio"
-           name="fauna"
-           value="presencia">
-    La sola presencia de una especie silvestre.
-    </label>
+        <label class="option">
 
-    <label class="opcion">
-    <input type="radio"
-           name="fauna"
-           value="categoria">
-    La categoría En Peligro, independientemente del uso del área.
-    </label>
+        <input
+            type="radio"
+            name="fauna"
+            value="presence">
 
-    <label class="opcion">
-    <input type="radio"
-           name="fauna"
-           value="habitat">
-    La intervención del principal hábitat reproductivo de
-    una población amenazada y sus consecuencias sobre
-    su persistencia local.
-    </label>
+        La sola presencia de una especie silvestre.
 
-    <label class="opcion">
-    <input type="radio"
-           name="fauna"
-           value="riqueza">
-    El número total de especies registradas.
-    </label>
+        </label>
+
+
+        <label class="option">
+
+        <input
+            type="radio"
+            name="fauna"
+            value="category">
+
+        La categoría En Peligro, independientemente de cómo
+        utilice el área.
+
+        </label>
+
+
+        <label class="option">
+
+        <input
+            type="radio"
+            name="fauna"
+            value="habitat">
+
+        La intervención del principal hábitat reproductivo de una
+        población amenazada y sus consecuencias potenciales
+        sobre su persistencia.
+
+        </label>
+
+
+        <label class="option">
+
+        <input
+            type="radio"
+            name="fauna"
+            value="richness">
+
+        El número total de especies registradas.
+
+        </label>
 
     </div>
 
 
-    <button class="btn"
-            onclick="responderFauna()">
+    <button
+        class="btn-primary"
+        onclick="answerFauna()">
 
-    Evaluar respuesta
+        Evaluar respuesta
 
     </button>
 
-    <div id="feedbackFauna">
+
+    <div id="faunaFeedback">
     </div>
 
     `);
 }
 
 
-function responderFauna(){
+function answerFauna(){
 
-    const r =
-        obtenerRadio("fauna");
+    const answer =
+        getRadio("fauna");
 
-    if(!r){
+    if(!answer){
 
-        alert("Seleccione una alternativa.");
+        alert(
+            "Seleccione una alternativa."
+        );
+
         return;
     }
 
-    const f =
-        document.getElementById("feedbackFauna");
+
+    const feedback =
+        document.getElementById(
+            "faunaFeedback"
+        );
 
 
-    if(r === "habitat"){
+    if(answer === "habitat"){
 
-        faunaCompleta = true;
+        state.fauna = true;
 
-        desbloquear("cajaImpactos");
+        if(!awarded.fauna){
 
-        if(!puntosOtorgados.fauna){
+            score += 15;
 
-            puntaje += 15;
-            puntosOtorgados.fauna = true;
+            awarded.fauna = true;
+
+            updateScore();
         }
 
-        f.innerHTML = `
+        completeCard(4);
 
-        <div class="correcto">
+        feedback.innerHTML = `
 
-        <strong>✓ Correcto.</strong>
+        <div class="feedback correct">
 
-        <p>
-        Una evaluación de fauna no debe limitarse a elaborar
-        un listado de especies.
-        </p>
+            <strong>
+            ✓ Correcto.
+            </strong>
 
-        <p>
-        Debe analizarse cómo utilizan el área, la función
-        ecológica del hábitat, la categoría de conservación,
-        la magnitud de la intervención y sus consecuencias
-        sobre las poblaciones.
-        </p>
+            <p>
+            La evaluación de fauna no debe reducirse a un inventario
+            de especies.
+            </p>
+
+            <p>
+            Debe integrar categoría de conservación, uso del área,
+            función ecológica del hábitat, magnitud de la intervención
+            y consecuencias para las poblaciones.
+            </p>
 
         </div>
+
+
+        ${nextButton(
+            "continueToImpact()",
+            "Continuar"
+        )}
 
         `;
 
     }else{
 
-        f.innerHTML = `
+        feedback.innerHTML = `
 
-        <div class="incorrecto">
+        <div class="feedback wrong">
 
-        <strong>Respuesta incompleta.</strong>
+            <strong>
+            Respuesta incompleta.
+            </strong>
 
-        <p>
-        La presencia, riqueza y categoría de conservación son
-        antecedentes relevantes, pero deben interpretarse
-        junto con el uso del hábitat y las consecuencias
-        ecológicas de su intervención.
-        </p>
+            <p>
+            La presencia, riqueza y categoría de conservación son
+            antecedentes importantes, pero deben relacionarse con
+            la función ecológica del sitio y las consecuencias
+            de su intervención.
+            </p>
 
         </div>
 
         `;
     }
-
-    actualizar();
 }
 
 
-/* ======================================
+function continueToImpact(){
+
+    showStage(5);
+
+    setCurrent(5);
+
+    document
+        .getElementById("detailPanel")
+        .classList.remove("visible");
+}
+
+
+/* =====================================================
 5. IMPACTOS
-====================================== */
+===================================================== */
 
-function abrirImpactos(){
+function openImpact(){
 
-    if(bloqueada("cajaImpactos")) return;
+    setCurrent(5);
 
-    panel(`
+    showPanel(`
 
-    <div class="panel-titulo">
+    <div class="detail-header">
 
-    <div class="icono-panel">
-    📈
+        <div class="detail-header-icon">
+        📈
+        </div>
+
+        <h3>
+        5. Impactos sobre fauna
+        </h3>
+
     </div>
 
-    <h2>
-    5. Impactos sobre fauna
-    </h2>
-
-    </div>
 
     <p>
-    ¿Cuál representa mejor el impacto principal descrito
-    por los antecedentes?
+    ¿Cuál es el impacto ambiental principal descrito para
+    la población de reptiles?
     </p>
 
 
-    <div class="opciones">
+    <div class="options">
 
-    <label class="opcion">
-    <input type="radio"
-           name="impacto"
-           value="ruido">
-    Incremento temporal del ruido.
-    </label>
+        <label class="option">
 
-    <label class="opcion">
-    <input type="radio"
-           name="impacto"
-           value="habitat">
-    Pérdida del hábitat reproductivo y de refugio,
-    con consecuencias potenciales sobre la persistencia
-    de la población.
-    </label>
+        <input
+            type="radio"
+            name="impact"
+            value="noise">
 
-    <label class="opcion">
-    <input type="radio"
-           name="impacto"
-           value="trabajadores">
-    Presencia de trabajadores durante la construcción.
-    </label>
+        Incremento temporal del ruido durante la construcción.
 
-    <label class="opcion">
-    <input type="radio"
-           name="impacto"
-           value="paisaje">
-    Modificación del paisaje.
-    </label>
+        </label>
+
+
+        <label class="option">
+
+        <input
+            type="radio"
+            name="impact"
+            value="habitat">
+
+        Pérdida directa del hábitat reproductivo y de refugio,
+        con consecuencias potenciales para la persistencia
+        de la población.
+
+        </label>
+
+
+        <label class="option">
+
+        <input
+            type="radio"
+            name="impact"
+            value="workers">
+
+        Presencia de trabajadores durante las obras.
+
+        </label>
+
+
+        <label class="option">
+
+        <input
+            type="radio"
+            name="impact"
+            value="landscape">
+
+        Modificación visual del paisaje.
+
+        </label>
 
     </div>
 
 
-    <button class="btn"
-            onclick="responderImpacto()">
+    <button
+        class="btn-primary"
+        onclick="answerImpact()">
 
-    Evaluar respuesta
+        Evaluar impacto
 
     </button>
 
 
-    <div id="feedbackImpacto">
+    <div id="impactFeedback">
     </div>
 
     `);
 }
 
 
-function responderImpacto(){
+function answerImpact(){
 
-    const r =
-        obtenerRadio("impacto");
+    const answer =
+        getRadio("impact");
 
-    if(!r){
+    if(!answer){
 
-        alert("Seleccione una alternativa.");
+        alert(
+            "Seleccione una alternativa."
+        );
+
         return;
     }
 
-    const f =
-        document.getElementById("feedbackImpacto");
+
+    const feedback =
+        document.getElementById(
+            "impactFeedback"
+        );
 
 
-    if(r === "habitat"){
+    if(answer === "habitat"){
 
-        impactosCompleto = true;
+        state.impact = true;
 
-        desbloquear("cajaLinea");
+        if(!awarded.impact){
 
-        if(!puntosOtorgados.impactos){
+            score += 15;
 
-            puntaje += 15;
-            puntosOtorgados.impactos = true;
+            awarded.impact = true;
+
+            updateScore();
         }
 
-        f.innerHTML = `
+        completeCard(5);
 
-        <div class="correcto">
+        feedback.innerHTML = `
 
-        <strong>✓ Correcto.</strong>
+        <div class="feedback correct">
 
-        <p>
-        El impacto central corresponde a la pérdida directa
-        de un hábitat que cumple una función reproductiva
-        y de refugio para la población afectada.
-        </p>
+            <strong>
+            ✓ Correcto.
+            </strong>
+
+            <p>
+            El impacto central es la pérdida directa de un
+            hábitat reproductivo y de refugio ecológicamente
+            relevante para la población afectada.
+            </p>
 
         </div>
+
+
+        ${nextButton(
+            "continueToBaseline()",
+            "Continuar"
+        )}
 
         `;
 
     }else{
 
-        f.innerHTML = `
+        feedback.innerHTML = `
 
-        <div class="incorrecto">
+        <div class="feedback wrong">
 
-        <strong>Revise nuevamente.</strong>
+            <strong>
+            Revise nuevamente.
+            </strong>
 
-        <p>
-        Pueden producirse múltiples perturbaciones, pero debe
-        identificarse aquella que posee mayor relación con
-        la viabilidad ecológica de la población.
-        </p>
+            <p>
+            El proyecto puede producir distintas perturbaciones,
+            pero debe identificarse aquella directamente asociada
+            con la persistencia de la población.
+            </p>
 
         </div>
 
         `;
     }
-
-    actualizar();
 }
 
 
-/* ======================================
+function continueToBaseline(){
+
+    showStage(6);
+
+    setCurrent(6);
+
+    document
+        .getElementById("detailPanel")
+        .classList.remove("visible");
+}
+
+
+/* =====================================================
 6. LÍNEA DE BASE
-====================================== */
+===================================================== */
 
-function abrirLineaBase(){
+function openBaseline(){
 
-    if(bloqueada("cajaLinea")) return;
+    setCurrent(6);
 
-    panel(`
+    showPanel(`
 
-    <div class="panel-titulo">
+    <div class="detail-header">
 
-    <div class="icono-panel">
-    🔭
+        <div class="detail-header-icon">
+        🔭
+        </div>
+
+        <h3>
+        6. Línea de base de fauna
+        </h3>
+
     </div>
 
-    <h2>
-    6. Línea de base de fauna
-    </h2>
-
-    </div>
 
     <p>
-    Imagine que el levantamiento de reptiles hubiera consistido
-    solamente en dos días de muestreo durante invierno y que
-    no se hubieran registrado individuos.
-    </p>
-
-    <p>
-    ¿Qué conclusión sería técnicamente correcta?
+    Suponga que el estudio de reptiles hubiese consistido
+    únicamente en dos días de muestreo durante invierno
+    y que no se hubieran detectado individuos.
     </p>
 
 
-    <div class="opciones">
-
-    <label class="opcion">
-    <input type="radio"
-           name="linea"
-           value="ausencia">
-    Se demuestra que no existen reptiles.
-    </label>
-
-    <label class="opcion">
-    <input type="radio"
-           name="linea"
-           value="suficiente">
-    Dos días son suficientes para cualquier especie.
-    </label>
-
-    <label class="opcion">
-    <input type="radio"
-           name="linea"
-           value="detectabilidad">
-    La ausencia de registros no demuestra ausencia;
-    deben analizarse detectabilidad, época, métodos
-    y esfuerzo de muestreo.
-    </label>
-
-    </div>
+    <p>
+    ¿Qué interpretación sería técnicamente correcta?
+    </p>
 
 
-    <button class="btn"
-            onclick="responderLinea()">
+    <div class="options">
 
-    Evaluar respuesta
+        <label class="option">
 
-    </button>
+        <input
+            type="radio"
+            name="baseline"
+            value="absence">
 
+        Puede concluirse que no existen reptiles en el área.
 
-    <div id="feedbackLinea">
-    </div>
-
-    `);
-}
-
-
-function responderLinea(){
-
-    const r =
-        obtenerRadio("linea");
-
-    if(!r){
-
-        alert("Seleccione una alternativa.");
-        return;
-    }
-
-    const f =
-        document.getElementById("feedbackLinea");
+        </label>
 
 
-    if(r === "detectabilidad"){
+        <label class="option">
 
-        lineaCompleta = true;
+        <input
+            type="radio"
+            name="baseline"
+            value="season">
 
-        desbloquear("cajaNormativa");
+        La época del año no afecta la detección de reptiles.
 
-        if(!puntosOtorgados.linea){
+        </label>
 
-            puntaje += 10;
-            puntosOtorgados.linea = true;
-        }
 
-        f.innerHTML = `
+        <label class="option">
 
-        <div class="correcto">
+        <input
+            type="radio"
+            name="baseline"
+            value="detectability">
 
-        <strong>✓ Correcto.</strong>
-
-        <p>
-        La no detección de una especie no equivale
-        automáticamente a demostrar su ausencia.
-        </p>
-
-        <p>
-        La suficiencia de una línea de base debe analizarse
-        según ecología, actividad estacional, detectabilidad,
+        La ausencia de registros no demuestra ausencia;
+        deben analizarse detectabilidad, época,
         metodología y esfuerzo de muestreo.
-        </p>
+
+        </label>
+
+    </div>
+
+
+    <button
+        class="btn-primary"
+        onclick="answerBaseline()">
+
+        Evaluar respuesta
+
+    </button>
+
+
+    <div id="baselineFeedback">
+    </div>
+
+    `);
+}
+
+
+function answerBaseline(){
+
+    const answer =
+        getRadio("baseline");
+
+    if(!answer){
+
+        alert(
+            "Seleccione una alternativa."
+        );
+
+        return;
+    }
+
+
+    const feedback =
+        document.getElementById(
+            "baselineFeedback"
+        );
+
+
+    if(answer === "detectability"){
+
+        state.baseline = true;
+
+        if(!awarded.baseline){
+
+            score += 10;
+
+            awarded.baseline = true;
+
+            updateScore();
+        }
+
+        completeCard(6);
+
+        feedback.innerHTML = `
+
+        <div class="feedback correct">
+
+            <strong>
+            ✓ Correcto.
+            </strong>
+
+            <p>
+            La no detección no demuestra automáticamente ausencia.
+            </p>
+
+            <p>
+            La suficiencia del levantamiento debe evaluarse según
+            ecología de las especies, temporalidad, detectabilidad,
+            metodología y esfuerzo.
+            </p>
 
         </div>
+
+
+        ${nextButton(
+            "continueToLaw()",
+            "Continuar"
+        )}
 
         `;
 
     }else{
 
-        f.innerHTML = `
+        feedback.innerHTML = `
 
-        <div class="incorrecto">
+        <div class="feedback wrong">
 
-        <strong>Incorrecto.</strong>
+            <strong>
+            Incorrecto.
+            </strong>
 
-        <p>
-        Una campaña breve realizada en una época de baja
-        detectabilidad puede producir falsos negativos.
-        </p>
+            <p>
+            Un levantamiento breve y realizado en un periodo
+            de baja detectabilidad puede producir falsos negativos.
+            </p>
 
         </div>
 
         `;
     }
-
-    actualizar();
 }
 
 
-/* ======================================
+function continueToLaw(){
+
+    showStage(7);
+
+    setCurrent(7);
+
+    document
+        .getElementById("detailPanel")
+        .classList.remove("visible");
+}
+
+
+/* =====================================================
 7. NORMATIVA
-====================================== */
+===================================================== */
 
-function abrirNormativa(){
+function openLaw(){
 
-    if(bloqueada("cajaNormativa")) return;
+    setCurrent(7);
 
-    panel(`
+    showPanel(`
 
-    <div class="panel-titulo">
+    <div class="detail-header">
 
-    <div class="icono-panel">
-    ⚖
+        <div class="detail-header-icon">
+        ⚖️
+        </div>
+
+        <h3>
+        7. Normativa y PAS
+        </h3>
+
     </div>
 
-    <h2>
-    7. Normativa y autorizaciones
-    </h2>
-
-    </div>
 
     <p>
-    El titular propone capturar reptiles antes de iniciar
-    las obras y trasladarlos a otro sector.
-    </p>
-
-    <p>
-    ¿Cuál es la interpretación más adecuada?
+    El titular propone capturar los reptiles antes del inicio
+    de las obras y trasladarlos a otro sector.
     </p>
 
 
-    <div class="opciones">
+    <p>
+    ¿Cuál es la interpretación técnicamente más adecuada?
+    </p>
 
-    <label class="opcion">
-    <input type="radio"
-           name="normativa"
-           value="automatico">
-    La relocalización puede realizarse automáticamente.
-    </label>
 
-    <label class="opcion">
-    <input type="radio"
-           name="normativa"
-           value="seia">
-    El ingreso al SEIA reemplaza todas las autorizaciones
-    sectoriales.
-    </label>
+    <div class="options">
 
-    <label class="opcion">
-    <input type="radio"
-           name="normativa"
-           value="permisos">
-    La captura y eventual relocalización deben justificarse
-    técnicamente y cumplir las autorizaciones aplicables,
-    y no sustituyen el análisis de la pérdida de hábitat.
-    </label>
+        <label class="option">
+
+        <input
+            type="radio"
+            name="law"
+            value="automatic">
+
+        La relocalización debe realizarse automáticamente.
+
+        </label>
+
+
+        <label class="option">
+
+        <input
+            type="radio"
+            name="law"
+            value="seia">
+
+        El ingreso al SEIA reemplaza las autorizaciones sectoriales.
+
+        </label>
+
+
+        <label class="option">
+
+        <input
+            type="radio"
+            name="law"
+            value="permits">
+
+        La captura y eventual relocalización deben justificarse
+        técnicamente y cumplir las autorizaciones aplicables,
+        y no sustituyen el análisis de la pérdida del hábitat.
+
+        </label>
 
     </div>
 
 
-    <button class="btn"
-            onclick="responderNormativa()">
+    <button
+        class="btn-primary"
+        onclick="answerLaw()">
 
-    Evaluar respuesta
+        Evaluar respuesta
 
     </button>
 
 
-    <div id="feedbackNormativa">
+    <div id="lawFeedback">
     </div>
 
     `);
 }
 
 
-function responderNormativa(){
+function answerLaw(){
 
-    const r =
-        obtenerRadio("normativa");
+    const answer =
+        getRadio("law");
 
-    if(!r){
+    if(!answer){
 
-        alert("Seleccione una alternativa.");
+        alert(
+            "Seleccione una alternativa."
+        );
+
         return;
     }
 
-    const f =
-        document.getElementById("feedbackNormativa");
+
+    const feedback =
+        document.getElementById(
+            "lawFeedback"
+        );
 
 
-    if(r === "permisos"){
+    if(answer === "permits"){
 
-        normativaCompleta = true;
+        state.law = true;
 
-        desbloquear("cajaMedidas");
+        if(!awarded.law){
 
-        if(!puntosOtorgados.normativa){
+            score += 10;
 
-            puntaje += 10;
-            puntosOtorgados.normativa = true;
+            awarded.law = true;
+
+            updateScore();
         }
 
-        f.innerHTML = `
+        completeCard(7);
 
-        <div class="correcto">
+        feedback.innerHTML = `
 
-        <strong>✓ Correcto.</strong>
+        <div class="feedback correct">
 
-        <p>
-        La evaluación ambiental y la normativa sectorial
-        deben analizarse conjuntamente.
-        </p>
+            <strong>
+            ✓ Correcto.
+            </strong>
 
-        <p>
-        El manejo directo de fauna requiere una justificación
-        técnica y el cumplimiento de las autorizaciones
-        correspondientes.
-        </p>
+            <p>
+            La evaluación dentro del SEIA no elimina las exigencias
+            sectoriales relacionadas con fauna.
+            </p>
 
-        <p>
-        Además, trasladar animales no resuelve por sí solo
-        el impacto asociado a la destrucción de su hábitat.
-        </p>
+            <p>
+            Además, mover individuos no elimina por sí solo
+            el impacto asociado a la pérdida de hábitat.
+            </p>
 
         </div>
+
+
+        ${nextButton(
+            "continueToMeasures()",
+            "Continuar"
+        )}
 
         `;
 
     }else{
 
-        f.innerHTML = `
+        feedback.innerHTML = `
 
-        <div class="incorrecto">
+        <div class="feedback wrong">
 
-        <strong>Incorrecto.</strong>
+            <strong>
+            Incorrecto.
+            </strong>
 
-        <p>
-        El ingreso al SEIA no significa que desaparezcan
-        las obligaciones sectoriales relacionadas con fauna.
-        </p>
+            <p>
+            El ingreso al SEIA no reemplaza automáticamente
+            las obligaciones o autorizaciones sectoriales.
+            </p>
 
         </div>
 
         `;
     }
-
-    actualizar();
 }
 
 
-/* ======================================
+function continueToMeasures(){
+
+    showStage(8);
+
+    setCurrent(8);
+
+    document
+        .getElementById("detailPanel")
+        .classList.remove("visible");
+}
+
+
+/* =====================================================
 8. MEDIDAS
-====================================== */
+===================================================== */
 
-function abrirMedidas(){
+function openMeasures(){
 
-    if(bloqueada("cajaMedidas")) return;
+    setCurrent(8);
 
-    panel(`
+    showPanel(`
 
-    <div class="panel-titulo">
+    <div class="detail-header">
 
-    <div class="icono-panel">
-    🌱
+        <div class="detail-header-icon">
+        🌱
+        </div>
+
+        <h3>
+        8. Medidas ambientales
+        </h3>
+
     </div>
 
-    <h2>
-    8. Medidas ambientales
-    </h2>
-
-    </div>
 
     <p>
-    Considerando que el impacto principal corresponde a la
-    pérdida de hábitat reproductivo, ¿cuál debería ser
-    el primer enfoque?
+    Considerando que el principal impacto corresponde a la pérdida
+    del hábitat reproductivo, ¿cuál debería ser el primer enfoque?
     </p>
 
 
-    <div class="opciones">
+    <div class="options">
 
-    <label class="opcion">
-    <input type="radio"
-           name="medida"
-           value="captura">
-    Capturar todos los animales.
-    </label>
+        <label class="option">
 
-    <label class="opcion">
-    <input type="radio"
-           name="medida"
-           value="evitar">
-    Evaluar alternativas de diseño o localización que permitan
-    evitar o reducir la intervención del hábitat.
-    </label>
+        <input
+            type="radio"
+            name="measure"
+            value="capture">
 
-    <label class="opcion">
-    <input type="radio"
-           name="medida"
-           value="carteles">
-    Instalar señalética educativa.
-    </label>
+        Capturar todos los individuos inmediatamente.
 
-    <label class="opcion">
-    <input type="radio"
-           name="medida"
-           value="monitoreo">
-    Realizar exclusivamente monitoreo posterior.
-    </label>
+        </label>
+
+
+        <label class="option">
+
+        <input
+            type="radio"
+            name="measure"
+            value="avoid">
+
+        Evaluar alternativas de diseño o localización que permitan
+        evitar o reducir la intervención del hábitat reproductivo.
+
+        </label>
+
+
+        <label class="option">
+
+        <input
+            type="radio"
+            name="measure"
+            value="sign">
+
+        Instalar señalética educativa.
+
+        </label>
+
+
+        <label class="option">
+
+        <input
+            type="radio"
+            name="measure"
+            value="monitor">
+
+        Realizar exclusivamente monitoreo posterior.
+
+        </label>
 
     </div>
 
 
-    <button class="btn"
-            onclick="responderMedida()">
+    <button
+        class="btn-primary"
+        onclick="answerMeasures()">
 
-    Evaluar respuesta
+        Evaluar medida
 
     </button>
 
 
-    <div id="feedbackMedida">
+    <div id="measureFeedback">
     </div>
 
     `);
 }
 
 
-function responderMedida(){
+function answerMeasures(){
 
-    const r =
-        obtenerRadio("medida");
+    const answer =
+        getRadio("measure");
 
-    if(!r){
+    if(!answer){
 
-        alert("Seleccione una alternativa.");
+        alert(
+            "Seleccione una alternativa."
+        );
+
         return;
     }
 
-    const f =
-        document.getElementById("feedbackMedida");
+
+    const feedback =
+        document.getElementById(
+            "measureFeedback"
+        );
 
 
-    if(r === "evitar"){
+    if(answer === "avoid"){
 
-        medidasCompleta = true;
+        state.measures = true;
 
-        desbloquear("cajaFinal");
+        if(!awarded.measures){
 
-        if(!puntosOtorgados.medidas){
+            score += 10;
 
-            puntaje += 10;
-            puntosOtorgados.medidas = true;
+            awarded.measures = true;
+
+            updateScore();
         }
 
-        f.innerHTML = `
+        completeCard(8);
 
-        <div class="correcto">
+        feedback.innerHTML = `
 
-        <strong>✓ Correcto.</strong>
+        <div class="feedback correct">
 
-        <p>
-        Las medidas deben responder directamente al impacto
-        identificado.
-        </p>
+            <strong>
+            ✓ Correcto.
+            </strong>
 
-        <p>
-        Frente a la pérdida de un hábitat ecológicamente
-        relevante debe analizarse primero si es posible
-        evitar o reducir la intervención que genera el impacto.
-        </p>
+            <p>
+            Frente a un impacto sobre un hábitat ecológicamente
+            relevante debe evaluarse primero si es posible evitar
+            o reducir la intervención que origina el impacto.
+            </p>
 
         </div>
+
+
+        ${nextButton(
+            "continueToOpinion()",
+            "Continuar"
+        )}
 
         `;
 
     }else{
 
-        f.innerHTML = `
+        feedback.innerHTML = `
 
-        <div class="incorrecto">
+        <div class="feedback wrong">
 
-        <strong>Revise la medida seleccionada.</strong>
+            <strong>
+            Revise la medida seleccionada.
+            </strong>
 
-        <p>
-        Una medida accesoria o posterior no necesariamente
-        controla el impacto que origina la pérdida del hábitat.
-        </p>
+            <p>
+            Una medida posterior o accesoria no necesariamente
+            aborda la causa principal del impacto identificado.
+            </p>
 
         </div>
 
         `;
     }
-
-    actualizar();
 }
 
 
-/* ======================================
+function continueToOpinion(){
+
+    showStage(9);
+
+    setCurrent(9);
+
+    document
+        .getElementById("detailPanel")
+        .classList.remove("visible");
+}
+
+
+/* =====================================================
 9. PRONUNCIAMIENTO
-====================================== */
+===================================================== */
 
-function abrirPronunciamiento(){
+function openOpinion(){
 
-    if(bloqueada("cajaFinal")) return;
+    setCurrent(9);
 
-    panel(`
+    showPanel(`
 
-    <div class="panel-titulo">
+    <div class="detail-header">
 
-    <div class="icono-panel">
-    📋
+        <div class="detail-header-icon">
+        📋
+        </div>
+
+        <h3>
+        9. Pronunciamiento técnico
+        </h3>
+
     </div>
 
-    <h2>
-    9. Pronunciamiento técnico
-    </h2>
-
-    </div>
 
     <p>
-    Seleccione la conclusión que mejor integra la evaluación
-    realizada.
+    Seleccione la conclusión que mejor integra la evaluación realizada.
     </p>
 
 
-    <div class="opciones">
+    <div class="options">
 
-    <label class="opcion">
-    <input type="radio"
-           name="final"
-           value="dia">
-    El proyecto debe ingresar mediante DIA y la fauna
-    puede manejarse únicamente mediante relocalización.
-    </label>
+        <label class="option">
 
-    <label class="opcion">
-    <input type="radio"
-           name="final"
-           value="eia">
-    El proyecto debe ingresar mediante EIA; la fauna
-    constituye un componente determinante y las medidas
-    deben abordar prioritariamente la pérdida de hábitat,
-    además de cumplir la normativa aplicable.
-    </label>
+        <input
+            type="radio"
+            name="opinion"
+            value="dia">
 
-    <label class="opcion">
-    <input type="radio"
-           name="final"
-           value="noseia">
-    El proyecto no requiere evaluación ambiental.
-    </label>
+        El proyecto debe ingresar mediante DIA y la fauna puede
+        manejarse exclusivamente mediante relocalización.
+
+        </label>
+
+
+        <label class="option">
+
+        <input
+            type="radio"
+            name="opinion"
+            value="eia">
+
+        El proyecto debe ingresar mediante EIA; el componente fauna
+        es determinante, y las medidas deben abordar prioritariamente
+        la pérdida del hábitat además de cumplir la normativa aplicable.
+
+        </label>
+
+
+        <label class="option">
+
+        <input
+            type="radio"
+            name="opinion"
+            value="none">
+
+        El proyecto no requiere evaluación ambiental.
+
+        </label>
 
     </div>
 
 
-    <button class="btn"
-            onclick="responderFinal()">
+    <button
+        class="btn-primary"
+        onclick="answerOpinion()">
 
-    Emitir pronunciamiento
+        Emitir pronunciamiento
 
     </button>
 
 
-    <div id="feedbackFinal">
+    <div id="opinionFeedback">
     </div>
 
     `);
 }
 
 
-function responderFinal(){
+function answerOpinion(){
 
-    const r =
-        obtenerRadio("final");
+    const answer =
+        getRadio("opinion");
 
-    if(!r){
+    if(!answer){
 
-        alert("Seleccione una alternativa.");
+        alert(
+            "Seleccione una alternativa."
+        );
+
         return;
     }
 
-    const f =
-        document.getElementById("feedbackFinal");
+
+    const feedback =
+        document.getElementById(
+            "opinionFeedback"
+        );
 
 
-    if(r === "eia"){
+    if(answer === "eia"){
 
-        pronunciamientoCompleto = true;
+        state.opinion = true;
 
-        desbloquear("cajaResultado");
+        if(!awarded.opinion){
 
-        if(!puntosOtorgados.final){
+            score += 5;
 
-            puntaje += 5;
-            puntosOtorgados.final = true;
+            awarded.opinion = true;
+
+            updateScore();
         }
 
-        f.innerHTML = `
+        completeCard(9);
 
-        <div class="correcto">
+        feedback.innerHTML = `
 
-        <strong>
-        ✓ Pronunciamiento técnicamente coherente.
-        </strong>
+        <div class="feedback correct">
 
-        <p>
-        La decisión integra correctamente el ingreso al SEIA,
-        la vía de evaluación, la relevancia del componente fauna,
-        la naturaleza del impacto, la normativa y el enfoque
-        de manejo ambiental.
-        </p>
+            <strong>
+            ✓ Pronunciamiento técnicamente coherente.
+            </strong>
+
+            <p>
+            La conclusión integra correctamente la obligación
+            de ingreso, la vía de evaluación, la relevancia de fauna,
+            la naturaleza del impacto y las medidas ambientales.
+            </p>
 
         </div>
+
+
+        ${nextButton(
+            "continueToResult()",
+            "Ver resultado"
+        )}
 
         `;
 
     }else{
 
-        f.innerHTML = `
+        feedback.innerHTML = `
 
-        <div class="incorrecto">
+        <div class="feedback wrong">
 
-        <strong>
-        El pronunciamiento no integra correctamente los antecedentes.
-        </strong>
+            <strong>
+            El pronunciamiento no integra correctamente el caso.
+            </strong>
 
-        <p>
-        Revise las conclusiones obtenidas en las etapas anteriores.
-        </p>
+            <p>
+            Revise las conclusiones alcanzadas en las etapas anteriores.
+            </p>
 
         </div>
 
         `;
     }
-
-    actualizar();
 }
 
 
-/* ======================================
+function continueToResult(){
+
+    showStage(10);
+
+    setCurrent(10);
+
+    document
+        .getElementById("detailPanel")
+        .classList.remove("visible");
+
+    updateProgress(10);
+}
+
+
+/* =====================================================
 RESULTADO
-====================================== */
+===================================================== */
 
-function mostrarResultado(){
+function openResult(){
 
-    if(bloqueada("cajaResultado")) return;
+    setCurrent(10);
 
-    let nivel = "";
+    let level = "";
 
-    if(puntaje >= 90){
-        nivel = "Excelente desempeño";
+    if(score >= 90){
+
+        level =
+            "Excelente desempeño";
+
+    }else if(score >= 75){
+
+        level =
+            "Muy buen desempeño";
+
+    }else if(score >= 60){
+
+        level =
+            "Buen desempeño";
+
+    }else{
+
+        level =
+            "Debe reforzar algunos contenidos";
     }
-    else if(puntaje >= 75){
-        nivel = "Muy buen desempeño";
-    }
-    else if(puntaje >= 60){
-        nivel = "Buen desempeño";
-    }
-    else{
-        nivel = "Debe reforzar algunos contenidos";
-    }
 
 
-    panel(`
+    showPanel(`
 
-    <div class="panel-titulo">
+    <div class="detail-header">
 
-    <div class="icono-panel">
-    🏁
-    </div>
+        <div class="detail-header-icon">
+        🏁
+        </div>
 
-    <h2>
-    Resultado de la evaluación
-    </h2>
-
-    </div>
-
-
-    <div class="nota">
-    ${puntaje} / 100
-    </div>
-
-    <h3 class="centrado">
-    ${nivel}
-    </h3>
-
-
-    <div class="info">
-
-    <h3>
-    Pronunciamiento esperado
-    </h3>
-
-    <p>
-    <strong>Ingreso al SEIA:</strong>
-    obligatorio.
-    </p>
-
-    <p>
-    <strong>Instrumento:</strong>
-    Estudio de Impacto Ambiental — EIA.
-    </p>
-
-    <p>
-    <strong>Componente determinante:</strong>
-    fauna silvestre y hábitat reproductivo.
-    </p>
-
-    <p>
-    <strong>Impacto principal:</strong>
-    pérdida del principal hábitat reproductivo y de refugio
-    de una población local de una especie amenazada.
-    </p>
-
-    <p>
-    <strong>Línea de base:</strong>
-    debe considerar detectabilidad, temporalidad,
-    metodología y esfuerzo.
-    </p>
-
-    <p>
-    <strong>Manejo de fauna:</strong>
-    una eventual captura o relocalización requiere
-    fundamentación técnica y autorizaciones aplicables
-    y no reemplaza el manejo del impacto sobre el hábitat.
-    </p>
-
-    <p>
-    <strong>Medidas:</strong>
-    debe priorizarse el análisis de alternativas destinadas
-    a evitar o reducir la intervención que origina el impacto.
-    </p>
+        <h3>
+        Resultado de la evaluación
+        </h3>
 
     </div>
 
 
-    <div class="centrado">
+    <div class="final-score">
 
-    <button class="btn"
-            onclick="location.reload()">
+    ${score} / 100
 
-    Reiniciar simulador
+    </div>
+
+
+    <div class="final-level">
+
+    ${level}
+
+    </div>
+
+
+    <div class="feedback info">
+
+        <strong>
+        Pronunciamiento esperado
+        </strong>
+
+        <p>
+        <strong>Ingreso al SEIA:</strong>
+        obligatorio.
+        </p>
+
+        <p>
+        <strong>Vía de evaluación:</strong>
+        Estudio de Impacto Ambiental — EIA.
+        </p>
+
+        <p>
+        <strong>Componente determinante:</strong>
+        fauna silvestre y hábitat asociado.
+        </p>
+
+        <p>
+        <strong>Impacto principal:</strong>
+        pérdida del principal hábitat reproductivo y de refugio
+        de una población local de una especie amenazada.
+        </p>
+
+        <p>
+        <strong>Línea de base:</strong>
+        debe considerar temporalidad, metodología,
+        detectabilidad y esfuerzo.
+        </p>
+
+        <p>
+        <strong>Manejo:</strong>
+        la eventual captura o relocalización debe justificarse
+        técnicamente y cumplir las autorizaciones aplicables.
+        </p>
+
+        <p>
+        <strong>Medidas:</strong>
+        debe priorizarse evitar o reducir la intervención
+        que genera el impacto.
+        </p>
+
+    </div>
+
+
+    <button
+        class="btn-primary"
+        onclick="location.reload()">
+
+        Reiniciar simulador
 
     </button>
-
-    </div>
 
     `);
 }
 
 </script>
+
 
 </body>
 </html>
