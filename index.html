@@ -3,306 +3,322 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Evaluador SEIA - Revelación Progresiva</title>
+    <title>Simulador SEIA - Chile</title>
     <style>
         :root {
-            --bg-color: #0f172a;
-            --panel-bg: #1e293b;
-            --accent-color: #3b82f6;
-            --accent-hover: #2563eb;
-            --text-color: #f8fafc;
-            --text-muted: #94a3b8;
-            --success-color: #10b981;
-            --border-color: #334155;
+            --bg: #0b0f19;
+            --panel: #111827;
+            --panel-hover: #1f2937;
+            --border: #374151;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --success: #10b981;
+            --text-main: #f9fafb;
+            --text-muted: #9ca3af;
+            --accent: #38bdf8;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
         }
 
         body {
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            background-color: var(--bg);
+            color: var(--text-main);
             display: flex;
             height: 100vh;
             overflow: hidden;
         }
 
-        /* BARRA LATERAL (COLUMNA IZQUIERDA) */
+        /* COLUMNA IZQUIERDA - ESTILO ORIGINAL */
         .sidebar {
             width: 320px;
-            background-color: var(--panel-bg);
-            border-right: 1px solid var(--border-color);
+            background-color: var(--panel);
+            border-right: 1px solid var(--border);
             display: flex;
             flex-direction: column;
             padding: 20px;
         }
 
-        .sidebar-header {
+        .brand {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .subtitle {
+            font-size: 0.8rem;
+            color: var(--text-muted);
             margin-bottom: 20px;
         }
 
-        .sidebar-title {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 10px;
+        .progress-box {
+            background-color: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px;
+            margin-bottom: 20px;
         }
 
-        .progress-container {
-            background-color: var(--bg-color);
-            height: 8px;
-            border-radius: 4px;
+        .progress-bar-bg {
+            background-color: #1f2937;
+            height: 6px;
+            border-radius: 3px;
             overflow: hidden;
-            margin-bottom: 15px;
+            margin-top: 8px;
         }
 
-        .progress-bar {
+        .progress-bar-fill {
             height: 100%;
-            background-color: var(--success-color);
+            background: linear-gradient(90deg, #2563eb, #10b981);
             width: 0%;
             transition: width 0.3s ease;
         }
 
-        .steps-list {
+        .steps-container {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 8px;
             overflow-y: auto;
             flex-grow: 1;
+            padding-right: 4px;
         }
 
-        /* Botón de etapa en menú lateral */
-        .step-item {
+        /* CAJAS DE LA IZQUIERDA (CON ANIMACIÓN AL APARECER) */
+        .step-box {
             display: flex;
             align-items: center;
             gap: 12px;
             padding: 12px;
-            background-color: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border-color);
+            background-color: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
             border-radius: 8px;
-            color: var(--text-muted);
             cursor: pointer;
-            text-align: left;
             transition: all 0.2s ease;
-            /* Animación al revelarse */
-            animation: revealStep 0.35s ease-out forwards;
+            animation: fadeIn 0.3s ease-out forwards;
         }
 
-        .step-item:hover {
-            border-color: var(--accent-color);
-            color: var(--text-color);
+        .step-box:hover {
+            background-color: var(--panel-hover);
+            border-color: var(--text-muted);
         }
 
-        .step-item.active {
-            background-color: rgba(59, 130, 246, 0.15);
-            border-color: var(--accent-color);
-            color: var(--text-color);
+        .step-box.active {
+            border-color: var(--primary);
+            background-color: rgba(37, 99, 235, 0.1);
         }
 
-        .step-item.completed {
-            border-color: var(--success-color);
+        .step-box.completed {
+            border-color: var(--success);
         }
 
-        .step-number {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background-color: var(--bg-color);
+        .step-badge {
+            width: 26px;
+            height: 26px;
+            border-radius: 6px;
+            background-color: #1f2937;
+            color: var(--text-muted);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: bold;
-            font-size: 0.85rem;
+            font-size: 0.8rem;
+            font-weight: 600;
             flex-shrink: 0;
         }
 
-        .step-item.completed .step-number {
-            background-color: var(--success-color);
-            color: white;
+        .step-box.completed .step-badge {
+            background-color: var(--success);
+            color: #fff;
         }
 
-        .step-info {
+        .step-box.active .step-badge {
+            background-color: var(--primary);
+            color: #fff;
+        }
+
+        .step-details {
             display: flex;
             flex-direction: column;
         }
 
-        .step-phase {
+        .step-tag {
             font-size: 0.65rem;
-            text-transform: uppercase;
+            font-weight: 700;
+            color: var(--accent);
             letter-spacing: 0.5px;
-            color: var(--accent-color);
         }
 
-        .step-title {
-            font-size: 0.9rem;
+        .step-name {
+            font-size: 0.85rem;
             font-weight: 500;
+            color: var(--text-main);
         }
 
-        /* ÁREA PRINCIPAL DE CONTENIDO */
-        .main-content {
+        /* ÁREA PRINCIPAL */
+        .main {
             flex-grow: 1;
             display: flex;
             flex-direction: column;
-            background-color: var(--bg-color);
+            overflow-y: auto;
         }
 
-        .top-bar {
-            padding: 15px 30px;
-            border-bottom: 1px solid var(--border-color);
+        .top-header {
+            padding: 16px 32px;
+            border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background-color: var(--panel-bg);
+            background-color: var(--panel);
         }
 
-        .score-badge {
+        .score-box {
             background-color: rgba(16, 185, 129, 0.1);
-            color: var(--success-color);
-            border: 1px solid var(--success-color);
-            padding: 6px 14px;
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 6px 16px;
             border-radius: 20px;
             font-weight: 600;
+            font-size: 0.9rem;
         }
 
-        .content-body {
+        .content {
             padding: 40px;
-            overflow-y: auto;
-            flex-grow: 1;
-            max-width: 900px;
+            max-width: 850px;
             margin: 0 auto;
             width: 100%;
         }
 
-        .stage-card {
-            background-color: var(--panel-bg);
-            border: 1px solid var(--border-color);
+        .card {
+            background-color: var(--panel);
+            border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 30px;
+            padding: 32px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
         }
 
-        .stage-title {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
+        .card-title {
+            font-size: 1.4rem;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
             gap: 10px;
         }
 
-        .stage-desc {
+        .card-desc {
             color: var(--text-muted);
-            margin-bottom: 25px;
             line-height: 1.6;
-        }
-
-        .options-grid {
-            display: grid;
-            gap: 15px;
-            margin-top: 20px;
+            margin-bottom: 24px;
         }
 
         .btn {
-            background-color: var(--accent-color);
-            color: white;
+            background-color: var(--primary);
+            color: #fff;
             border: none;
             padding: 12px 24px;
             border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.2s ease;
+            transition: background 0.2s;
         }
 
         .btn:hover {
-            background-color: var(--accent-hover);
+            background-color: var(--primary-hover);
         }
 
-        .option-card {
-            background-color: var(--bg-color);
-            border: 1px solid var(--border-color);
-            padding: 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .option-card:hover {
-            border-color: var(--accent-color);
-            transform: translateY(-2px);
-        }
-
-        .feedback-box {
+        .grid-options {
+            display: grid;
+            gap: 12px;
             margin-top: 20px;
-            padding: 15px;
+        }
+
+        .option-item {
+            background-color: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option-item:hover {
+            border-color: var(--accent);
+            background-color: rgba(56, 189, 248, 0.05);
+        }
+
+        .feedback {
+            margin-top: 20px;
+            padding: 16px;
             border-radius: 8px;
             display: none;
         }
 
-        .feedback-box.success {
+        .feedback.success {
             background-color: rgba(16, 185, 129, 0.1);
-            border: 1px solid var(--success-color);
-            color: var(--success-color);
+            border: 1px solid var(--success);
+            color: #34d399;
         }
 
-        .feedback-box.error {
+        .feedback.error {
             background-color: rgba(239, 68, 68, 0.1);
-            border: 1px solid #ef4444;
-            color: #ef4444;
+            border: 1px solid #f87171;
+            color: #f87171;
         }
 
-        /* ANIMACIÓN DE FADE-IN */
-        @keyframes revealStep {
-            from {
-                opacity: 0;
-                transform: translateY(-8px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body>
 
-    <!-- COLUMNA IZQUIERDA (BARRA LATERAL) -->
+    <!-- COLUMNA IZQUIERDA -->
     <aside class="sidebar">
-        <div class="sidebar-header">
-            <h2 class="sidebar-title">Evaluación SEIA</h2>
-            <div class="progress-container">
-                <div class="progress-bar" id="progressBar"></div>
+        <div class="brand">🌲 Simulador SEIA</div>
+        <div class="subtitle">Evaluación de Impacto Ambiental</div>
+
+        <div class="progress-box">
+            <div style="display: flex; justify-content: space-between; font-size: 0.8rem;">
+                <span id="stepCounter">Etapa 1 de 13</span>
+                <span id="progressPercent">0%</span>
             </div>
-            <small id="stepCounter" style="color: var(--text-muted);">Etapa 1 de 13</small>
+            <div class="progress-bar-bg">
+                <div class="progress-bar-fill" id="progressBar"></div>
+            </div>
         </div>
-        
-        <!-- Aquí se cargan dinámicamente solo las etapas liberadas -->
-        <div class="steps-list" id="sidebarSteps"></div>
+
+        <!-- Las cajas se cargan dinámicamente según el avance -->
+        <div class="steps-container" id="sidebarSteps"></div>
     </aside>
 
-    <!-- ÁREA DE CONTENIDO -->
-    <main class="main-content">
-        <header class="top-bar">
-            <span id="currentPhaseLabel" style="font-weight: 600; color: var(--text-muted);">FASE SEIA</span>
-            <div class="score-badge" id="scoreBadge">0 / 100 pts</div>
+    <!-- ÁREA DE TRABAJO -->
+    <main class="main">
+        <header class="top-header">
+            <span id="currentPhaseTag" style="font-size: 0.85rem; font-weight: 700; color: var(--accent);">SEIA</span>
+            <div class="score-box" id="scoreBadge">0 / 100 pts</div>
         </header>
 
-        <section class="content-body" id="stageContent">
-            <!-- El contenido dinámico de la etapa actual se renderiza aquí -->
-        </section>
+        <section class="content" id="stageContent"></section>
     </main>
 
     <script>
-        // ESTADO GLOBAL
+        // ESTADO DE LA APLICACIÓN
         const state = {
             currentStage: 1,
-            maxUnlockedStage: 1, // Controla el avance en la barra lateral
+            maxUnlockedStage: 1, // Controla cuántas cajas son visibles a la izquierda
             score: 0,
             completedStages: new Set(),
             awardedScores: new Set()
         };
 
-        // ESTRUCTURA DE ETAPAS
+        // LISTA DE ETAPAS
         const stages = [
             { id: 1, title: "Antecedentes del Proyecto", phase: "SEIA", icon: "📄" },
             { id: 2, title: "¿Debe ingresar al SEIA?", phase: "SEIA", icon: "🔎" },
@@ -319,17 +335,16 @@
             { id: 13, title: "Cumplimiento y Hallazgos", phase: "SMA", icon: "⚠️" }
         ];
 
-        // INICIALIZACIÓN
         document.addEventListener("DOMContentLoaded", () => {
             renderSidebar();
             loadStage(1);
         });
 
-        // DIBUJA LA COLUMNA IZQUIERDA OCULTANDO PASOS FUTUROS
+        // GENERA LAS CAJAS IZQUIERDAS (OCULTA LAS NO LIBERADAS)
         function renderSidebar() {
             const container = document.getElementById("sidebarSteps");
-            
-            // FILTRADO CLAVE: Solo genera los elementos hasta maxUnlockedStage
+
+            // FILTRO: Muestra únicamente las cajas hasta maxUnlockedStage
             const visibleStages = stages.filter(s => s.id <= state.maxUnlockedStage);
 
             container.innerHTML = visibleStages.map(s => {
@@ -337,20 +352,21 @@
                 const isActive = s.id === state.currentStage;
 
                 return `
-                    <button class="step-item ${isActive ? 'active' : ''} ${isCompleted ? 'completed' : ''}" 
-                            onclick="goToStage(${s.id})">
-                        <div class="step-number">${isCompleted ? '✓' : s.id}</div>
-                        <div class="step-info">
-                            <span class="step-phase">${s.phase}</span>
-                            <span class="step-title">${s.title}</span>
+                    <div class="step-box ${isActive ? 'active' : ''} ${isCompleted ? 'completed' : ''}" 
+                         onclick="goToStage(${s.id})">
+                        <div class="step-badge">${isCompleted ? '✓' : s.id}</div>
+                        <div class="step-details">
+                            <span class="step-tag">${s.phase}</span>
+                            <span class="step-name">${s.title}</span>
                         </div>
-                    </button>
+                    </div>
                 `;
             }).join('');
 
-            // Actualizar interfaz general
-            const progress = Math.round((state.completedStages.size / stages.length) * 100);
-            document.getElementById("progressBar").style.width = `${progress}%`;
+            // Actualiza la barra de progreso general
+            const pct = Math.round((state.completedStages.size / stages.length) * 100);
+            document.getElementById("progressBar").style.width = `${pct}%`;
+            document.getElementById("progressPercent").innerText = `${pct}%`;
             document.getElementById("stepCounter").innerText = `Etapa ${state.currentStage} de ${stages.length}`;
             document.getElementById("scoreBadge").innerText = `${state.score} / 100 pts`;
         }
@@ -363,11 +379,11 @@
             }
         }
 
-        // DESBLOQUEA LA SIGUIENTE ETAPA Y AVANZA
+        // LIBERA LA SIGUIENTE CAJA Y AVANZA
         function completeAndNext(stageId) {
             state.completedStages.add(stageId);
 
-            // Se habilita la siguiente casilla en el menú lateral
+            // Desbloquea la caja siguiente en la izquierda
             if (stageId + 1 > state.maxUnlockedStage && stageId < stages.length) {
                 state.maxUnlockedStage = stageId + 1;
             }
@@ -386,22 +402,22 @@
             }
         }
 
-        // RENDERIZADOR DE CONTENIDO POR ETAPA
+        // CARGA EL CONTENIDO EN EL ÁREA CENTRAL
         function loadStage(stageId) {
             const container = document.getElementById("stageContent");
-            const currentStageObj = stages.find(s => s.id === stageId);
-            document.getElementById("currentPhaseLabel").innerText = `FASE ${currentStageObj.phase}`;
+            const currentObj = stages.find(s => s.id === stageId);
+            document.getElementById("currentPhaseTag").innerText = currentObj.phase;
 
             switch (stageId) {
                 case 1:
                     container.innerHTML = `
-                        <div class="stage-card">
-                            <h2 class="stage-title">📄 Antecedentes del Proyecto</h2>
-                            <p class="stage-desc">
-                                Se proyecta la construcción de un Parque Fotovoltaico con una potencia instalada de 12 MW y una línea de transmisión eléctrica de 3 km en la Región del Maule.
+                        <div class="card">
+                            <h2 class="card-title">📄 Antecedentes del Proyecto</h2>
+                            <p class="card-desc">
+                                Se planifica la instalación de un Parque Fotovoltaico de 12 MW con una línea de evacuación eléctrica de 3 km en la Región del Maule.
                             </p>
                             <button class="btn" onclick="addScore(10, 's1'); completeAndNext(1);">
-                                Entendido, comenzar evaluación →
+                                Iniciar Evaluación Técnica →
                             </button>
                         </div>
                     `;
@@ -409,92 +425,136 @@
 
                 case 2:
                     container.innerHTML = `
-                        <div class="stage-card">
-                            <h2 class="stage-title">🔎 ¿Debe ingresar al SEIA?</h2>
-                            <p class="stage-desc">
-                                Revisa el Artículo 10 de la Ley 19.300. Dado que el proyecto genera 12 MW (>3 MW) según el tipógrafo c), ¿corresponde su ingreso obligatorio al sistema?
+                        <div class="card">
+                            <h2 class="card-title">🔎 ¿Debe ingresar al SEIA?</h2>
+                            <p class="card-desc">
+                                Evaluando la tipología del proyecto según el Art. 10 de la Ley 19.300 (letra c: centrales generadoras de energía mayores a 3 MW).
                             </p>
-                            <div class="options-grid">
-                                <div class="option-card" onclick="evaluarIngreso(true)">
+                            <div class="grid-options">
+                                <div class="option-item" onclick="evaluarIngreso(true)">
                                     <strong>Sí, debe ingresar obligatoriamente</strong>
-                                    <p style="font-size:0.85rem; color:var(--text-muted); margin-top:5px;">Supera la tipología del Art. 10 letra c) al ser > 3MW.</p>
+                                    <p style="font-size:0.8rem; color:var(--text-muted); margin-top:4px;">Supera el umbral de 3 MW de potencia instalada.</p>
                                 </div>
-                                <div class="option-card" onclick="evaluarIngreso(false)">
+                                <div class="option-item" onclick="evaluarIngreso(false)">
                                     <strong>No, es de ingreso voluntario</strong>
-                                    <p style="font-size:0.85rem; color:var(--text-muted); margin-top:5px;">Las energías renovables no requieren evaluación.</p>
+                                    <p style="font-size:0.8rem; color:var(--text-muted); margin-top:4px;">Las energías renovables no requieren evaluación.</p>
                                 </div>
                             </div>
-                            <div id="feedback2" class="feedback-box"></div>
+                            <div id="fb2" class="feedback"></div>
                         </div>
                     `;
                     break;
 
                 case 3:
                     container.innerHTML = `
-                        <div class="stage-card">
-                            <h2 class="stage-title">📑 ¿DIA o EIA?</h2>
-                            <p class="stage-desc">
-                                El proyecto genera un riesgo para la salud de la población ni reasentamiento de comunidades, pero afectará el hábitat de una especie protegida (Art. 11 Ley 19.300).
+                        <div class="card">
+                            <h2 class="card-title">📑 ¿DIA o EIA?</h2>
+                            <p class="card-desc">
+                                Se ha detectado la presencia de fauna en categoría de conservación vulnerable que será intervenida por el trazado de la línea (Art. 11 Ley 19.300).
                             </p>
-                            <div class="options-grid">
-                                <div class="option-card" onclick="evaluarVia('DIA')">
+                            <div class="grid-options">
+                                <div class="option-item" onclick="evaluarVia('DIA')">
                                     <strong>Declaración de Impacto Ambiental (DIA)</strong>
                                 </div>
-                                <div class="option-card" onclick="evaluarVia('EIA')">
+                                <div class="option-item" onclick="evaluarVia('EIA')">
                                     <strong>Estudio de Impacto Ambiental (EIA)</strong>
                                 </div>
                             </div>
-                            <div id="feedback3" class="feedback-box"></div>
+                            <div id="fb3" class="feedback"></div>
+                        </div>
+                    `;
+                    break;
+
+                case 4:
+                    container.innerHTML = `
+                        <div class="card">
+                            <h2 class="card-title">🦊 Componente Fauna en Línea de Base</h2>
+                            <p class="card-desc">
+                                Durante las exploraciones previas en la zona del proyecto se detectó presencia de avifauna migratoria y micromamíferos nativos. Según las guías metodológicas del Servicio de Evaluación Ambiental (SEA), ¿cuál es el estándar correcto para el muestreo de este componente?
+                            </p>
+                            <div class="grid-options">
+                                <div class="option-item" onclick="evaluarFauna(false)">
+                                    <strong>Una única campaña en verano</strong>
+                                    <p style="font-size:0.8rem; color:var(--text-muted); margin-top:4px;">Solo muestrear en la época de mayor actividad de las especies.</p>
+                                </div>
+                                <div class="option-item" onclick="evaluarFauna(true)">
+                                    <strong>Campañas estacionales representativas (mínimo 2 estaciones)</strong>
+                                    <p style="font-size:0.8rem; color:var(--text-muted); margin-top:4px;">Utilizando transectos, trampas Sherman y fototrampeo acorde a guías SEA.</p>
+                                </div>
+                                <div class="option-item" onclick="evaluarFauna(false)">
+                                    <strong>Revisiones bibliográficas únicamente</strong>
+                                    <p style="font-size:0.8rem; color:var(--text-muted); margin-top:4px;">Usar datos de proyectos colindantes sin levantar datos primarios en terreno.</p>
+                                </div>
+                            </div>
+                            <div id="fb4" class="feedback"></div>
                         </div>
                     `;
                     break;
 
                 default:
                     container.innerHTML = `
-                        <div class="stage-card">
-                            <h2 class="stage-title">${currentStageObj.icon} ${currentStageObj.title}</h2>
-                            <p class="stage-desc">Contenido en desarrollo para la etapa ${stageId}.</p>
-                            <button class="btn" onclick="completeAndNext(${stageId})">Siguiente Etapa →</button>
+                        <div class="card">
+                            <h2 class="card-title">${currentObj.icon} ${currentObj.title}</h2>
+                            <p class="card-desc">Módulo en desarrollo para la etapa ${stageId}.</p>
+                            <button class="btn" onclick="completeAndNext(${stageId})">Avanzar →</button>
                         </div>
                     `;
                     break;
             }
         }
 
-        // LÓGICA DE LAS PREGUNTAS
+        // LÓGICA DE INTERACCIÓN
         function evaluarIngreso(esCorrecto) {
-            const feedback = document.getElementById("feedback2");
-            feedback.style.display = "block";
+            const fb = document.getElementById("fb2");
+            fb.style.display = "block";
 
             if (esCorrecto) {
-                feedback.className = "feedback-box success";
-                feedback.innerHTML = `
+                fb.className = "feedback success";
+                fb.innerHTML = `
                     <strong>¡Correcto! (+15 pts)</strong><br>
-                    Al superar los 3 MW de potencia, ingresa obligatoriamente según el Art. 10 letra c).<br><br>
-                    <button class="btn" onclick="completeAndNext(2)">Avanzar a la decisión DIA/EIA →</button>
+                    Al tener 12 MW (> 3 MW), ingresa obligatoriamente.<br><br>
+                    <button class="btn" onclick="completeAndNext(2)">Avanzar a Vía de Evaluación →</button>
                 `;
                 addScore(15, 's2');
             } else {
-                feedback.className = "feedback-box error";
-                feedback.innerHTML = "<strong>Incorrecto.</strong> Toda central generadora mayor a 3 MW debe ingresar obligatoriamente al SEIA.";
+                fb.className = "feedback error";
+                fb.innerHTML = "<strong>Incorrecto.</strong> El proyecto supera el límite de 3 MW, por lo que debe ingresar obligatoriamente.";
             }
         }
 
         function evaluarVia(opcion) {
-            const feedback = document.getElementById("feedback3");
-            feedback.style.display = "block";
+            const fb = document.getElementById("fb3");
+            fb.style.display = "block";
 
             if (opcion === 'EIA') {
-                feedback.className = "feedback-box success";
-                feedback.innerHTML = `
+                fb.className = "feedback success";
+                fb.innerHTML = `
                     <strong>¡Correcto! (+20 pts)</strong><br>
-                    Al generar efectos significativos sobre la fauna protegida (Art. 11 letra b), el proyecto debe ingresar mediante un <strong>EIA</strong>.<br><br>
+                    Al afectar fauna en conservación (Art. 11), debe evaluarse mediante un <strong>EIA</strong>.<br><br>
                     <button class="btn" onclick="completeAndNext(3)">Avanzar al Análisis de Fauna →</button>
                 `;
                 addScore(20, 's3');
             } else {
-                feedback.className = "feedback-box error";
-                feedback.innerHTML = "<strong>Incorrecto.</strong> Al haber un impacto significativo sobre flora o fauna protegida (Art. 11), una DIA no es suficiente.";
+                fb.className = "feedback error";
+                fb.innerHTML = "<strong>Incorrecto.</strong> Al haber un impacto significativo sobre especies protegidas, una DIA no es suficiente.";
+            }
+        }
+
+        function evaluarFauna(esCorrecto) {
+            const fb = document.getElementById("fb4");
+            fb.style.display = "block";
+
+            if (esCorrecto) {
+                fb.className = "feedback success";
+                fb.innerHTML = `
+                    <strong>¡Correcto! (+15 pts)</strong><br>
+                    El SEA exige caracterizar la variabilidad temporal de la fauna mediante levantamiento de información primaria en terreno en las estaciones críticas del año.<br><br>
+                    <button class="btn" onclick="completeAndNext(4)">Avanzar a Evaluación de Impacto Ambiental →</button>
+                `;
+                addScore(15, 's4');
+            } else {
+                fb.className = "feedback error";
+                fb.innerHTML = "<strong>Incorrecto.</strong> La caracterización de fauna requiere datos de terreno representativos de las distintas estaciones climáticas para determinar abundancia y riqueza de especies.";
             }
         }
     </script>
