@@ -1,562 +1,4611 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simulador SEIA - Chile</title>
-    <style>
-        :root {
-            --bg: #0b0f19;
-            --panel: #111827;
-            --panel-hover: #1f2937;
-            --border: #374151;
-            --primary: #2563eb;
-            --primary-hover: #1d4ed8;
-            --success: #10b981;
-            --text-main: #f9fafb;
-            --text-muted: #9ca3af;
-            --accent: #38bdf8;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-        }
+<title>Simulador SEIA Chile | Jorge Leichtle</title>
 
-        body {
-            background-color: var(--bg);
-            color: var(--text-main);
-            display: flex;
-            height: 100vh;
-            overflow: hidden;
-        }
+<style>
 
-        /* COLUMNA IZQUIERDA - ESTILO ORIGINAL */
-        .sidebar {
-            width: 320px;
-            background-color: var(--panel);
-            border-right: 1px solid var(--border);
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-        }
+/* =========================================================
+   PALETA
+========================================================= */
 
-        .brand {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 5px;
-            color: var(--text-main);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
+:root{
 
-        .subtitle {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-bottom: 20px;
-        }
+    --bg:#f3f7f6;
+    --bg-soft:#f8fbfa;
 
-        .progress-box {
-            background-color: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 20px;
-        }
+    --sidebar:#123f4a;
+    --sidebar-dark:#0c3038;
+    --sidebar-soft:#194f5c;
 
-        .progress-bar-bg {
-            background-color: #1f2937;
-            height: 6px;
-            border-radius: 3px;
-            overflow: hidden;
-            margin-top: 8px;
-        }
+    --green:#34845d;
+    --green-light:#eaf6ee;
 
-        .progress-bar-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #2563eb, #10b981);
-            width: 0%;
-            transition: width 0.3s ease;
-        }
+    --teal:#258493;
+    --teal-light:#e9f5f6;
 
-        .steps-container {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            overflow-y: auto;
-            flex-grow: 1;
-            padding-right: 4px;
-        }
+    --blue:#3f73b9;
+    --blue-light:#edf3fb;
 
-        /* CAJAS DE LA IZQUIERDA (CON ANIMACIÓN AL APARECER) */
-        .step-box {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 12px;
-            background-color: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            animation: fadeIn 0.3s ease-out forwards;
-        }
+    --amber:#d79a32;
+    --amber-light:#fff6e6;
 
-        .step-box:hover {
-            background-color: var(--panel-hover);
-            border-color: var(--text-muted);
-        }
+    --orange:#ce6c3c;
+    --orange-light:#fff1ea;
 
-        .step-box.active {
-            border-color: var(--primary);
-            background-color: rgba(37, 99, 235, 0.1);
-        }
+    --purple:#7665b2;
+    --purple-light:#f3f0fb;
 
-        .step-box.completed {
-            border-color: var(--success);
-        }
+    --red:#c94e4e;
+    --red-light:#fff0f0;
 
-        .step-badge {
-            width: 26px;
-            height: 26px;
-            border-radius: 6px;
-            background-color: #1f2937;
-            color: var(--text-muted);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            font-weight: 600;
-            flex-shrink: 0;
-        }
+    --text:#183740;
+    --muted:#657a82;
 
-        .step-box.completed .step-badge {
-            background-color: var(--success);
-            color: #fff;
-        }
+    --border:#d9e4e4;
+    --white:#ffffff;
 
-        .step-box.active .step-badge {
-            background-color: var(--primary);
-            color: #fff;
-        }
+    --shadow:
+        0 16px 40px
+        rgba(24,55,64,.08);
 
-        .step-details {
-            display: flex;
-            flex-direction: column;
-        }
+    --shadow-soft:
+        0 7px 22px
+        rgba(24,55,64,.07);
 
-        .step-tag {
-            font-size: 0.65rem;
-            font-weight: 700;
-            color: var(--accent);
-            letter-spacing: 0.5px;
-        }
+}
 
-        .step-name {
-            font-size: 0.85rem;
-            font-weight: 500;
-            color: var(--text-main);
-        }
 
-        /* ÁREA PRINCIPAL */
-        .main {
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-        }
+/* =========================================================
+   BASE
+========================================================= */
 
-        .top-header {
-            padding: 16px 32px;
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: var(--panel);
-        }
+*{
+    box-sizing:border-box;
+}
 
-        .score-box {
-            background-color: rgba(16, 185, 129, 0.1);
-            color: var(--success);
-            border: 1px solid rgba(16, 185, 129, 0.3);
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
+html{
+    scroll-behavior:smooth;
+}
 
-        .content {
-            padding: 40px;
-            max-width: 850px;
-            margin: 0 auto;
-            width: 100%;
-        }
+body{
+    margin:0;
 
-        .card {
-            background-color: var(--panel);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 32px;
-            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
-        }
+    font-family:
+        Inter,
+        "Segoe UI",
+        Arial,
+        Helvetica,
+        sans-serif;
 
-        .card-title {
-            font-size: 1.4rem;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+    background:var(--bg);
 
-        .card-desc {
-            color: var(--text-muted);
-            line-height: 1.6;
-            margin-bottom: 24px;
-        }
+    color:var(--text);
 
-        .btn {
-            background-color: var(--primary);
-            color: #fff;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s;
-        }
+    min-height:100vh;
+}
 
-        .btn:hover {
-            background-color: var(--primary-hover);
-        }
 
-        .grid-options {
-            display: grid;
-            gap: 12px;
-            margin-top: 20px;
-        }
+/* =========================================================
+   LAYOUT GENERAL
+========================================================= */
 
-        .option-item {
-            background-color: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 16px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
+.app{
 
-        .option-item:hover {
-            border-color: var(--accent);
-            background-color: rgba(56, 189, 248, 0.05);
-        }
+    min-height:100vh;
 
-        .feedback {
-            margin-top: 20px;
-            padding: 16px;
-            border-radius: 8px;
-            display: none;
-        }
+    display:grid;
 
-        .feedback.success {
-            background-color: rgba(16, 185, 129, 0.1);
-            border: 1px solid var(--success);
-            color: #34d399;
-        }
+    grid-template-columns:
+        315px
+        minmax(0,1fr);
 
-        .feedback.error {
-            background-color: rgba(239, 68, 68, 0.1);
-            border: 1px solid #f87171;
-            color: #f87171;
-        }
+}
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
+
+/* =========================================================
+   SIDEBAR
+========================================================= */
+
+.sidebar{
+
+    position:sticky;
+
+    top:0;
+
+    height:100vh;
+
+    display:flex;
+
+    flex-direction:column;
+
+    padding:
+        25px
+        20px
+        18px;
+
+    background:
+
+        radial-gradient(
+            circle at 10% 10%,
+            rgba(75,181,134,.18),
+            transparent 26%
+        ),
+
+        linear-gradient(
+            165deg,
+            var(--sidebar),
+            var(--sidebar-dark)
+        );
+
+    color:white;
+
+    overflow:hidden;
+
+}
+
+
+/* =========================================================
+   MARCA
+========================================================= */
+
+.brand{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:13px;
+
+    margin-bottom:6px;
+
+}
+
+.brand-icon{
+
+    width:48px;
+    height:48px;
+
+    flex:0 0 48px;
+
+    display:grid;
+
+    place-items:center;
+
+    border-radius:14px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #399368,
+            #49aa7b
+        );
+
+    font-size:1.55rem;
+
+    box-shadow:
+        0 8px 22px
+        rgba(0,0,0,.16);
+
+}
+
+.brand-copy strong{
+
+    display:block;
+
+    font-size:1.04rem;
+
+    line-height:1.15;
+
+}
+
+.brand-copy span{
+
+    display:block;
+
+    margin-top:3px;
+
+    color:#bad0d5;
+
+    font-size:.74rem;
+
+}
+
+.subtitle{
+
+    margin:
+        9px 0
+        20px;
+
+    color:#a8c2c7;
+
+    font-size:.78rem;
+
+    line-height:1.45;
+
+}
+
+
+/* =========================================================
+   PROGRESO
+========================================================= */
+
+.progress-box{
+
+    margin-bottom:20px;
+
+    padding:14px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.13);
+
+    border-radius:13px;
+
+    background:
+        rgba(255,255,255,.055);
+
+}
+
+.progress-top{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    gap:10px;
+
+    color:#d4e3e6;
+
+    font-size:.72rem;
+
+    font-weight:700;
+
+}
+
+.progress-track{
+
+    height:7px;
+
+    margin-top:10px;
+
+    overflow:hidden;
+
+    border-radius:999px;
+
+    background:
+        rgba(255,255,255,.10);
+
+}
+
+.progress-bar{
+
+    width:0%;
+
+    height:100%;
+
+    border-radius:999px;
+
+    background:
+        linear-gradient(
+            90deg,
+            #51bc84,
+            #5ab4c4
+        );
+
+    transition:
+        width .35s ease;
+
+}
+
+
+/* =========================================================
+   FASE
+========================================================= */
+
+.phase-label{
+
+    margin:
+        2px 0
+        9px;
+
+    color:#91b3b9;
+
+    font-size:.65rem;
+
+    font-weight:800;
+
+    text-transform:uppercase;
+
+    letter-spacing:.1em;
+
+}
+
+
+/* =========================================================
+   PASOS
+========================================================= */
+
+.steps{
+
+    flex:1;
+
+    min-height:0;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:7px;
+
+    overflow-y:auto;
+
+    padding-right:4px;
+
+}
+
+.steps::-webkit-scrollbar{
+    width:5px;
+}
+
+.steps::-webkit-scrollbar-thumb{
+
+    background:
+        rgba(255,255,255,.15);
+
+    border-radius:999px;
+
+}
+
+.step{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:11px;
+
+    min-height:56px;
+
+    padding:
+        9px
+        10px;
+
+    border:
+        1px solid
+        rgba(255,255,255,.10);
+
+    border-radius:11px;
+
+    background:
+        rgba(255,255,255,.035);
+
+    cursor:pointer;
+
+    transition:
+        .18s ease;
+
+    animation:
+        stageIn
+        .3s ease both;
+
+}
+
+.step:hover{
+
+    background:
+        rgba(255,255,255,.075);
+
+}
+
+.step.active{
+
+    border-color:
+        rgba(92,190,211,.85);
+
+    background:
+        rgba(52,143,159,.18);
+
+}
+
+.step.completed{
+
+    border-color:
+        rgba(75,186,127,.50);
+
+}
+
+.step-number{
+
+    width:29px;
+    height:29px;
+
+    flex:
+        0 0
+        29px;
+
+    display:grid;
+
+    place-items:center;
+
+    border-radius:8px;
+
+    color:#bad0d5;
+
+    background:
+        rgba(255,255,255,.09);
+
+    font-size:.73rem;
+
+    font-weight:900;
+
+}
+
+.step.active
+.step-number{
+
+    background:#338fa2;
+
+    color:white;
+
+}
+
+.step.completed
+.step-number{
+
+    background:#3b9b6b;
+
+    color:white;
+
+}
+
+.step-info{
+
+    min-width:0;
+
+}
+
+.step-phase{
+
+    display:block;
+
+    margin-bottom:2px;
+
+    color:#80cbd8;
+
+    font-size:.58rem;
+
+    font-weight:900;
+
+    letter-spacing:.06em;
+
+}
+
+.step-title{
+
+    display:block;
+
+    color:#f0f6f7;
+
+    font-size:.76rem;
+
+    line-height:1.25;
+
+}
+
+@keyframes stageIn{
+
+    from{
+
+        opacity:0;
+
+        transform:
+            translateY(-5px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+/* =========================================================
+   AUTOR
+========================================================= */
+
+.author{
+
+    margin-top:15px;
+
+    padding-top:14px;
+
+    border-top:
+        1px solid
+        rgba(255,255,255,.10);
+
+    color:#9eb8bd;
+
+    font-size:.69rem;
+
+    line-height:1.5;
+
+}
+
+.author strong{
+
+    color:#e6f0f1;
+
+}
+
+
+/* =========================================================
+   CONTENIDO PRINCIPAL
+========================================================= */
+
+.main{
+
+    min-width:0;
+
+    display:flex;
+
+    flex-direction:column;
+
+}
+
+
+/* =========================================================
+   HEADER SUPERIOR
+========================================================= */
+
+.top-header{
+
+    min-height:72px;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:space-between;
+
+    gap:20px;
+
+    padding:
+        14px
+        30px;
+
+    border-bottom:
+        1px solid
+        var(--border);
+
+    background:
+        rgba(255,255,255,.92);
+
+    backdrop-filter:
+        blur(10px);
+
+}
+
+.phase-title{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+.phase-dot{
+
+    width:10px;
+    height:10px;
+
+    border-radius:50%;
+
+    background:var(--green);
+
+}
+
+.phase-title strong{
+
+    display:block;
+
+    color:var(--text);
+
+    font-size:.9rem;
+
+}
+
+.phase-title span{
+
+    display:block;
+
+    color:var(--muted);
+
+    font-size:.72rem;
+
+    margin-top:2px;
+
+}
+
+.header-right{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
+}
+
+.score{
+
+    padding:
+        8px
+        15px;
+
+    border-radius:999px;
+
+    background:var(--green-light);
+
+    border:
+        1px solid
+        #c9e4d2;
+
+    color:#2c7851;
+
+    font-size:.82rem;
+
+    font-weight:900;
+
+}
+
+
+/* =========================================================
+   ÁREA CENTRAL
+========================================================= */
+
+.workspace{
+
+    width:100%;
+
+    max-width:980px;
+
+    margin:auto;
+
+    padding:
+        40px
+        35px
+        65px;
+
+}
+
+
+/* =========================================================
+   CABECERA ETAPA
+========================================================= */
+
+.stage-kicker{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+    margin-bottom:11px;
+
+    color:var(--green);
+
+    font-size:.68rem;
+
+    font-weight:900;
+
+    letter-spacing:.1em;
+
+    text-transform:uppercase;
+
+}
+
+.stage-kicker::before{
+
+    content:"";
+
+    width:22px;
+    height:3px;
+
+    border-radius:999px;
+
+    background:var(--green);
+
+}
+
+.stage-heading{
+
+    margin:
+        0 0
+        10px;
+
+    color:#133a45;
+
+    font-size:
+        clamp(
+            1.8rem,
+            3vw,
+            2.45rem
+        );
+
+    line-height:1.05;
+
+}
+
+.stage-lead{
+
+    max-width:760px;
+
+    margin:
+        0 0
+        25px;
+
+    color:var(--muted);
+
+    font-size:.98rem;
+
+    line-height:1.6;
+
+}
+
+
+/* =========================================================
+   TARJETA PRINCIPAL
+========================================================= */
+
+.card{
+
+    padding:
+        29px
+        30px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:20px;
+
+    background:white;
+
+    box-shadow:var(--shadow);
+
+    animation:
+        contentIn
+        .3s ease both;
+
+}
+
+@keyframes contentIn{
+
+    from{
+
+        opacity:0;
+
+        transform:
+            translateY(8px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+.card-header{
+
+    display:flex;
+
+    gap:14px;
+
+    align-items:center;
+
+    margin-bottom:17px;
+
+}
+
+.card-icon{
+
+    width:49px;
+    height:49px;
+
+    flex:0 0 49px;
+
+    display:grid;
+
+    place-items:center;
+
+    border-radius:14px;
+
+    background:var(--teal-light);
+
+    color:var(--teal);
+
+    font-size:1.5rem;
+
+}
+
+.card-title{
+
+    margin:0;
+
+    color:#173d48;
+
+    font-size:1.26rem;
+
+}
+
+.card-subtitle{
+
+    margin-top:3px;
+
+    color:var(--muted);
+
+    font-size:.78rem;
+
+}
+
+.card p{
+
+    color:#516a72;
+
+    line-height:1.62;
+
+}
+
+
+/* =========================================================
+   DATOS PROYECTO
+========================================================= */
+
+.data-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(
+            3,
+            minmax(0,1fr)
+        );
+
+    gap:12px;
+
+    margin-top:20px;
+
+}
+
+.data-box{
+
+    padding:14px;
+
+    border:
+        1px solid
+        #e1e9e9;
+
+    border-radius:12px;
+
+    background:#fafcfc;
+
+}
+
+.data-box small{
+
+    display:block;
+
+    color:var(--muted);
+
+    font-size:.69rem;
+
+    margin-bottom:4px;
+
+}
+
+.data-box strong{
+
+    color:#214751;
+
+    font-size:.89rem;
+
+}
+
+
+/* =========================================================
+   FAUNA
+========================================================= */
+
+.fauna-box{
+
+    margin-top:20px;
+
+    padding:
+        18px
+        19px;
+
+    border:
+        1px solid
+        #cae3d3;
+
+    border-left:
+        5px solid
+        var(--green);
+
+    border-radius:12px;
+
+    background:var(--green-light);
+
+}
+
+.fauna-box h3{
+
+    margin:
+        0 0
+        10px;
+
+    color:#266949;
+
+    font-size:1rem;
+
+}
+
+
+/* =========================================================
+   OPCIONES
+========================================================= */
+
+.options{
+
+    display:grid;
+
+    gap:11px;
+
+    margin-top:22px;
+
+}
+
+.option{
+
+    position:relative;
+
+    display:flex;
+
+    align-items:flex-start;
+
+    gap:12px;
+
+    padding:
+        15px
+        16px;
+
+    border:
+        1px solid
+        #dae4e5;
+
+    border-radius:12px;
+
+    background:#fbfcfc;
+
+    cursor:pointer;
+
+    transition:
+        .18s ease;
+
+}
+
+.option:hover{
+
+    border-color:#7db6c1;
+
+    background:#f5fafb;
+
+    transform:
+        translateY(-1px);
+
+}
+
+.option input{
+
+    margin-top:3px;
+
+}
+
+.option strong{
+
+    display:block;
+
+    color:#234751;
+
+    font-size:.88rem;
+
+}
+
+.option small{
+
+    display:block;
+
+    margin-top:3px;
+
+    color:var(--muted);
+
+    font-size:.75rem;
+
+    line-height:1.4;
+
+}
+
+
+/* =========================================================
+   BOTONES
+========================================================= */
+
+.btn{
+
+    display:inline-flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    gap:8px;
+
+    margin-top:20px;
+
+    padding:
+        12px
+        20px;
+
+    border:none;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    color:white;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--teal),
+            #277487
+        );
+
+    font-size:.88rem;
+
+    font-weight:800;
+
+    transition:.18s;
+
+}
+
+.btn:hover{
+
+    transform:
+        translateY(-1px);
+
+    box-shadow:
+        0 8px 20px
+        rgba(37,132,147,.20);
+
+}
+
+.btn.green{
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--green),
+            #3f9a6d
+        );
+
+}
+
+
+/* =========================================================
+   FEEDBACK
+========================================================= */
+
+.feedback{
+
+    display:none;
+
+    margin-top:20px;
+
+    padding:
+        16px
+        17px;
+
+    border-radius:12px;
+
+}
+
+.feedback.show{
+    display:block;
+}
+
+.feedback.success{
+
+    color:#2a6649;
+
+    background:var(--green-light);
+
+    border:
+        1px solid
+        #c8e1d1;
+
+}
+
+.feedback.error{
+
+    color:#914141;
+
+    background:var(--red-light);
+
+    border:
+        1px solid
+        #edc9c9;
+
+}
+
+.feedback.info{
+
+    display:block;
+
+    color:#315f75;
+
+    background:var(--blue-light);
+
+    border:
+        1px solid
+        #cbdced;
+
+}
+
+.feedback.warning{
+
+    display:block;
+
+    color:#7c5c27;
+
+    background:var(--amber-light);
+
+    border:
+        1px solid
+        #ead3a5;
+
+}
+
+
+/* =========================================================
+   RCA
+========================================================= */
+
+.rca{
+
+    overflow:hidden;
+
+    margin-top:20px;
+
+    border:
+        1px solid
+        #cde1d4;
+
+    border-radius:15px;
+
+}
+
+.rca-header{
+
+    padding:
+        17px
+        19px;
+
+    color:white;
+
+    background:
+        linear-gradient(
+            135deg,
+            #2d7654,
+            #44966c
+        );
+
+}
+
+.rca-header small{
+
+    display:block;
+
+    margin-top:4px;
+
+    opacity:.85;
+
+}
+
+.rca-body{
+
+    padding:
+        18px
+        20px;
+
+    background:#fbfdfc;
+
+}
+
+.rca-body li{
+
+    margin-bottom:8px;
+
+    color:#49645a;
+
+}
+
+
+/* =========================================================
+   FISCALIZACIÓN
+========================================================= */
+
+.findings{
+
+    display:grid;
+
+    gap:10px;
+
+    margin-top:19px;
+
+}
+
+.finding{
+
+    padding:
+        14px
+        15px;
+
+    border:
+        1px solid
+        #dde6e7;
+
+    border-radius:11px;
+
+    background:#fafcfc;
+
+}
+
+.finding.ok{
+
+    border-left:
+        5px solid
+        var(--green);
+
+}
+
+.finding.alert{
+
+    border-left:
+        5px solid
+        var(--red);
+
+}
+
+.finding strong{
+
+    display:block;
+
+    margin-bottom:4px;
+
+}
+
+
+/* =========================================================
+   RESULTADO
+========================================================= */
+
+.result-score{
+
+    margin:
+        5px 0
+        0;
+
+    text-align:center;
+
+    color:var(--sidebar);
+
+    font-size:3.3rem;
+
+    font-weight:900;
+
+}
+
+.result-label{
+
+    margin-bottom:22px;
+
+    text-align:center;
+
+    color:var(--green);
+
+    font-weight:800;
+
+}
+
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media(max-width:900px){
+
+    .app{
+
+        grid-template-columns:
+            250px
+            minmax(0,1fr);
+
+    }
+
+    .sidebar{
+
+        padding:
+            19px
+            13px;
+
+    }
+
+    .data-grid{
+
+        grid-template-columns:
+            repeat(
+                2,
+                minmax(0,1fr)
+            );
+
+    }
+
+}
+
+
+@media(max-width:720px){
+
+    .app{
+
+        display:block;
+
+    }
+
+    .sidebar{
+
+        position:relative;
+
+        width:100%;
+
+        height:auto;
+
+    }
+
+    .steps{
+
+        max-height:none;
+
+    }
+
+    .author{
+
+        display:none;
+
+    }
+
+    .top-header{
+
+        padding:
+            12px
+            18px;
+
+    }
+
+    .workspace{
+
+        padding:
+            27px
+            16px
+            55px;
+
+    }
+
+    .data-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+</style>
 </head>
+
+
 <body>
 
-    <!-- COLUMNA IZQUIERDA -->
-    <aside class="sidebar">
-        <div class="brand">🌲 Simulador SEIA</div>
-        <div class="subtitle">Evaluación de Impacto Ambiental</div>
+<div class="app">
 
-        <div class="progress-box">
-            <div style="display: flex; justify-content: space-between; font-size: 0.8rem;">
-                <span id="stepCounter">Etapa 1 de 13</span>
-                <span id="progressPercent">0%</span>
-            </div>
-            <div class="progress-bar-bg">
-                <div class="progress-bar-fill" id="progressBar"></div>
-            </div>
+
+<!-- =====================================================
+SIDEBAR
+===================================================== -->
+
+<aside class="sidebar">
+
+
+<div class="brand">
+
+    <div class="brand-icon">
+    🌿
+    </div>
+
+    <div class="brand-copy">
+
+        <strong>
+        Simulador SEIA
+        </strong>
+
+        <span>
+        Evaluación ambiental aplicada
+        </span>
+
+    </div>
+
+</div>
+
+
+<div class="subtitle">
+
+Del ingreso al Sistema de Evaluación de Impacto Ambiental
+hasta la RCA, ejecución del proyecto y fiscalización de su
+cumplimiento ambiental.
+
+</div>
+
+
+<div class="progress-box">
+
+    <div class="progress-top">
+
+        <span id="stepCounter">
+        Etapa 1 de 13
+        </span>
+
+        <span id="progressPercent">
+        0%
+        </span>
+
+    </div>
+
+    <div class="progress-track">
+
+        <div
+            id="progressBar"
+            class="progress-bar">
         </div>
 
-        <!-- Las cajas se cargan dinámicamente según el avance -->
-        <div class="steps-container" id="sidebarSteps"></div>
-    </aside>
+    </div>
 
-    <!-- ÁREA DE TRABAJO -->
-    <main class="main">
-        <header class="top-header">
-            <span id="currentPhaseTag" style="font-size: 0.85rem; font-weight: 700; color: var(--accent);">SEIA</span>
-            <div class="score-box" id="scoreBadge">0 / 100 pts</div>
-        </header>
+</div>
 
-        <section class="content" id="stageContent"></section>
-    </main>
 
-    <script>
-        // ESTADO DE LA APLICACIÓN
-        const state = {
-            currentStage: 1,
-            maxUnlockedStage: 1, // Controla cuántas cajas son visibles a la izquierda
-            score: 0,
-            completedStages: new Set(),
-            awardedScores: new Set()
-        };
+<div class="phase-label">
+Ruta del proyecto
+</div>
 
-        // LISTA DE ETAPAS
-        const stages = [
-            { id: 1, title: "Antecedentes del Proyecto", phase: "SEIA", icon: "📄" },
-            { id: 2, title: "¿Debe ingresar al SEIA?", phase: "SEIA", icon: "🔎" },
-            { id: 3, title: "¿DIA o EIA?", phase: "SEIA", icon: "📑" },
-            { id: 4, title: "Componente Fauna", phase: "SEIA", icon: "🦊" },
-            { id: 5, title: "Impacto Ambiental", phase: "SEIA", icon: "📈" },
-            { id: 6, title: "Línea de Base", phase: "SEIA", icon: "🔭" },
-            { id: 7, title: "Normativa y PAS", phase: "SEIA", icon: "⚖️" },
-            { id: 8, title: "Medidas Ambientales", phase: "SEIA", icon: "🌱" },
-            { id: 9, title: "Pronunciamiento Técnico", phase: "SEIA", icon: "📋" },
-            { id: 10, title: "Resolución RCA", phase: "RCA", icon: "✅" },
-            { id: 11, title: "Construcción y Operación", phase: "SMA", icon: "🏗️" },
-            { id: 12, title: "Fiscalización SMA", phase: "SMA", icon: "🔍" },
-            { id: 13, title: "Cumplimiento y Hallazgos", phase: "SMA", icon: "⚠️" }
-        ];
 
-        document.addEventListener("DOMContentLoaded", () => {
-            renderSidebar();
-            loadStage(1);
-        });
+<div
+    id="sidebarSteps"
+    class="steps">
+</div>
 
-        // GENERA LAS CAJAS IZQUIERDAS (OCULTA LAS NO LIBERADAS)
-        function renderSidebar() {
-            const container = document.getElementById("sidebarSteps");
 
-            // FILTRO: Muestra únicamente las cajas hasta maxUnlockedStage
-            const visibleStages = stages.filter(s => s.id <= state.maxUnlockedStage);
+<div class="author">
 
-            container.innerHTML = visibleStages.map(s => {
-                const isCompleted = state.completedStages.has(s.id);
-                const isActive = s.id === state.currentStage;
+    Desarrollado por
+    <strong>
+    Jorge Leichtle
+    </strong>
 
-                return `
-                    <div class="step-box ${isActive ? 'active' : ''} ${isCompleted ? 'completed' : ''}" 
-                         onclick="goToStage(${s.id})">
-                        <div class="step-badge">${isCompleted ? '✓' : s.id}</div>
-                        <div class="step-details">
-                            <span class="step-tag">${s.phase}</span>
-                            <span class="step-name">${s.title}</span>
-                        </div>
-                    </div>
-                `;
-            }).join('');
+    <br>
 
-            // Actualiza la barra de progreso general
-            const pct = Math.round((state.completedStages.size / stages.length) * 100);
-            document.getElementById("progressBar").style.width = `${pct}%`;
-            document.getElementById("progressPercent").innerText = `${pct}%`;
-            document.getElementById("stepCounter").innerText = `Etapa ${state.currentStage} de ${stages.length}`;
-            document.getElementById("scoreBadge").innerText = `${state.score} / 100 pts`;
-        }
+    © 2026 · Simulador académico
 
-        function goToStage(stageId) {
-            if (stageId <= state.maxUnlockedStage) {
-                state.currentStage = stageId;
-                renderSidebar();
-                loadStage(stageId);
-            }
-        }
+    <br>
 
-        // LIBERA LA SIGUIENTE CAJA Y AVANZA
-        function completeAndNext(stageId) {
-            state.completedStages.add(stageId);
+    Medicina Veterinaria · Fauna silvestre
 
-            // Desbloquea la caja siguiente en la izquierda
-            if (stageId + 1 > state.maxUnlockedStage && stageId < stages.length) {
-                state.maxUnlockedStage = stageId + 1;
-            }
+</div>
 
-            if (stageId < stages.length) {
-                goToStage(stageId + 1);
-            } else {
-                renderSidebar();
-            }
-        }
 
-        function addScore(points, key) {
-            if (!state.awardedScores.has(key)) {
-                state.score += points;
-                state.awardedScores.add(key);
-            }
-        }
+</aside>
 
-        // CARGA EL CONTENIDO EN EL ÁREA CENTRAL
-        function loadStage(stageId) {
-            const container = document.getElementById("stageContent");
-            const currentObj = stages.find(s => s.id === stageId);
-            document.getElementById("currentPhaseTag").innerText = currentObj.phase;
 
-            switch (stageId) {
-                case 1:
-                    container.innerHTML = `
-                        <div class="card">
-                            <h2 class="card-title">📄 Antecedentes del Proyecto</h2>
-                            <p class="card-desc">
-                                Se planifica la instalación de un Parque Fotovoltaico de 12 MW con una línea de evacuación eléctrica de 3 km en la Región del Maule.
-                            </p>
-                            <button class="btn" onclick="addScore(10, 's1'); completeAndNext(1);">
-                                Iniciar Evaluación Técnica →
-                            </button>
-                        </div>
-                    `;
-                    break;
 
-                case 2:
-                    container.innerHTML = `
-                        <div class="card">
-                            <h2 class="card-title">🔎 ¿Debe ingresar al SEIA?</h2>
-                            <p class="card-desc">
-                                Evaluando la tipología del proyecto según el Art. 10 de la Ley 19.300 (letra c: centrales generadoras de energía mayores a 3 MW).
-                            </p>
-                            <div class="grid-options">
-                                <div class="option-item" onclick="evaluarIngreso(true)">
-                                    <strong>Sí, debe ingresar obligatoriamente</strong>
-                                    <p style="font-size:0.8rem; color:var(--text-muted); margin-top:4px;">Supera el umbral de 3 MW de potencia instalada.</p>
-                                </div>
-                                <div class="option-item" onclick="evaluarIngreso(false)">
-                                    <strong>No, es de ingreso voluntario</strong>
-                                    <p style="font-size:0.8rem; color:var(--text-muted); margin-top:4px;">Las energías renovables no requieren evaluación.</p>
-                                </div>
-                            </div>
-                            <div id="fb2" class="feedback"></div>
-                        </div>
-                    `;
-                    break;
+<!-- =====================================================
+ÁREA PRINCIPAL
+===================================================== -->
 
-                case 3:
-                    container.innerHTML = `
-                        <div class="card">
-                            <h2 class="card-title">📑 ¿DIA o EIA?</h2>
-                            <p class="card-desc">
-                                Se ha detectado la presencia de fauna en categoría de conservación vulnerable que será intervenida por el trazado de la línea (Art. 11 Ley 19.300).
-                            </p>
-                            <div class="grid-options">
-                                <div class="option-item" onclick="evaluarVia('DIA')">
-                                    <strong>Declaración de Impacto Ambiental (DIA)</strong>
-                                </div>
-                                <div class="option-item" onclick="evaluarVia('EIA')">
-                                    <strong>Estudio de Impacto Ambiental (EIA)</strong>
-                                </div>
-                            </div>
-                            <div id="fb3" class="feedback"></div>
-                        </div>
-                    `;
-                    break;
+<div class="main">
 
-                case 4:
-                    container.innerHTML = `
-                        <div class="card">
-                            <h2 class="card-title">🦊 Componente Fauna en Línea de Base</h2>
-                            <p class="card-desc">
-                                Durante las exploraciones previas en la zona del proyecto se detectó presencia de avifauna migratoria y micromamíferos nativos. Según las guías metodológicas del Servicio de Evaluación Ambiental (SEA), ¿cuál es el estándar correcto para el muestreo de este componente?
-                            </p>
-                            <div class="grid-options">
-                                <div class="option-item" onclick="evaluarFauna(false)">
-                                    <strong>Una única campaña en verano</strong>
-                                    <p style="font-size:0.8rem; color:var(--text-muted); margin-top:4px;">Solo muestrear en la época de mayor actividad de las especies.</p>
-                                </div>
-                                <div class="option-item" onclick="evaluarFauna(true)">
-                                    <strong>Campañas estacionales representativas (mínimo 2 estaciones)</strong>
-                                    <p style="font-size:0.8rem; color:var(--text-muted); margin-top:4px;">Utilizando transectos, trampas Sherman y fototrampeo acorde a guías SEA.</p>
-                                </div>
-                                <div class="option-item" onclick="evaluarFauna(false)">
-                                    <strong>Revisiones bibliográficas únicamente</strong>
-                                    <p style="font-size:0.8rem; color:var(--text-muted); margin-top:4px;">Usar datos de proyectos colindantes sin levantar datos primarios en terreno.</p>
-                                </div>
-                            </div>
-                            <div id="fb4" class="feedback"></div>
-                        </div>
-                    `;
-                    break;
 
-                default:
-                    container.innerHTML = `
-                        <div class="card">
-                            <h2 class="card-title">${currentObj.icon} ${currentObj.title}</h2>
-                            <p class="card-desc">Módulo en desarrollo para la etapa ${stageId}.</p>
-                            <button class="btn" onclick="completeAndNext(${stageId})">Avanzar →</button>
-                        </div>
-                    `;
-                    break;
-            }
-        }
+<header class="top-header">
 
-        // LÓGICA DE INTERACCIÓN
-        function evaluarIngreso(esCorrecto) {
-            const fb = document.getElementById("fb2");
-            fb.style.display = "block";
+    <div class="phase-title">
 
-            if (esCorrecto) {
-                fb.className = "feedback success";
-                fb.innerHTML = `
-                    <strong>¡Correcto! (+15 pts)</strong><br>
-                    Al tener 12 MW (> 3 MW), ingresa obligatoriamente.<br><br>
-                    <button class="btn" onclick="completeAndNext(2)">Avanzar a Vía de Evaluación →</button>
-                `;
-                addScore(15, 's2');
-            } else {
-                fb.className = "feedback error";
-                fb.innerHTML = "<strong>Incorrecto.</strong> El proyecto supera el límite de 3 MW, por lo que debe ingresar obligatoriamente.";
-            }
-        }
+        <div
+            id="phaseDot"
+            class="phase-dot">
+        </div>
 
-        function evaluarVia(opcion) {
-            const fb = document.getElementById("fb3");
-            fb.style.display = "block";
+        <div>
 
-            if (opcion === 'EIA') {
-                fb.className = "feedback success";
-                fb.innerHTML = `
-                    <strong>¡Correcto! (+20 pts)</strong><br>
-                    Al afectar fauna en conservación (Art. 11), debe evaluarse mediante un <strong>EIA</strong>.<br><br>
-                    <button class="btn" onclick="completeAndNext(3)">Avanzar al Análisis de Fauna →</button>
-                `;
-                addScore(20, 's3');
-            } else {
-                fb.className = "feedback error";
-                fb.innerHTML = "<strong>Incorrecto.</strong> Al haber un impacto significativo sobre especies protegidas, una DIA no es suficiente.";
-            }
-        }
+            <strong id="currentPhase">
+            Evaluación ambiental
+            </strong>
 
-        function evaluarFauna(esCorrecto) {
-            const fb = document.getElementById("fb4");
-            fb.style.display = "block";
+            <span id="currentPhaseDescription">
+            Sistema de Evaluación de Impacto Ambiental
+            </span>
 
-            if (esCorrecto) {
-                fb.className = "feedback success";
-                fb.innerHTML = `
-                    <strong>¡Correcto! (+15 pts)</strong><br>
-                    El SEA exige caracterizar la variabilidad temporal de la fauna mediante levantamiento de información primaria en terreno en las estaciones críticas del año.<br><br>
-                    <button class="btn" onclick="completeAndNext(4)">Avanzar a Evaluación de Impacto Ambiental →</button>
-                `;
-                addScore(15, 's4');
-            } else {
-                fb.className = "feedback error";
-                fb.innerHTML = "<strong>Incorrecto.</strong> La caracterización de fauna requiere datos de terreno representativos de las distintas estaciones climáticas para determinar abundancia y riqueza de especies.";
-            }
-        }
-    </script>
+        </div>
+
+    </div>
+
+
+    <div class="header-right">
+
+        <div
+            id="scoreBadge"
+            class="score">
+
+            0 / 100 pts
+
+        </div>
+
+    </div>
+
+</header>
+
+
+
+<main
+    id="stageContent"
+    class="workspace">
+</main>
+
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =========================================================
+ESTADO
+========================================================= */
+
+const state = {
+
+    currentStage:1,
+
+    maxUnlockedStage:1,
+
+    score:0,
+
+    completedStages:
+        new Set(),
+
+    awardedScores:
+        new Set()
+
+};
+
+
+/* =========================================================
+ETAPAS
+========================================================= */
+
+const stages = [
+
+    {
+        id:1,
+        title:"Antecedentes del proyecto",
+        short:"Proyecto",
+        phase:"SEIA",
+        icon:"📄"
+    },
+
+    {
+        id:2,
+        title:"¿Debe ingresar al SEIA?",
+        short:"Ingreso al SEIA",
+        phase:"SEIA",
+        icon:"🔎"
+    },
+
+    {
+        id:3,
+        title:"¿DIA o EIA?",
+        short:"Vía de evaluación",
+        phase:"SEIA",
+        icon:"📑"
+    },
+
+    {
+        id:4,
+        title:"Componente fauna",
+        short:"Fauna",
+        phase:"SEIA",
+        icon:"🦊"
+    },
+
+    {
+        id:5,
+        title:"Impactos sobre fauna",
+        short:"Impactos",
+        phase:"SEIA",
+        icon:"📈"
+    },
+
+    {
+        id:6,
+        title:"Línea de base",
+        short:"Línea de base",
+        phase:"SEIA",
+        icon:"🔭"
+    },
+
+    {
+        id:7,
+        title:"Normativa y PAS",
+        short:"Normativa",
+        phase:"SEIA",
+        icon:"⚖️"
+    },
+
+    {
+        id:8,
+        title:"Medidas ambientales",
+        short:"Medidas",
+        phase:"SEIA",
+        icon:"🌱"
+    },
+
+    {
+        id:9,
+        title:"Pronunciamiento técnico",
+        short:"Pronunciamiento",
+        phase:"SEIA",
+        icon:"📋"
+    },
+
+    {
+        id:10,
+        title:"Resolución de Calificación Ambiental",
+        short:"RCA",
+        phase:"RCA",
+        icon:"✅"
+    },
+
+    {
+        id:11,
+        title:"Construcción y operación",
+        short:"Ejecución",
+        phase:"CUMPLIMIENTO",
+        icon:"🏗️"
+    },
+
+    {
+        id:12,
+        title:"Fiscalización ambiental",
+        short:"Fiscalización SMA",
+        phase:"SMA",
+        icon:"🔍"
+    },
+
+    {
+        id:13,
+        title:"Cumplimiento y hallazgos",
+        short:"Cumplimiento",
+        phase:"SMA",
+        icon:"⚠️"
+    }
+
+];
+
+
+/* =========================================================
+INICIO
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+        renderSidebar();
+
+        loadStage(1);
+
+    }
+);
+
+
+/* =========================================================
+SIDEBAR
+========================================================= */
+
+function renderSidebar(){
+
+    const container =
+        document.getElementById(
+            "sidebarSteps"
+        );
+
+
+    const visible =
+        stages.filter(
+            stage =>
+            stage.id <=
+            state.maxUnlockedStage
+        );
+
+
+    container.innerHTML =
+        visible.map(stage => {
+
+            const completed =
+                state.completedStages
+                .has(stage.id);
+
+            const active =
+                state.currentStage ===
+                stage.id;
+
+
+            return `
+
+            <div
+                class="
+                step
+                ${active ? "active" : ""}
+                ${completed ? "completed" : ""}
+                "
+
+                onclick="
+                goToStage(${stage.id})
+                ">
+
+                <div class="step-number">
+
+                    ${
+                        completed
+                        ? "✓"
+                        : stage.id
+                    }
+
+                </div>
+
+
+                <div class="step-info">
+
+                    <span class="step-phase">
+                    ${stage.phase}
+                    </span>
+
+                    <span class="step-title">
+                    ${stage.short}
+                    </span>
+
+                </div>
+
+            </div>
+
+            `;
+
+        }).join("");
+
+
+    updateInterface();
+
+}
+
+
+/* =========================================================
+INTERFAZ
+========================================================= */
+
+function updateInterface(){
+
+    const completed =
+        state.completedStages.size;
+
+
+    const percent =
+        Math.round(
+            (
+                completed /
+                stages.length
+            ) * 100
+        );
+
+
+    document
+        .getElementById(
+            "progressBar"
+        )
+        .style.width =
+        percent + "%";
+
+
+    document
+        .getElementById(
+            "progressPercent"
+        )
+        .innerText =
+        percent + "%";
+
+
+    document
+        .getElementById(
+            "stepCounter"
+        )
+        .innerText =
+        "Etapa " +
+        state.currentStage +
+        " de " +
+        stages.length;
+
+
+    document
+        .getElementById(
+            "scoreBadge"
+        )
+        .innerText =
+        state.score +
+        " / 100 pts";
+
+
+    const stage =
+        stages.find(
+            item =>
+            item.id ===
+            state.currentStage
+        );
+
+
+    if(stage.phase === "SEIA"){
+
+        setPhase(
+            "Evaluación ambiental",
+            "Sistema de Evaluación de Impacto Ambiental",
+            "#34845d"
+        );
+
+    }
+
+
+    if(stage.phase === "RCA"){
+
+        setPhase(
+            "Resolución ambiental",
+            "Resultado del proceso de evaluación",
+            "#3f73b9"
+        );
+
+    }
+
+
+    if(
+        stage.phase ===
+        "CUMPLIMIENTO"
+    ){
+
+        setPhase(
+            "Ejecución del proyecto",
+            "Cumplimiento de las obligaciones ambientales",
+            "#7665b2"
+        );
+
+    }
+
+
+    if(stage.phase === "SMA"){
+
+        setPhase(
+            "Fiscalización ambiental",
+            "Verificación del cumplimiento",
+            "#ce6c3c"
+        );
+
+    }
+
+}
+
+
+function setPhase(
+    title,
+    description,
+    color
+){
+
+    document
+        .getElementById(
+            "currentPhase"
+        )
+        .innerText =
+        title;
+
+
+    document
+        .getElementById(
+            "currentPhaseDescription"
+        )
+        .innerText =
+        description;
+
+
+    document
+        .getElementById(
+            "phaseDot"
+        )
+        .style.background =
+        color;
+
+}
+
+
+/* =========================================================
+NAVEGACIÓN
+========================================================= */
+
+function goToStage(id){
+
+    if(
+        id >
+        state.maxUnlockedStage
+    ){
+        return;
+    }
+
+
+    state.currentStage =
+        id;
+
+
+    renderSidebar();
+
+    loadStage(id);
+
+}
+
+
+function completeAndNext(id){
+
+    state.completedStages
+        .add(id);
+
+
+    if(
+        id <
+        stages.length
+        &&
+        id + 1 >
+        state.maxUnlockedStage
+    ){
+
+        state.maxUnlockedStage =
+            id + 1;
+
+    }
+
+
+    if(
+        id <
+        stages.length
+    ){
+
+        state.currentStage =
+            id + 1;
+
+    }
+
+
+    renderSidebar();
+
+    loadStage(
+        state.currentStage
+    );
+
+}
+
+
+function addScore(
+    points,
+    key
+){
+
+    if(
+        !state.awardedScores
+        .has(key)
+    ){
+
+        state.score +=
+            points;
+
+        state.awardedScores
+            .add(key);
+
+    }
+
+}
+
+
+/* =========================================================
+AYUDANTES
+========================================================= */
+
+function answerValue(
+    name
+){
+
+    const checked =
+        document.querySelector(
+            `input[name="${name}"]:checked`
+        );
+
+    return checked
+        ? checked.value
+        : null;
+
+}
+
+
+function feedback(
+    id,
+    type,
+    html
+){
+
+    const box =
+        document.getElementById(id);
+
+    box.className =
+        "feedback show " +
+        type;
+
+    box.innerHTML =
+        html;
+
+}
+
+
+/* =========================================================
+CARGA DE ETAPAS
+========================================================= */
+
+function loadStage(id){
+
+    const container =
+        document.getElementById(
+            "stageContent"
+        );
+
+
+/* =========================================================
+1 PROYECTO
+========================================================= */
+
+if(id === 1){
+
+container.innerHTML = `
+
+<div class="stage-kicker">
+Inicio de la simulación
+</div>
+
+<h1 class="stage-heading">
+Parque Solar Quebrada del Zorro
+</h1>
+
+<p class="stage-lead">
+Revise cuidadosamente los antecedentes del proyecto.
+La información entregada deberá utilizarse durante toda
+la simulación.
+</p>
+
+
+<div class="card">
+
+<div class="card-header">
+
+    <div class="card-icon">
+    📄
+    </div>
+
+    <div>
+
+        <h2 class="card-title">
+        Antecedentes del proyecto
+        </h2>
+
+        <div class="card-subtitle">
+        Región de Coquimbo · Central solar fotovoltaica
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="data-grid">
+
+<div class="data-box">
+
+<small>
+Potencia instalada
+</small>
+
+<strong>
+82 MW
+</strong>
+
+</div>
+
+
+<div class="data-box">
+
+<small>
+Superficie
+</small>
+
+<strong>
+145 ha
+</strong>
+
+</div>
+
+
+<div class="data-box">
+
+<small>
+Línea eléctrica
+</small>
+
+<strong>
+110 kV · 18 km
+</strong>
+
+</div>
+
+
+<div class="data-box">
+
+<small>
+Construcción
+</small>
+
+<strong>
+18 meses
+</strong>
+
+</div>
+
+
+<div class="data-box">
+
+<small>
+Vegetación
+</small>
+
+<strong>
+31 ha de vegetación nativa intervenidas
+</strong>
+
+</div>
+
+
+<div class="data-box">
+
+<small>
+Vivienda más cercana
+</small>
+
+<strong>
+2,4 km
+</strong>
+
+</div>
+
+</div>
+
+
+<div class="fauna-box">
+
+<h3>
+🦎 Antecedentes relevantes de fauna
+</h3>
+
+<p>
+Se registraron 37 especies de vertebrados terrestres.
+</p>
+
+<p>
+En el área existe una población reproductiva de un reptil
+nativo clasificado oficialmente En Peligro.
+</p>
+
+<p>
+Aproximadamente 18 ha corresponden al principal hábitat
+reproductivo y de refugio conocido para esa población local.
+La totalidad de esa superficie sería intervenida.
+</p>
+
+<p>
+Los antecedentes indican que la pérdida de ese hábitat
+podría comprometer la persistencia de la población local.
+</p>
+
+</div>
+
+
+<div class="feedback info">
+
+<strong>
+Instrucción
+</strong>
+
+<br>
+
+Utilice únicamente los antecedentes entregados.
+No agregue supuestos que no formen parte del caso.
+
+</div>
+
+
+<button
+class="btn green"
+onclick="
+completeAndNext(1)
+">
+
+He revisado el proyecto →
+
+</button>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+/* =========================================================
+2 INGRESO
+========================================================= */
+
+if(id === 2){
+
+container.innerHTML = `
+
+<div class="stage-kicker">
+Decisión de ingreso
+</div>
+
+<h1 class="stage-heading">
+¿Debe ingresar al SEIA?
+</h1>
+
+<p class="stage-lead">
+Determine si las características del proyecto configuran
+un ingreso obligatorio al Sistema de Evaluación de Impacto Ambiental.
+</p>
+
+
+<div class="card">
+
+<div class="card-header">
+
+<div class="card-icon">
+🔎
+</div>
+
+<div>
+
+<h2 class="card-title">
+Ingreso al sistema
+</h2>
+
+<div class="card-subtitle">
+Analice los antecedentes técnicos del proyecto.
+</div>
+
+</div>
+
+</div>
+
+
+<div class="options">
+
+<label class="option">
+
+<input
+type="radio"
+name="entry"
+value="yes">
+
+<div>
+
+<strong>
+Sí, debe ingresar obligatoriamente
+</strong>
+
+<small>
+El proyecto presenta características que configuran ingreso al SEIA.
+</small>
+
+</div>
+
+</label>
+
+
+<label class="option">
+
+<input
+type="radio"
+name="entry"
+value="no">
+
+<div>
+
+<strong>
+No debe ingresar
+</strong>
+
+<small>
+El proyecto puede ejecutarse sin evaluación ambiental previa.
+</small>
+
+</div>
+
+</label>
+
+</div>
+
+
+<button
+class="btn"
+onclick="evaluateEntry()">
+
+Evaluar decisión
+
+</button>
+
+
+<div
+id="fbEntry"
+class="feedback">
+</div>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+/* =========================================================
+3 DIA / EIA
+========================================================= */
+
+if(id === 3){
+
+container.innerHTML = `
+
+<div class="stage-kicker">
+Vía de evaluación
+</div>
+
+<h1 class="stage-heading">
+¿DIA o EIA?
+</h1>
+
+<p class="stage-lead">
+El proyecto debe ingresar al SEIA. Determine ahora
+mediante qué instrumento corresponde realizar la evaluación.
+</p>
+
+
+<div class="card">
+
+<div class="card-header">
+
+<div class="card-icon">
+📑
+</div>
+
+<div>
+
+<h2 class="card-title">
+Instrumento de evaluación
+</h2>
+
+<div class="card-subtitle">
+Considere especialmente los efectos descritos sobre fauna y hábitat.
+</div>
+
+</div>
+
+</div>
+
+
+<div class="options">
+
+<label class="option">
+
+<input
+type="radio"
+name="instrument"
+value="DIA">
+
+<div>
+
+<strong>
+Declaración de Impacto Ambiental
+</strong>
+
+<small>
+DIA
+</small>
+
+</div>
+
+</label>
+
+
+<label class="option">
+
+<input
+type="radio"
+name="instrument"
+value="EIA">
+
+<div>
+
+<strong>
+Estudio de Impacto Ambiental
+</strong>
+
+<small>
+EIA
+</small>
+
+</div>
+
+</label>
+
+</div>
+
+
+<button
+class="btn"
+onclick="evaluateInstrument()">
+
+Evaluar instrumento
+
+</button>
+
+
+<div
+id="fbInstrument"
+class="feedback">
+</div>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+/* =========================================================
+4 FAUNA
+========================================================= */
+
+if(id === 4){
+
+container.innerHTML = `
+
+<div class="stage-kicker">
+Evaluación especializada
+</div>
+
+<h1 class="stage-heading">
+Componente fauna
+</h1>
+
+<p class="stage-lead">
+Analice el componente desde una perspectiva ecológica,
+no como un simple inventario de especies.
+</p>
+
+
+<div class="card">
+
+<div class="card-header">
+
+<div class="card-icon">
+🦊
+</div>
+
+<div>
+
+<h2 class="card-title">
+¿Qué antecedente es determinante?
+</h2>
+
+<div class="card-subtitle">
+Interprete la relación entre especie, hábitat e impacto.
+</div>
+
+</div>
+
+</div>
+
+
+<div class="options">
+
+<label class="option">
+
+<input
+type="radio"
+name="fauna"
+value="presence">
+
+<div>
+
+<strong>
+La sola presencia de la especie
+</strong>
+
+</div>
+
+</label>
+
+
+<label class="option">
+
+<input
+type="radio"
+name="fauna"
+value="category">
+
+<div>
+
+<strong>
+Su categoría de conservación por sí sola
+</strong>
+
+</div>
+
+</label>
+
+
+<label class="option">
+
+<input
+type="radio"
+name="fauna"
+value="habitat">
+
+<div>
+
+<strong>
+La intervención del principal hábitat reproductivo y sus consecuencias para la población
+</strong>
+
+</div>
+
+</label>
+
+
+<label class="option">
+
+<input
+type="radio"
+name="fauna"
+value="richness">
+
+<div>
+
+<strong>
+El número total de especies registradas
+</strong>
+
+</div>
+
+</label>
+
+</div>
+
+
+<button
+class="btn"
+onclick="evaluateFauna()">
+
+Evaluar respuesta
+
+</button>
+
+
+<div
+id="fbFauna"
+class="feedback">
+</div>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+/* =========================================================
+5 IMPACTO
+========================================================= */
+
+if(id === 5){
+
+container.innerHTML = `
+
+<div class="stage-kicker">
+Predicción de impactos
+</div>
+
+<h1 class="stage-heading">
+Impactos sobre fauna
+</h1>
+
+<p class="stage-lead">
+Identifique cuál de los efectos descritos representa
+el impacto ecológicamente más relevante.
+</p>
+
+
+<div class="card">
+
+<div class="card-header">
+
+<div class="card-icon">
+📈
+</div>
+
+<div>
+
+<h2 class="card-title">
+Impacto principal
+</h2>
+
+</div>
+
+</div>
+
+
+<div class="options">
+
+<label class="option">
+
+<input
+type="radio"
+name="impact"
+value="habitat">
+
+<div>
+
+<strong>
+Pérdida del hábitat reproductivo y de refugio
+</strong>
+
+<small>
+Con consecuencias potenciales sobre la persistencia de la población.
+</small>
+
+</div>
+
+</label>
+
+
+<label class="option">
+
+<input
+type="radio"
+name="impact"
+value="noise">
+
+<div>
+
+<strong>
+Ruido temporal de construcción
+</strong>
+
+</div>
+
+</label>
+
+
+<label class="option">
+
+<input
+type="radio"
+name="impact"
+value="workers">
+
+<div>
+
+<strong>
+Presencia de trabajadores
+</strong>
+
+</div>
+
+</label>
+
+</div>
+
+
+<button
+class="btn"
+onclick="evaluateImpact()">
+
+Evaluar impacto
+
+</button>
+
+
+<div
+id="fbImpact"
+class="feedback">
+</div>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+/* =========================================================
+6 LÍNEA DE BASE
+========================================================= */
+
+if(id === 6){
+
+container.innerHTML = `
+
+<div class="stage-kicker">
+Calidad de información
+</div>
+
+<h1 class="stage-heading">
+Línea de base
+</h1>
+
+<p class="stage-lead">
+Evalúe si la información disponible permite caracterizar
+adecuadamente la fauna presente.
+</p>
+
+
+<div class="card">
+
+<div class="card-header">
+
+<div class="card-icon">
+🔭
+</div>
+
+<div>
+
+<h2 class="card-title">
+Detectabilidad
+</h2>
+
+<div class="card-subtitle">
+Suponga un muestreo de reptiles de dos días realizado en invierno.
+</div>
+
+</div>
+
+</div>
+
+
+<p>
+Durante la campaña no se detectaron reptiles.
+¿Qué interpretación es técnicamente más adecuada?
+</p>
+
+
+<div class="options">
+
+<label class="option">
+
+<input
+type="radio"
+name="baseline"
+value="absence">
+
+<div>
+
+<strong>
+Puede concluirse que los reptiles están ausentes
+</strong>
+
+</div>
+
+</label>
+
+
+<label class="option">
+
+<input
+type="radio"
+name="baseline"
+value="detectability">
+
+<div>
+
+<strong>
+La no detección no demuestra ausencia
+</strong>
+
+<small>
+Debe considerarse época, metodología, esfuerzo y detectabilidad.
+</small>
+
+</div>
+
+</label>
+
+</div>
+
+
+<button
+class="btn"
+onclick="evaluateBaseline()">
+
+Evaluar interpretación
+
+</button>
+
+
+<div
+id="fbBaseline"
+class="feedback">
+</div>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+/* =========================================================
+7 NORMATIVA
+========================================================= */
+
+if(id === 7){
+
+container.innerHTML = `
+
+<div class="stage-kicker">
+Cumplimiento normativo
+</div>
+
+<h1 class="stage-heading">
+Normativa y PAS
+</h1>
+
+<p class="stage-lead">
+Analice la relación entre evaluación ambiental,
+manejo de fauna y autorizaciones sectoriales.
+</p>
+
+
+<div class="card">
+
+<div class="card-header">
+
+<div class="card-icon">
+⚖️
+</div>
+
+<div>
+
+<h2 class="card-title">
+Manejo de fauna
+</h2>
+
+</div>
+
+</div>
+
+
+<p>
+El titular propone capturar reptiles y trasladarlos
+antes de ejecutar las obras.
+</p>
+
+
+<div class="options">
+
+<label class="option">
+
+<input
+type="radio"
+name="law"
+value="automatic">
+
+<div>
+
+<strong>
+La relocalización puede ejecutarse automáticamente
+</strong>
+
+</div>
+
+</label>
+
+
+<label class="option">
+
+<input
+type="radio"
+name="law"
+value="permits">
+
+<div>
+
+<strong>
+Debe justificarse técnicamente y cumplir las autorizaciones aplicables
+</strong>
+
+<small>
+Además, la relocalización no sustituye el análisis del impacto sobre el hábitat.
+</small>
+
+</div>
+
+</label>
+
+</div>
+
+
+<button
+class="btn"
+onclick="evaluateLaw()">
+
+Evaluar
+
+</button>
+
+
+<div
+id="fbLaw"
+class="feedback">
+</div>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+/* =========================================================
+8 MEDIDAS
+========================================================= */
+
+if(id === 8){
+
+container.innerHTML = `
+
+<div class="stage-kicker">
+Gestión del impacto
+</div>
+
+<h1 class="stage-heading">
+Medidas ambientales
+</h1>
+
+<p class="stage-lead">
+Determine qué estrategia debería priorizarse frente
+a la pérdida de un hábitat reproductivo relevante.
+</p>
+
+
+<div class="card">
+
+<div class="card-header">
+
+<div class="card-icon">
+🌱
+</div>
+
+<div>
+
+<h2 class="card-title">
+Jerarquía de manejo
+</h2>
+
+</div>
+
+</div>
+
+
+<div class="options">
+
+<label class="option">
+
+<input
+type="radio"
+name="measure"
+value="avoid">
+
+<div>
+
+<strong>
+Modificar diseño o localización para evitar o reducir la intervención
+</strong>
+
+</div>
+
+</label>
+
+
+<label class="option">
+
+<input
+type="radio"
+name="measure"
+value="capture">
+
+<div>
+
+<strong>
+Capturar todos los animales
+</strong>
+
+</div>
+
+</label>
+
+
+<label class="option">
+
+<input
+type="radio"
+name="measure"
+value="monitor">
+
+<div>
+
+<strong>
+Limitarse a monitorear después de construir
+</strong>
+
+</div>
+
+</label>
+
+</div>
+
+
+<button
+class="btn"
+onclick="evaluateMeasure()">
+
+Evaluar medida
+
+</button>
+
+
+<div
+id="fbMeasure"
+class="feedback">
+</div>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+/* =========================================================
+9 PRONUNCIAMIENTO
+========================================================= */
+
+if(id === 9){
+
+container.innerHTML = `
+
+<div class="stage-kicker">
+Integración
+</div>
+
+<h1 class="stage-heading">
+Pronunciamiento técnico
+</h1>
+
+<p class="stage-lead">
+Integre las decisiones anteriores y seleccione
+la conclusión más coherente con el caso.
+</p>
+
+
+<div class="card">
+
+<div class="options">
+
+<label class="option">
+
+<input
+type="radio"
+name="opinion"
+value="correct">
+
+<div>
+
+<strong>
+El proyecto debe evaluarse mediante EIA y el componente fauna requiere medidas específicas
+</strong>
+
+<small>
+Las medidas deben abordar prioritariamente la pérdida de hábitat y cumplir las obligaciones aplicables.
+</small>
+
+</div>
+
+</label>
+
+
+<label class="option">
+
+<input
+type="radio"
+name="opinion"
+value="wrong">
+
+<div>
+
+<strong>
+La evaluación mediante DIA es suficiente
+</strong>
+
+</div>
+
+</label>
+
+</div>
+
+
+<button
+class="btn"
+onclick="evaluateOpinion()">
+
+Emitir pronunciamiento
+
+</button>
+
+
+<div
+id="fbOpinion"
+class="feedback">
+</div>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+/* =========================================================
+10 RCA
+========================================================= */
+
+if(id === 10){
+
+container.innerHTML = `
+
+<div class="stage-kicker">
+Resultado de evaluación
+</div>
+
+<h1 class="stage-heading">
+Resolución de Calificación Ambiental
+</h1>
+
+<p class="stage-lead">
+La evaluación ambiental concluye y el proyecto obtiene
+una RCA favorable con condiciones.
+</p>
+
+
+<div class="card">
+
+<div class="card-header">
+
+<div class="card-icon">
+✅
+</div>
+
+<div>
+
+<h2 class="card-title">
+RCA favorable
+</h2>
+
+<div class="card-subtitle">
+Parque Solar Quebrada del Zorro
+</div>
+
+</div>
+
+</div>
+
+
+<div class="rca">
+
+<div class="rca-header">
+
+<strong>
+Resolución de Calificación Ambiental
+</strong>
+
+<small>
+Proyecto aprobado ambientalmente con obligaciones específicas.
+</small>
+
+</div>
+
+
+<div class="rca-body">
+
+<strong>
+Condiciones simuladas relevantes:
+</strong>
+
+<ul>
+
+<li>
+Modificar parcialmente el diseño para excluir sectores críticos del hábitat reproductivo.
+</li>
+
+<li>
+Implementar medidas de protección de fauna durante la construcción.
+</li>
+
+<li>
+Ejecutar monitoreo trimestral de la población.
+</li>
+
+<li>
+Presentar informes de seguimiento.
+</li>
+
+<li>
+Cumplir las autorizaciones aplicables al manejo de fauna.
+</li>
+
+</ul>
+
+</div>
+
+</div>
+
+
+<div class="feedback info">
+
+<strong>
+Idea clave
+</strong>
+
+<br><br>
+
+La obtención de una RCA favorable no termina las obligaciones
+ambientales del proyecto. Las condiciones y compromisos aprobados
+deben cumplirse durante su ejecución.
+
+</div>
+
+
+<button
+class="btn green"
+onclick="
+completeAndNext(10)
+">
+
+Comenzar ejecución del proyecto →
+
+</button>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+/* =========================================================
+11 CONSTRUCCIÓN
+========================================================= */
+
+if(id === 11){
+
+container.innerHTML = `
+
+<div class="stage-kicker">
+Etapa posterior a la RCA
+</div>
+
+<h1 class="stage-heading">
+Construcción y operación
+</h1>
+
+<p class="stage-lead">
+Ahora comienza una segunda parte de la simulación:
+verificar que aquello que fue aprobado se cumpla efectivamente.
+</p>
+
+
+<div class="card">
+
+<div class="card-header">
+
+<div class="card-icon">
+🏗️
+</div>
+
+<div>
+
+<h2 class="card-title">
+Han transcurrido 14 meses
+</h2>
+
+<div class="card-subtitle">
+El proyecto se encuentra en construcción.
+</div>
+
+</div>
+
+</div>
+
+
+<p>
+Durante esta etapa el titular debe ejecutar el proyecto
+conforme a las condiciones, medidas y compromisos
+establecidos durante la evaluación ambiental.
+</p>
+
+
+<div class="feedback warning">
+
+<strong>
+Cambio de rol
+</strong>
+
+<br><br>
+
+Hasta ahora usted evaluó ambientalmente un proyecto.
+A partir de este punto analizará su cumplimiento
+durante la ejecución.
+
+</div>
+
+
+<button
+class="btn"
+onclick="
+completeAndNext(11)
+">
+
+Continuar a fiscalización →
+
+</button>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+/* =========================================================
+12 FISCALIZACIÓN
+========================================================= */
+
+if(id === 12){
+
+container.innerHTML = `
+
+<div class="stage-kicker">
+Superintendencia del Medio Ambiente
+</div>
+
+<h1 class="stage-heading">
+Fiscalización ambiental
+</h1>
+
+<p class="stage-lead">
+Compare las obligaciones de la RCA con los hechos
+constatados durante una actividad de fiscalización.
+</p>
+
+
+<div class="card">
+
+<div class="findings">
+
+<div class="finding ok">
+
+<strong>
+✓ Hecho 1
+</strong>
+
+El área de exclusión del hábitat reproductivo se encuentra delimitada.
+
+</div>
+
+
+<div class="finding alert">
+
+<strong>
+⚠ Hecho 2
+</strong>
+
+Dos monitoreos trimestrales comprometidos no fueron ejecutados.
+
+</div>
+
+
+<div class="finding alert">
+
+<strong>
+⚠ Hecho 3
+</strong>
+
+Se detectaron instalaciones temporales fuera del polígono autorizado.
+
+</div>
+
+
+<div class="finding ok">
+
+<strong>
+✓ Hecho 4
+</strong>
+
+Las actividades autorizadas de manejo de fauna fueron ejecutadas
+por personal habilitado.
+
+</div>
+
+
+<div class="finding alert">
+
+<strong>
+⚠ Hecho 5
+</strong>
+
+No se presentó uno de los informes de seguimiento comprometidos.
+
+</div>
+
+</div>
+
+
+<div class="options">
+
+<label class="option">
+
+<input
+type="radio"
+name="inspection"
+value="yes">
+
+<div>
+
+<strong>
+Existen antecedentes que requieren análisis de cumplimiento
+</strong>
+
+</div>
+
+</label>
+
+
+<label class="option">
+
+<input
+type="radio"
+name="inspection"
+value="no">
+
+<div>
+
+<strong>
+El proyecto está cumpliendo completamente su RCA
+</strong>
+
+</div>
+
+</label>
+
+</div>
+
+
+<button
+class="btn"
+onclick="evaluateInspection()">
+
+Evaluar fiscalización
+
+</button>
+
+
+<div
+id="fbInspection"
+class="feedback">
+</div>
+
+</div>
+
+`;
+
+return;
+
+}
+
+
+/* =========================================================
+13 CUMPLIMIENTO
+========================================================= */
+
+if(id === 13){
+
+container.innerHTML = `
+
+<div class="stage-kicker">
+Cierre de la simulación
+</div>
+
+<h1 class="stage-heading">
+Cumplimiento y hallazgos
+</h1>
+
+<p class="stage-lead">
+Interprete correctamente qué significa detectar hechos
+potencialmente incompatibles con las obligaciones ambientales.
+</p>
+
+
+<div class="card">
+
+<div class="options">
+
+<label class="option">
+
+<input
+type="radio"
+name="compliance"
+value="automatic">
+
+<div>
+
+<strong>
+Todo hallazgo significa automáticamente una sanción
+</strong>
+
+</div>
+
+</label>
+
+
+<label class="option">
+
+<input
+type="radio"
+name="compliance"
+value="analysis">
+
+<div>
+
+<strong>
+Los hechos deben contrastarse con las obligaciones fiscalizables
+</strong>
+
+<small>
+Si se configuran incumplimientos, pueden existir actuaciones posteriores,
+incluyendo eventualmente un procedimiento sancionatorio.
+</small>
+
+</div>
+
+</label>
+
+</div>
+
+
+<button
+class="btn"
+onclick="evaluateCompliance()">
+
+Finalizar evaluación
+
+</button>
+
+
+<div
+id="fbCompliance"
+class="feedback">
+</div>
+
+</div>
+
+`;
+
+return;
+
+}
+
+}
+
+
+/* =========================================================
+EVALUACIONES
+========================================================= */
+
+function evaluateEntry(){
+
+    const answer =
+        answerValue("entry");
+
+
+    if(!answer){
+
+        alert(
+            "Seleccione una alternativa."
+        );
+
+        return;
+
+    }
+
+
+    if(answer === "yes"){
+
+        addScore(
+            10,
+            "entry"
+        );
+
+        feedback(
+            "fbEntry",
+            "success",
+
+            `
+
+            <strong>
+            ✓ Correcto (+10 pts)
+            </strong>
+
+            <br><br>
+
+            El proyecto debe someterse al SEIA por sus
+            características técnicas.
+
+            <br>
+
+            <button
+            class="btn green"
+            onclick="
+            completeAndNext(2)
+            ">
+
+            Continuar →
+
+            </button>
+
+            `
+        );
+
+    }else{
+
+        feedback(
+            "fbEntry",
+            "error",
+
+            `
+
+            <strong>
+            ✕ Incorrecto.
+            </strong>
+
+            <br><br>
+
+            Revise nuevamente la potencia instalada
+            y las características del proyecto.
+
+            `
+        );
+
+    }
+
+}
+
+
+/* --------------------------------------------------------- */
+
+function evaluateInstrument(){
+
+    const answer =
+        answerValue(
+            "instrument"
+        );
+
+
+    if(!answer){
+
+        alert(
+            "Seleccione una alternativa."
+        );
+
+        return;
+
+    }
+
+
+    if(answer === "EIA"){
+
+        addScore(
+            15,
+            "instrument"
+        );
+
+        feedback(
+            "fbInstrument",
+            "success",
+
+            `
+
+            <strong>
+            ✓ Correcto (+15 pts)
+            </strong>
+
+            <br><br>
+
+            El antecedente determinante no es la mera
+            presencia de fauna, sino la magnitud del efecto
+            sobre un hábitat reproductivo fundamental y
+            sus consecuencias potenciales para la población.
+
+            <br>
+
+            <button
+            class="btn green"
+            onclick="
+            completeAndNext(3)
+            ">
+
+            Continuar →
+
+            </button>
+
+            `
+        );
+
+    }else{
+
+        feedback(
+            "fbInstrument",
+            "error",
+
+            `
+
+            <strong>
+            ✕ Para este caso no corresponde una DIA.
+            </strong>
+
+            <br><br>
+
+            Revise los antecedentes asociados al hábitat
+            reproductivo y la persistencia de la población.
+
+            `
+        );
+
+    }
+
+}
+
+
+/* --------------------------------------------------------- */
+
+function evaluateFauna(){
+
+    const answer =
+        answerValue("fauna");
+
+
+    if(!answer){
+
+        alert(
+            "Seleccione una alternativa."
+        );
+
+        return;
+
+    }
+
+
+    if(answer === "habitat"){
+
+        addScore(
+            10,
+            "fauna"
+        );
+
+        feedback(
+            "fbFauna",
+            "success",
+
+            `
+
+            <strong>
+            ✓ Correcto (+10 pts)
+            </strong>
+
+            <br><br>
+
+            La evaluación debe integrar categoría de conservación,
+            función ecológica del hábitat, uso del área,
+            magnitud de la intervención y consecuencias
+            poblacionales.
+
+            <br>
+
+            <button
+            class="btn green"
+            onclick="
+            completeAndNext(4)
+            ">
+
+            Continuar →
+
+            </button>
+
+            `
+        );
+
+    }else{
+
+        feedback(
+            "fbFauna",
+            "error",
+
+            `
+
+            <strong>
+            Respuesta incompleta.
+            </strong>
+
+            <br><br>
+
+            La evaluación de fauna no debe limitarse
+            a presencia, riqueza o categoría de conservación.
+
+            `
+        );
+
+    }
+
+}
+
+
+/* --------------------------------------------------------- */
+
+function evaluateImpact(){
+
+    const answer =
+        answerValue("impact");
+
+
+    if(!answer){
+
+        alert(
+            "Seleccione una alternativa."
+        );
+
+        return;
+
+    }
+
+
+    if(answer === "habitat"){
+
+        addScore(
+            10,
+            "impact"
+        );
+
+        feedback(
+            "fbImpact",
+            "success",
+
+            `
+
+            <strong>
+            ✓ Correcto (+10 pts)
+            </strong>
+
+            <br><br>
+
+            El impacto central corresponde a la pérdida
+            directa de un hábitat con función reproductiva
+            y de refugio.
+
+            <br>
+
+            <button
+            class="btn green"
+            onclick="
+            completeAndNext(5)
+            ">
+
+            Continuar →
+
+            </button>
+
+            `
+        );
+
+    }else{
+
+        feedback(
+            "fbImpact",
+            "error",
+
+            `
+
+            <strong>
+            Revise nuevamente.
+            </strong>
+
+            <br><br>
+
+            Identifique el efecto con mayor relación
+            con la persistencia de la población.
+
+            `
+        );
+
+    }
+
+}
+
+
+/* --------------------------------------------------------- */
+
+function evaluateBaseline(){
+
+    const answer =
+        answerValue(
+            "baseline"
+        );
+
+
+    if(!answer){
+
+        alert(
+            "Seleccione una alternativa."
+        );
+
+        return;
+
+    }
+
+
+    if(
+        answer ===
+        "detectability"
+    ){
+
+        addScore(
+            10,
+            "baseline"
+        );
+
+        feedback(
+            "fbBaseline",
+            "success",
+
+            `
+
+            <strong>
+            ✓ Correcto (+10 pts)
+            </strong>
+
+            <br><br>
+
+            La no detección no equivale automáticamente
+            a ausencia. Deben considerarse detectabilidad,
+            época del año, metodología y esfuerzo.
+
+            <br>
+
+            <button
+            class="btn green"
+            onclick="
+            completeAndNext(6)
+            ">
+
+            Continuar →
+
+            </button>
+
+            `
+        );
+
+    }else{
+
+        feedback(
+            "fbBaseline",
+            "error",
+
+            `
+
+            <strong>
+            ✕ Incorrecto.
+            </strong>
+
+            <br><br>
+
+            Una campaña breve o realizada en una época
+            poco adecuada puede producir falsos negativos.
+
+            `
+        );
+
+    }
+
+}
+
+
+/* --------------------------------------------------------- */
+
+function evaluateLaw(){
+
+    const answer =
+        answerValue("law");
+
+
+    if(!answer){
+
+        alert(
+            "Seleccione una alternativa."
+        );
+
+        return;
+
+    }
+
+
+    if(answer === "permits"){
+
+        addScore(
+            10,
+            "law"
+        );
+
+        feedback(
+            "fbLaw",
+            "success",
+
+            `
+
+            <strong>
+            ✓ Correcto (+10 pts)
+            </strong>
+
+            <br><br>
+
+            El manejo directo de fauna requiere
+            fundamentación técnica y cumplimiento
+            de las autorizaciones aplicables.
+
+            <br><br>
+
+            Además, trasladar individuos no elimina
+            por sí solo el impacto asociado a la
+            pérdida de hábitat.
+
+            <br>
+
+            <button
+            class="btn green"
+            onclick="
+            completeAndNext(7)
+            ">
+
+            Continuar →
+
+            </button>
+
+            `
+        );
+
+    }else{
+
+        feedback(
+            "fbLaw",
+            "error",
+
+            `
+
+            <strong>
+            ✕ Incorrecto.
+            </strong>
+
+            <br><br>
+
+            El ingreso al SEIA no elimina las obligaciones
+            sectoriales aplicables al manejo de fauna.
+
+            `
+        );
+
+    }
+
+}
+
+
+/* --------------------------------------------------------- */
+
+function evaluateMeasure(){
+
+    const answer =
+        answerValue(
+            "measure"
+        );
+
+
+    if(!answer){
+
+        alert(
+            "Seleccione una alternativa."
+        );
+
+        return;
+
+    }
+
+
+    if(answer === "avoid"){
+
+        addScore(
+            10,
+            "measure"
+        );
+
+        feedback(
+            "fbMeasure",
+            "success",
+
+            `
+
+            <strong>
+            ✓ Correcto (+10 pts)
+            </strong>
+
+            <br><br>
+
+            Frente a un impacto sobre hábitat relevante,
+            debe analizarse prioritariamente la posibilidad
+            de evitar o reducir la intervención que lo genera.
+
+            <br>
+
+            <button
+            class="btn green"
+            onclick="
+            completeAndNext(8)
+            ">
+
+            Continuar →
+
+            </button>
+
+            `
+        );
+
+    }else{
+
+        feedback(
+            "fbMeasure",
+            "error",
+
+            `
+
+            <strong>
+            Revise nuevamente.
+            </strong>
+
+            <br><br>
+
+            Una acción posterior o accesoria no necesariamente
+            aborda la causa del impacto.
+
+            `
+        );
+
+    }
+
+}
+
+
+/* --------------------------------------------------------- */
+
+function evaluateOpinion(){
+
+    const answer =
+        answerValue(
+            "opinion"
+        );
+
+
+    if(!answer){
+
+        alert(
+            "Seleccione una alternativa."
+        );
+
+        return;
+
+    }
+
+
+    if(answer === "correct"){
+
+        addScore(
+            5,
+            "opinion"
+        );
+
+        feedback(
+            "fbOpinion",
+            "success",
+
+            `
+
+            <strong>
+            ✓ Pronunciamiento coherente (+5 pts)
+            </strong>
+
+            <br><br>
+
+            La conclusión integra ingreso al sistema,
+            instrumento de evaluación, fauna, impacto,
+            medidas y obligaciones ambientales.
+
+            <br>
+
+            <button
+            class="btn green"
+            onclick="
+            completeAndNext(9)
+            ">
+
+            Conocer la RCA →
+
+            </button>
+
+            `
+        );
+
+    }else{
+
+        feedback(
+            "fbOpinion",
+            "error",
+
+            `
+
+            <strong>
+            El pronunciamiento no es coherente
+            con los antecedentes evaluados.
+            </strong>
+
+            `
+        );
+
+    }
+
+}
+
+
+/* --------------------------------------------------------- */
+
+function evaluateInspection(){
+
+    const answer =
+        answerValue(
+            "inspection"
+        );
+
+
+    if(!answer){
+
+        alert(
+            "Seleccione una alternativa."
+        );
+
+        return;
+
+    }
+
+
+    if(answer === "yes"){
+
+        addScore(
+            10,
+            "inspection"
+        );
+
+        feedback(
+            "fbInspection",
+            "success",
+
+            `
+
+            <strong>
+            ✓ Correcto (+10 pts)
+            </strong>
+
+            <br><br>
+
+            Existen hechos que deben ser contrastados
+            con las obligaciones contenidas en la RCA.
+
+            <br><br>
+
+            La constatación de estos hechos no equivale
+            automáticamente a una sanción.
+
+            <br>
+
+            <button
+            class="btn green"
+            onclick="
+            completeAndNext(12)
+            ">
+
+            Analizar cumplimiento →
+
+            </button>
+
+            `
+        );
+
+    }else{
+
+        feedback(
+            "fbInspection",
+            "error",
+
+            `
+
+            <strong>
+            ✕ Incorrecto.
+            </strong>
+
+            <br><br>
+
+            Algunos hechos no coinciden con las obligaciones
+            descritas para el proyecto.
+
+            `
+        );
+
+    }
+
+}
+
+
+/* --------------------------------------------------------- */
+
+function evaluateCompliance(){
+
+    const answer =
+        answerValue(
+            "compliance"
+        );
+
+
+    if(!answer){
+
+        alert(
+            "Seleccione una alternativa."
+        );
+
+        return;
+
+    }
+
+
+    if(answer === "analysis"){
+
+        addScore(
+            10,
+            "compliance"
+        );
+
+
+        state.completedStages
+            .add(13);
+
+
+        renderSidebar();
+
+
+        const level =
+            state.score >= 90
+            ? "Excelente desempeño"
+
+            : state.score >= 75
+            ? "Muy buen desempeño"
+
+            : state.score >= 60
+            ? "Buen desempeño"
+
+            : "Debe reforzar algunos contenidos";
+
+
+        feedback(
+            "fbCompliance",
+            "success",
+
+            `
+
+            <strong>
+            ✓ Correcto (+10 pts)
+            </strong>
+
+            <br><br>
+
+            La fiscalización permite constatar hechos
+            y reunir evidencia sobre el cumplimiento.
+            Los antecedentes deben analizarse respecto
+            de las obligaciones fiscalizables.
+
+            <br><br>
+
+            Si se configuran incumplimientos,
+            pueden existir actuaciones posteriores,
+            incluyendo eventualmente un procedimiento
+            sancionatorio.
+
+            <hr style="
+            border:none;
+            border-top:1px solid #bddcc8;
+            margin:20px 0;
+            ">
+
+            <div class="result-score">
+            ${state.score} / 100
+            </div>
+
+            <div class="result-label">
+            ${level}
+            </div>
+
+            <strong>
+            Simulación completada
+            </strong>
+
+            <br><br>
+
+            Ha recorrido el ciclo desde la evaluación
+            previa del proyecto hasta la RCA,
+            su ejecución y el control posterior
+            del cumplimiento ambiental.
+
+            <br>
+
+            <button
+            class="btn green"
+            onclick="
+            location.reload()
+            ">
+
+            Reiniciar simulación
+
+            </button>
+
+            `
+        );
+
+    }else{
+
+        feedback(
+            "fbCompliance",
+            "error",
+
+            `
+
+            <strong>
+            ✕ Incorrecto.
+            </strong>
+
+            <br><br>
+
+            Debe distinguirse entre fiscalización,
+            hallazgo, determinación de incumplimiento
+            y eventual procedimiento sancionatorio.
+
+            `
+        );
+
+    }
+
+}
+
+</script>
+
 </body>
 </html>
